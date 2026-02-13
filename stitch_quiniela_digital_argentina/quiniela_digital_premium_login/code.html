@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#ff6600",
+                        "background-light": "#f8f7f5",
+                        "background-dark": "#000000",
+                        "neutral-dark": "#1a1a1a",
+                        "neutral-gray": "#333333",
+                    },
+                    fontFamily: {
+                        "display": ["Lexend", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            background-color: #000000;
+        }
+        .ios-status-bar {
+            height: 44px;
+        }
+        .glow-hover:hover {
+            box-shadow: 0 0 15px rgba(255, 102, 0, 0.4);
+        }
+        .input-focus-accent:focus-within {
+            border-color: #ff6600;
+            box-shadow: 0 0 0 1px #ff6600;
+        }
+    </style>
+<title>Quiniela Digital Premium Login</title>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="font-display text-white selection:bg-primary/30">
+<div class="min-h-screen flex flex-col max-w-md mx-auto relative overflow-hidden bg-background-dark">
+<!-- Background Accent Glows -->
+<div class="absolute -top-24 -right-24 w-64 h-64 bg-primary/10 rounded-full blur-[100px]"></div>
+<div class="absolute top-1/2 -left-32 w-64 h-64 bg-primary/5 rounded-full blur-[80px]"></div>
+<!-- iOS Status Bar Placeholder -->
+<div class="ios-status-bar w-full flex justify-between items-end px-8 pb-2">
+<span class="text-xs font-semibold">9:41</span>
+<div class="flex gap-1.5 items-center">
+<span class="material-icons text-[14px]">signal_cellular_alt</span>
+<span class="material-icons text-[14px]">wifi</span>
+<span class="material-icons text-[18px]">battery_full</span>
+</div>
+</div>
+<!-- Main Content Container -->
+<div class="flex-1 flex flex-col px-8 pt-12 pb-8">
+<!-- Logo Section -->
+<div class="flex flex-col items-center mb-16">
+<div class="w-16 h-16 bg-primary rounded-xl flex items-center justify-center mb-4 shadow-lg shadow-primary/20">
+<span class="material-icons text-white text-4xl">casino</span>
+</div>
+<h1 class="text-3xl font-bold tracking-tight text-white uppercase">
+                    Quiniela<span class="text-primary font-light">Digital</span>
+</h1>
+<p class="text-primary/60 text-xs tracking-[0.2em] mt-1 font-medium">PREMIUM EXPERIENCE</p>
+</div>
+<!-- Login Form -->
+<form class="space-y-5" onsubmit="event.preventDefault();">
+<div>
+<label class="block text-[10px] uppercase tracking-widest text-primary font-semibold mb-2 ml-1">Correo Electrónico</label>
+<div class="relative group input-focus-accent rounded-xl border border-neutral-gray bg-neutral-dark/50 transition-all duration-300">
+<span class="material-icons absolute left-4 top-1/2 -translate-y-1/2 text-neutral-gray group-focus-within:text-primary text-xl">alternate_email</span>
+<input class="w-full bg-transparent border-none py-4 pl-12 pr-4 text-white placeholder:text-neutral-gray focus:ring-0 rounded-xl" placeholder="ejemplo@correo.com" type="email"/>
+</div>
+</div>
+<div>
+<label class="block text-[10px] uppercase tracking-widest text-primary font-semibold mb-2 ml-1">Contraseña</label>
+<div class="relative group input-focus-accent rounded-xl border border-neutral-gray bg-neutral-dark/50 transition-all duration-300">
+<span class="material-icons absolute left-4 top-1/2 -translate-y-1/2 text-neutral-gray group-focus-within:text-primary text-xl">lock_outline</span>
+<input class="w-full bg-transparent border-none py-4 pl-12 pr-12 text-white placeholder:text-neutral-gray focus:ring-0 rounded-xl" placeholder="••••••••" type="password"/>
+<button class="material-icons absolute right-4 top-1/2 -translate-y-1/2 text-neutral-gray hover:text-white transition-colors text-xl" type="button">visibility_off</button>
+</div>
+</div>
+<div class="flex justify-end">
+<a class="text-xs text-primary/80 hover:text-primary transition-colors font-medium" href="#">¿Olvidaste tu contraseña?</a>
+</div>
+<button class="w-full bg-primary py-4 rounded-xl font-bold text-lg text-white shadow-xl shadow-primary/20 glow-hover active:scale-[0.98] transition-all mt-4">
+                    Iniciar Sesión
+                </button>
+</form>
+<!-- Social Login -->
+<div class="mt-12">
+<div class="relative flex items-center mb-8">
+<div class="flex-grow border-t border-neutral-gray/30"></div>
+<span class="px-4 text-[10px] uppercase tracking-widest text-neutral-gray font-bold">O continúa con</span>
+<div class="flex-grow border-t border-neutral-gray/30"></div>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<button class="flex items-center justify-center gap-2 py-3.5 border border-neutral-gray rounded-xl hover:bg-neutral-dark transition-colors">
+<img alt="Google" class="w-5 h-5 grayscale hover:grayscale-0 transition-all" data-alt="Icono de Google para inicio de sesión" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAn3EOHSdTnwYJun1YKIuxG1uoj219ysvdxPV0hPZD7M5aWPlZewjMZYUcCWMnJgNWbiP0yiYDV0YISMLRZfllSuz5M8zhmsvZdVJtdPu-cXv1GQcuHHDqVffdwrCSXKbj4cdok3skY2Wtt6bzWpw3HGChDE7JeXA7BZeBCcxd3kJhz43m5omxpXB--LGeSxRN0L60ejKNSfDokryXVkpmUdaFvEtGn-_NKmk67aRiNjNsYdJPJ4AaSLaQHr8OMIwwLeAF0dYeaL58"/>
+<span class="text-sm font-medium">Google</span>
+</button>
+<button class="flex items-center justify-center gap-2 py-3.5 border border-neutral-gray rounded-xl hover:bg-neutral-dark transition-colors">
+<span class="material-icons text-[#1877F2] text-xl">facebook</span>
+<span class="text-sm font-medium text-white">Facebook</span>
+</button>
+</div>
+</div>
+<!-- Register Link -->
+<div class="mt-auto pt-10 text-center">
+<p class="text-sm text-neutral-gray">
+                    ¿No tienes una cuenta? 
+                    <a class="text-primary font-bold hover:underline decoration-primary/30 underline-offset-4 ml-1" href="#">Regístrate</a>
+</p>
+</div>
+</div>
+<!-- Footer / Legal Section -->
+<footer class="px-8 pb-10">
+<div class="space-y-4 text-center">
+<div class="flex justify-center items-center gap-4">
+<div class="px-2 py-1 border border-neutral-gray rounded text-[10px] font-bold text-neutral-gray tracking-tighter uppercase">18+</div>
+<div class="h-px w-8 bg-neutral-gray/30"></div>
+<span class="text-[10px] text-neutral-gray/60 font-medium uppercase tracking-widest">Juego Responsable</span>
+</div>
+<p class="text-[9px] leading-relaxed text-neutral-gray/40">
+                    Quiniela Digital es una plataforma autorizada. El juego compulsivo es perjudicial para la salud. 
+                    © 2024 Quiniela Digital Argentina. Todos los derechos reservados.
+                </p>
+</div>
+<!-- iOS Home Indicator -->
+<div class="mt-6 flex justify-center">
+<div class="w-32 h-1 bg-white/20 rounded-full"></div>
+</div>
+</footer>
+</div>
+</body></html>

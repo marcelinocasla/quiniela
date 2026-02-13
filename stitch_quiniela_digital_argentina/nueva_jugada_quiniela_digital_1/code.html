@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Resultados en Vivo - Quiniela Digital</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              colors: {
+                "primary": "#FF6600",
+                "background-light": "#f7f8f6",
+                "background-dark": "#000000",
+                "card-dark": "#0A0A0A",
+              },
+              fontFamily: {
+                "display": ["Public Sans", "sans-serif"]
+              },
+              borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
+            },
+          },
+        }
+    </script>
+<style type="text/tailwindcss">
+        @layer base {
+            body {
+                @apply font-display bg-background-dark text-white antialiased;
+                -webkit-tap-highlight-color: transparent;
+            }
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        @keyframes ticker {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        .ticker-content {
+            display: flex;
+            white-space: nowrap;
+            animation: ticker 25s linear infinite;
+        }
+        .pulsate {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+        .number-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 6px;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="min-h-screen flex flex-col pb-10">
+<header class="sticky top-0 z-50 bg-black/90 backdrop-blur-xl border-b border-white/10">
+<div class="px-4 pt-10 pb-3 flex items-center justify-between">
+<div class="flex items-center gap-3">
+<button class="w-8 h-8 flex items-center justify-center text-white/80">
+<span class="material-icons text-xl">arrow_back_ios</span>
+</button>
+<h1 class="text-xl font-black tracking-tight">Resultados <span class="text-primary italic">VIVO</span></h1>
+</div>
+<div class="flex items-center gap-1 bg-primary/10 px-2 py-1 rounded-full">
+<div class="w-2 h-2 rounded-full bg-primary pulsate"></div>
+<span class="text-[10px] font-black text-primary uppercase">Actualizando</span>
+</div>
+</div>
+<div class="bg-primary py-1.5 overflow-hidden">
+<div class="ticker-content">
+<div class="flex items-center gap-6 px-4">
+<span class="text-[11px] font-black text-black">NACIONAL: 4328</span>
+<span class="text-[11px] font-black text-black">PROVINCIA: 9912</span>
+<span class="text-[11px] font-black text-black">SANTA FE: 0145</span>
+<span class="text-[11px] font-black text-black">CÓRDOBA: 7723</span>
+<span class="text-[11px] font-black text-black">MENDOZA: 5590</span>
+</div>
+<div class="flex items-center gap-6 px-4">
+<span class="text-[11px] font-black text-black">NACIONAL: 4328</span>
+<span class="text-[11px] font-black text-black">PROVINCIA: 9912</span>
+<span class="text-[11px] font-black text-black">SANTA FE: 0145</span>
+<span class="text-[11px] font-black text-black">CÓRDOBA: 7723</span>
+<span class="text-[11px] font-black text-black">MENDOZA: 5590</span>
+</div>
+</div>
+</div>
+</header>
+<main class="flex-1 px-4 py-6 space-y-6">
+<div class="bg-card-dark rounded-xl border border-white/5 overflow-hidden shadow-2xl">
+<div class="p-4 flex items-center justify-between border-b border-white/5 bg-white/[0.02]">
+<div>
+<h2 class="text-lg font-black text-white leading-tight uppercase tracking-wide">Nacional</h2>
+<p class="text-[11px] font-bold text-white/40 uppercase">Sorteo: Matutina #4521</p>
+</div>
+<div class="flex items-center gap-2 bg-primary/20 px-3 py-1.5 rounded-lg border border-primary/30">
+<div class="w-2 h-2 rounded-full bg-primary pulsate"></div>
+<span class="text-[10px] font-black text-primary">LIVE</span>
+</div>
+</div>
+<div class="p-4 flex flex-col gap-4">
+<div class="flex items-center justify-between bg-primary/5 p-4 rounded-xl border border-primary/20">
+<span class="text-[10px] font-black text-primary uppercase tracking-widest leading-none">1° PREMIO<br/><span class="text-white/40">CABEZA</span></span>
+<span class="text-5xl font-black text-primary tracking-tighter">4328</span>
+</div>
+<div>
+<p class="text-[10px] font-bold text-white/30 uppercase mb-3 px-1 tracking-widest">Extracto Completo</p>
+<div class="number-grid">
+<div class="flex flex-col items-center p-2 rounded bg-white/5 border border-white/5">
+<span class="text-[8px] text-white/40 font-bold mb-1">2°</span>
+<span class="text-sm font-bold text-white">1254</span>
+</div>
+<div class="flex flex-col items-center p-2 rounded bg-white/5 border border-white/5">
+<span class="text-[8px] text-white/40 font-bold mb-1">3°</span>
+<span class="text-sm font-bold text-white">9982</span>
+</div>
+<div class="flex flex-col items-center p-2 rounded bg-white/5 border border-white/5">
+<span class="text-[8px] text-white/40 font-bold mb-1">4°</span>
+<span class="text-sm font-bold text-white">0045</span>
+</div>
+<div class="flex flex-col items-center p-2 rounded bg-white/5 border border-white/5">
+<span class="text-[8px] text-white/40 font-bold mb-1">5°</span>
+<span class="text-sm font-bold text-white">6712</span>
+</div>
+<div class="flex flex-col items-center p-2 rounded bg-white/5 border border-white/5">
+<span class="text-[8px] text-white/40 font-bold mb-1">6°</span>
+<span class="text-sm font-bold text-white">4410</span>
+</div>
+<div class="flex flex-col items-center p-2 rounded bg-white/5 border border-white/5">
+<span class="text-[8px] text-white/40 font-bold mb-1">7°</span>
+<span class="text-sm font-bold text-white">8823</span>
+</div>
+<div class="flex flex-col items-center p-2 rounded bg-white/5 border border-white/5">
+<span class="text-[8px] text-white/40 font-bold mb-1">8°</span>
+<span class="text-sm font-bold text-white">1234</span>
+</div>
+<div class="flex flex-col items-center p-2 rounded bg-white/5 border border-white/5">
+<span class="text-[8px] text-white/40 font-bold mb-1">9°</span>
+<span class="text-sm font-bold text-white">5678</span>
+</div>
+<div class="flex flex-col items-center p-2 rounded bg-white/5 border border-white/5">
+<span class="text-[8px] text-white/40 font-bold mb-1">10°</span>
+<span class="text-sm font-bold text-white">9012</span>
+</div>
+<div class="flex flex-col items-center p-2 rounded bg-white/5 border border-white/5">
+<span class="text-[8px] text-white/40 font-bold mb-1">11°</span>
+<span class="text-sm font-bold text-white">3456</span>
+</div>
+<div class="flex flex-col items-center p-2 rounded bg-white/5 border border-white/5">
+<span class="text-[8px] text-white/40 font-bold mb-1">12°</span>
+<span class="text-sm font-bold text-white">7890</span>
+</div>
+<div class="flex flex-col items-center p-2 rounded bg-white/5 border border-white/5">
+<span class="text-[8px] text-white/40 font-bold mb-1">13°</span>
+<span class="text-sm font-bold text-white">2233</span>
+</div>
+<div class="flex flex-col items-center p-2 rounded bg-white/5 border border-white/5">
+<span class="text-[8px] text-white/40 font-bold mb-1">14°</span>
+<span class="text-sm font-bold text-white">4455</span>
+</div>
+<div class="flex flex-col items-center p-2 rounded bg-white/5 border border-white/5">
+<span class="text-[8px] text-white/40 font-bold mb-1">15°</span>
+<span class="text-sm font-bold text-white">6677</span>
+</div>
+<div class="flex flex-col items-center p-2 rounded bg-white/5 border border-white/5">
+<span class="text-[8px] text-white/40 font-bold mb-1">16°</span>
+<span class="text-sm font-bold text-white">8899</span>
+</div>
+<div class="flex flex-col items-center p-2 rounded bg-white/5 border border-white/5">
+<span class="text-[8px] text-white/40 font-bold mb-1">17°</span>
+<span class="text-sm font-bold text-white">1122</span>
+</div>
+<div class="flex flex-col items-center p-2 rounded bg-white/5 border border-white/5">
+<span class="text-[8px] text-white/40 font-bold mb-1">18°</span>
+<span class="text-sm font-bold text-white">3344</span>
+</div>
+<div class="flex flex-col items-center p-2 rounded bg-white/5 border border-white/5">
+<span class="text-[8px] text-white/40 font-bold mb-1">19°</span>
+<span class="text-sm font-bold text-white">5566</span>
+</div>
+<div class="flex flex-col items-center p-2 rounded bg-white/5 border border-white/5">
+<span class="text-[8px] text-white/40 font-bold mb-1">20°</span>
+<span class="text-sm font-bold text-white">7788</span>
+</div>
+<div class="flex flex-col items-center justify-center p-2 rounded bg-white/5 border border-white/10 border-dashed">
+<span class="material-icons text-primary/40 text-xs">hourglass_empty</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-card-dark rounded-xl border border-white/5 overflow-hidden shadow-2xl">
+<div class="p-4 flex items-center justify-between border-b border-white/5 bg-white/[0.02]">
+<div>
+<h2 class="text-lg font-black text-white leading-tight uppercase tracking-wide">Provincia</h2>
+<p class="text-[11px] font-bold text-white/40 uppercase">Sorteo: Matutina #1129</p>
+</div>
+<div class="flex items-center gap-2 bg-primary/20 px-3 py-1.5 rounded-lg border border-primary/30">
+<div class="w-2 h-2 rounded-full bg-primary pulsate"></div>
+<span class="text-[10px] font-black text-primary">LIVE</span>
+</div>
+</div>
+<div class="p-4 flex flex-col gap-4">
+<div class="flex items-center justify-between bg-primary/5 p-4 rounded-xl border border-primary/20">
+<span class="text-[10px] font-black text-primary uppercase tracking-widest leading-none">1° PREMIO<br/><span class="text-white/40">CABEZA</span></span>
+<span class="text-5xl font-black text-primary tracking-tighter">9912</span>
+</div>
+<div class="number-grid opacity-60">
+<div class="flex flex-col items-center p-2 rounded bg-white/5 border border-white/5">
+<span class="text-[8px] text-white/40 font-bold mb-1">2°</span>
+<span class="text-sm font-bold text-white">5514</span>
+</div>
+<div class="flex flex-col items-center p-2 rounded bg-white/5 border border-white/5">
+<span class="text-[8px] text-white/40 font-bold mb-1">3°</span>
+<span class="text-sm font-bold text-white">3210</span>
+</div>
+<div class="flex flex-col items-center p-2 rounded bg-white/5 border border-white/5">
+<span class="text-[8px] text-white/40 font-bold mb-1">4°</span>
+<span class="text-sm font-bold text-white">0987</span>
+</div>
+<div class="flex flex-col items-center p-2 rounded bg-white/5 border border-white/10 border-dashed h-[42px] justify-center">
+<span class="w-1 h-1 bg-white/20 rounded-full animate-pulse"></span>
+</div>
+<div class="flex flex-col items-center p-2 rounded bg-white/5 border border-white/10 border-dashed h-[42px] justify-center">
+<span class="w-1 h-1 bg-white/20 rounded-full animate-pulse"></span>
+</div>
+<div class="flex flex-col items-center p-2 rounded bg-white/5 border border-white/10 border-dashed h-[42px] justify-center"></div>
+<div class="flex flex-col items-center p-2 rounded bg-white/5 border border-white/10 border-dashed h-[42px] justify-center"></div>
+<div class="flex flex-col items-center p-2 rounded bg-white/5 border border-white/10 border-dashed h-[42px] justify-center"></div>
+<div class="flex flex-col items-center p-2 rounded bg-white/5 border border-white/10 border-dashed h-[42px] justify-center"></div>
+<div class="flex flex-col items-center p-2 rounded bg-white/5 border border-white/10 border-dashed h-[42px] justify-center"></div>
+</div>
+</div>
+</div>
+<div class="bg-card-dark rounded-xl border border-white/5 overflow-hidden shadow-2xl grayscale opacity-50">
+<div class="p-4 flex items-center justify-between border-b border-white/5 bg-white/[0.02]">
+<div>
+<h2 class="text-lg font-black text-white leading-tight uppercase tracking-wide">Santa Fe</h2>
+<p class="text-[11px] font-bold text-white/40 uppercase">Sorteo: La Previa (Cerrado)</p>
+</div>
+<div class="flex items-center gap-2 bg-white/5 px-3 py-1.5 rounded-lg">
+<span class="text-[10px] font-black text-white/40 uppercase">Finalizado</span>
+</div>
+</div>
+<div class="p-8 text-center">
+<span class="material-icons text-white/10 text-4xl mb-2">lock_clock</span>
+<p class="text-xs font-bold text-white/20 uppercase tracking-widest">Esperando inicio de sesión</p>
+</div>
+</div>
+</main>
+<button class="fixed bottom-6 right-6 w-14 h-14 bg-primary text-black rounded-full shadow-[0_8px_30px_rgba(255,102,0,0.5)] flex items-center justify-center active:scale-90 transition-transform z-50">
+<span class="material-icons text-3xl font-bold">refresh</span>
+</button>
+<div class="fixed top-20 left-0 w-64 h-64 bg-primary/10 rounded-full blur-[120px] pointer-events-none z-0"></div>
+<div class="fixed bottom-0 right-0 w-80 h-80 bg-primary/5 rounded-full blur-[100px] pointer-events-none z-0"></div>
+
+</body></html>

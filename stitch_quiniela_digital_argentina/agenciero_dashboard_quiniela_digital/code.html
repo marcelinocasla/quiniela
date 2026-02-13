@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<title>Agenciero Dashboard - Quiniela Digital</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#ff6600",
+                        "background-light": "#f8f7f5",
+                        "background-dark": "#000000",
+                        "card-dark": "#121212",
+                        "neutral-gray": "#1c1c1e"
+                    },
+                    fontFamily: {
+                        "display": ["Manrope", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            -webkit-tap-highlight-color: transparent;
+            overscroll-behavior-y: contain;
+        }
+        .ios-blur {
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-dark font-display text-white antialiased selection:bg-primary/30">
+<!-- Top Navigation Bar (iOS Style) -->
+<nav class="sticky top-0 z-50 bg-background-dark/80 ios-blur border-b border-primary/10 px-6 py-4 flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white shadow-lg shadow-primary/20">
+<span class="material-icons-round">account_balance_wallet</span>
+</div>
+<div>
+<h1 class="text-sm font-medium text-white/60 leading-none">Agencia #4205</h1>
+<p class="text-lg font-bold text-white">Quiniela Digital</p>
+</div>
+</div>
+<button class="w-10 h-10 rounded-full bg-neutral-gray flex items-center justify-center border border-white/10">
+<span class="material-icons-round text-white/80">notifications</span>
+</button>
+</nav>
+<main class="px-5 pt-6 pb-32 space-y-8">
+<!-- Summary Cards Horizontal Scroll -->
+<section>
+<div class="flex overflow-x-auto gap-4 pb-2 hide-scrollbar">
+<!-- Total Jugado -->
+<div class="flex-none w-64 p-5 rounded-xl bg-card-dark border border-white/5 shadow-2xl">
+<div class="flex items-center gap-2 mb-3">
+<span class="material-icons-round text-primary text-sm">payments</span>
+<span class="text-xs font-semibold text-white/40 uppercase tracking-wider">Total Jugado</span>
+</div>
+<div class="flex items-baseline gap-1">
+<span class="text-xs text-primary font-bold">$</span>
+<span class="text-3xl font-extrabold tracking-tight">1.284.500</span>
+</div>
+<div class="mt-3 flex items-center gap-1 text-green-500 text-xs font-medium">
+<span class="material-icons-round text-sm">trending_up</span>
+<span>+12.5% vs ayer</span>
+</div>
+</div>
+<!-- Premios a Pagar -->
+<div class="flex-none w-64 p-5 rounded-xl bg-card-dark border border-white/5 shadow-2xl">
+<div class="flex items-center gap-2 mb-3">
+<span class="material-icons-round text-primary text-sm">confirmation_number</span>
+<span class="text-xs font-semibold text-white/40 uppercase tracking-wider">Premios a Pagar</span>
+</div>
+<div class="flex items-baseline gap-1">
+<span class="text-xs text-primary font-bold">$</span>
+<span class="text-3xl font-extrabold tracking-tight">452.120</span>
+</div>
+<div class="mt-3 flex items-center gap-1 text-white/40 text-xs font-medium">
+<span class="material-icons-round text-sm">schedule</span>
+<span>8 boletas pendientes</span>
+</div>
+</div>
+<!-- Ganancia Neta -->
+<div class="flex-none w-64 p-5 rounded-xl bg-primary/10 border border-primary/30 shadow-2xl">
+<div class="flex items-center gap-2 mb-3">
+<span class="material-icons-round text-primary text-sm">savings</span>
+<span class="text-xs font-semibold text-primary/80 uppercase tracking-wider font-bold">Ganancia Neta</span>
+</div>
+<div class="flex items-baseline gap-1">
+<span class="text-xs text-primary font-bold">$</span>
+<span class="text-3xl font-extrabold tracking-tight text-primary">832.380</span>
+</div>
+<div class="mt-3 flex items-center gap-1 text-primary text-xs font-bold">
+<span class="material-icons-round text-sm">workspace_premium</span>
+<span>Récord Semanal</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Weekly Chart Section -->
+<section class="space-y-4">
+<div class="flex items-center justify-between">
+<h2 class="text-lg font-bold">Ventas Semanales</h2>
+<span class="text-xs font-medium text-white/40">Mar 12 - Mar 18</span>
+</div>
+<div class="bg-card-dark p-6 rounded-xl border border-white/5">
+<div class="flex items-end justify-between h-40 gap-2">
+<div class="flex flex-col items-center gap-2 flex-1">
+<div class="w-full bg-white/5 rounded-full relative overflow-hidden h-full">
+<div class="absolute bottom-0 w-full bg-primary/20 h-3/4 rounded-full"></div>
+</div>
+<span class="text-[10px] text-white/40 font-medium">L</span>
+</div>
+<div class="flex flex-col items-center gap-2 flex-1">
+<div class="w-full bg-white/5 rounded-full relative overflow-hidden h-full">
+<div class="absolute bottom-0 w-full bg-primary/40 h-1/2 rounded-full"></div>
+</div>
+<span class="text-[10px] text-white/40 font-medium">M</span>
+</div>
+<div class="flex flex-col items-center gap-2 flex-1">
+<div class="w-full bg-white/5 rounded-full relative overflow-hidden h-full">
+<div class="absolute bottom-0 w-full bg-primary/60 h-2/3 rounded-full"></div>
+</div>
+<span class="text-[10px] text-white/40 font-medium">M</span>
+</div>
+<div class="flex flex-col items-center gap-2 flex-1">
+<div class="w-full bg-white/5 rounded-full relative overflow-hidden h-full">
+<div class="absolute bottom-0 w-full bg-primary h-5/6 rounded-full shadow-lg shadow-primary/20"></div>
+</div>
+<span class="text-[10px] text-primary font-bold">J</span>
+</div>
+<div class="flex flex-col items-center gap-2 flex-1">
+<div class="w-full bg-white/5 rounded-full relative overflow-hidden h-full">
+<div class="absolute bottom-0 w-full bg-primary/70 h-3/5 rounded-full"></div>
+</div>
+<span class="text-[10px] text-white/40 font-medium">V</span>
+</div>
+<div class="flex flex-col items-center gap-2 flex-1">
+<div class="w-full bg-white/5 rounded-full relative overflow-hidden h-full">
+<div class="absolute bottom-0 w-full bg-primary/40 h-2/5 rounded-full"></div>
+</div>
+<span class="text-[10px] text-white/40 font-medium">S</span>
+</div>
+<div class="flex flex-col items-center gap-2 flex-1">
+<div class="w-full bg-white/5 rounded-full relative overflow-hidden h-full">
+<div class="absolute bottom-0 w-full bg-primary/20 h-1/6 rounded-full"></div>
+</div>
+<span class="text-[10px] text-white/40 font-medium">D</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Latest Games Section -->
+<section class="space-y-4">
+<div class="flex items-center justify-between">
+<h2 class="text-lg font-bold">Últimas Jugadas</h2>
+<button class="text-xs font-bold text-primary flex items-center gap-1 uppercase tracking-widest">
+                    Ver Todo <span class="material-icons-round text-sm">arrow_forward_ios</span>
+</button>
+</div>
+<div class="space-y-3">
+<!-- Transaction Card 1 -->
+<div class="bg-card-dark p-4 rounded-xl border border-white/5 flex items-center justify-between">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-lg bg-green-500/10 flex items-center justify-center">
+<span class="material-icons-round text-green-500">emoji_events</span>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<h3 class="font-bold text-sm">Lotería Nacional</h3>
+<span class="px-2 py-0.5 rounded-full bg-green-500 text-[10px] font-bold text-white uppercase tracking-tighter">Ganador</span>
+</div>
+<p class="text-xs text-white/40 mt-1">ID: #83291 • <span class="text-white/60 font-medium">Jugada: 12 - 45 - 67</span></p>
+</div>
+</div>
+<div class="text-right">
+<p class="font-extrabold text-sm">$4.500</p>
+<p class="text-[10px] text-white/40 mt-1">10:42 AM</p>
+</div>
+</div>
+<!-- Transaction Card 2 -->
+<div class="bg-card-dark p-4 rounded-xl border border-white/5 flex items-center justify-between">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-lg bg-white/10 flex items-center justify-center">
+<span class="material-icons-round text-white/40">hourglass_empty</span>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<h3 class="font-bold text-sm">Provincia</h3>
+<span class="px-2 py-0.5 rounded-full bg-white/10 text-[10px] font-bold text-white/60 uppercase tracking-tighter">Pendiente</span>
+</div>
+<p class="text-xs text-white/40 mt-1">ID: #83292 • <span class="text-white/60 font-medium">Jugada: 05 - 19 - 88</span></p>
+</div>
+</div>
+<div class="text-right">
+<p class="font-extrabold text-sm">$1.200</p>
+<p class="text-[10px] text-white/40 mt-1">10:38 AM</p>
+</div>
+</div>
+<!-- Transaction Card 3 -->
+<div class="bg-card-dark p-4 rounded-xl border border-white/5 flex items-center justify-between">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-lg bg-white/10 flex items-center justify-center">
+<span class="material-icons-round text-white/40">hourglass_empty</span>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<h3 class="font-bold text-sm">Santa Fe</h3>
+<span class="px-2 py-0.5 rounded-full bg-white/10 text-[10px] font-bold text-white/60 uppercase tracking-tighter">Pendiente</span>
+</div>
+<p class="text-xs text-white/40 mt-1">ID: #83293 • <span class="text-white/60 font-medium">Jugada: 42 - 00 - 11</span></p>
+</div>
+</div>
+<div class="text-right">
+<p class="font-extrabold text-sm">$8.000</p>
+<p class="text-[10px] text-white/40 mt-1">10:30 AM</p>
+</div>
+</div>
+<!-- Transaction Card 4 -->
+<div class="bg-card-dark p-4 rounded-xl border border-white/5 flex items-center justify-between opacity-60">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-lg bg-red-500/10 flex items-center justify-center">
+<span class="material-icons-round text-red-500/60">close</span>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<h3 class="font-bold text-sm">Montevideo</h3>
+<span class="px-2 py-0.5 rounded-full bg-red-500/20 text-[10px] font-bold text-red-500 uppercase tracking-tighter">Sin Premio</span>
+</div>
+<p class="text-xs text-white/40 mt-1">ID: #83289 • <span class="text-white/60 font-medium">Jugada: 77 - 23 - 09</span></p>
+</div>
+</div>
+<div class="text-right">
+<p class="font-extrabold text-sm">$2.500</p>
+<p class="text-[10px] text-white/40 mt-1">09:55 AM</p>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Navigation Tab Bar (iOS) -->
+<div class="fixed bottom-0 left-0 right-0 bg-background-dark/95 ios-blur border-t border-white/10 px-8 py-3 flex justify-between items-center z-40 pb-8">
+<button class="flex flex-col items-center gap-1 text-primary">
+<span class="material-icons-round">dashboard</span>
+<span class="text-[10px] font-bold">Home</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-white/40">
+<span class="material-icons-round">analytics</span>
+<span class="text-[10px] font-medium">Reportes</span>
+</button>
+<div class="w-12"></div> <!-- Spacer for FAB -->
+<button class="flex flex-col items-center gap-1 text-white/40">
+<span class="material-icons-round">receipt_long</span>
+<span class="text-[10px] font-medium">Ticket</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-white/40">
+<span class="material-icons-round">settings</span>
+<span class="text-[10px] font-medium">Ajustes</span>
+</button>
+</div>
+<!-- Floating Action Button -->
+<button class="fixed bottom-10 left-1/2 -translate-x-1/2 w-16 h-16 bg-primary rounded-full shadow-[0_8px_30px_rgb(255,102,0,0.4)] flex items-center justify-center z-50 active:scale-95 transition-transform border-4 border-background-dark">
+<span class="material-icons-round text-white text-3xl">add</span>
+</button>
+</body></html>

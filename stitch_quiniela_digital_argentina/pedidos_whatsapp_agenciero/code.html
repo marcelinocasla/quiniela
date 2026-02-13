@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Pedidos WhatsApp Agenciero - Quiniela Digital</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#ff6600",
+                        "background-light": "#f8f7f5",
+                        "background-dark": "#000000",
+                        "neutral-dark": "#1a1a1a",
+                        "neutral-card": "#23170f",
+                    },
+                    fontFamily: {
+                        "display": ["Manrope", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Manrope', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .ios-blur {
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 font-display selection:bg-primary/30">
+<div class="flex h-screen w-full max-w-[430px] mx-auto overflow-hidden border-x border-primary/10 shadow-2xl relative">
+<!-- Sidebar: Chat List (Left Column) -->
+<aside class="w-20 sm:w-24 md:w-32 lg:w-36 flex flex-col border-r border-primary/20 bg-neutral-dark">
+<div class="p-4 flex flex-col items-center border-b border-primary/10">
+<span class="material-icons text-primary text-3xl">local_activity</span>
+</div>
+<div class="flex-1 overflow-y-auto hide-scrollbar py-2">
+<!-- Active Chat Item -->
+<div class="flex flex-col items-center p-3 mb-2 relative bg-primary/10 border-r-2 border-primary">
+<div class="relative">
+<img alt="Juan Perez" class="w-12 h-12 rounded-full object-cover border-2 border-primary" data-alt="Close up portrait of a male customer" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAv7tHC-wwqmMgwE0W54GsGBqEs5XM49oXRKI3ygKWaYUSiXiWD4F1D4AkYusfehghy78-U3dCY5GXHzta_rVyFLvJq8ELRZ7JCgK58UOJI9ckBPfa0TUu2naO3rjXlHsQlUV5L8iysWykKa3ZpwNS6zFqedR2OjBRbhe765RT1AbzG3jF7G8jdfREpSVP5mL113wYjXSe2XIqoyE02qUdTiCisIYIgZEygW3f0VoNW-ZyShhyjZSgnX8546d9OuF2bMzntA0ZCVXM"/>
+<span class="absolute bottom-0 right-0 w-3 h-3 bg-primary rounded-full ring-2 ring-neutral-dark"></span>
+</div>
+<span class="text-[10px] mt-1 font-bold truncate w-full text-center">Juan P.</span>
+</div>
+<!-- Chat Item 2 -->
+<div class="flex flex-col items-center p-3 mb-2 opacity-60">
+<div class="relative">
+<img alt="Maria G." class="w-12 h-12 rounded-full object-cover border-2 border-transparent" data-alt="Portrait of a female client" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCnbzvPscX-1eK9SfZtnmSEjxGJsG0KGqCcgTyUf-U0osHnKz5mD-42SQ35kUFSlda6jeuMpkpL4YDNvKaRzf1BP_igIO-9kjNtihSpeE4TyOlkWEN-xY_5yoIGpfhrNm8uf66vNWetiz9ySwdxR-MMrZC3sfoeQ3mxkga9ipLHMPIgaodTkRpqHXcLsVufaikZxyV40MgLFFIoPWL8zg4pKGKvQndbbj-8aqNAp6DIs_PFfS8BY2OWfYnys6ecqd51HWzwwpsehKI"/>
+<span class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full ring-2 ring-neutral-dark"></span>
+</div>
+<span class="text-[10px] mt-1 font-bold truncate w-full text-center">Maria G.</span>
+</div>
+<!-- Chat Item 3 -->
+<div class="flex flex-col items-center p-3 mb-2 opacity-60">
+<div class="relative">
+<div class="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold">RL</div>
+<span class="absolute bottom-0 right-0 w-3 h-3 bg-primary rounded-full ring-2 ring-neutral-dark"></span>
+</div>
+<span class="text-[10px] mt-1 font-bold truncate w-full text-center">Ricardo L.</span>
+</div>
+<!-- Chat Item 4 -->
+<div class="flex flex-col items-center p-3 mb-2 opacity-40">
+<img alt="Carlos" class="w-12 h-12 rounded-full object-cover grayscale" data-alt="Man in casual wear" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCnPlVjwWiwPqxVWWYVsK0S-fkDhyzN8YA_j-Fc9bCZsF4-eNdstSZuwCoVrzrQHHmUEklHrEkKBAdjPBiOlegznuL95FzttOw8Ku7HzkRzMqLeVUY7jcMGcaCR7PK6inHu9jpp72nRVY_5coMkZXQE48o3mftnDuej2Suh9RxsSd35Md-fr1awR8fPp5pYz418sw1yXFKo0zh-bQ6s2JUpACcASNR8s15wg1Irm964QS6sxnTASQJ0eklpV31fd6npu47rOTtP2aA"/>
+<span class="text-[10px] mt-1 font-bold truncate w-full text-center">Carlos M.</span>
+</div>
+</div>
+<div class="p-4 border-t border-primary/10 flex justify-center">
+<span class="material-icons text-white/50">settings</span>
+</div>
+</aside>
+<!-- Main Content: Chat View -->
+<main class="flex-1 flex flex-col bg-background-dark relative">
+<!-- Header -->
+<header class="ios-blur sticky top-0 z-10 flex items-center justify-between p-4 bg-neutral-dark/80 border-b border-primary/20">
+<div class="flex items-center gap-3">
+<button class="material-icons text-primary lg:hidden">chevron_left</button>
+<div>
+<h1 class="font-bold text-sm">Juan Perez</h1>
+<div class="flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
+<span class="text-[10px] text-primary font-bold uppercase tracking-wider">Pendiente</span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<button class="p-2 rounded-full bg-white/5"><span class="material-icons text-sm">call</span></button>
+<button class="p-2 rounded-full bg-white/5"><span class="material-icons text-sm">more_vert</span></button>
+</div>
+</header>
+<!-- Chat Bubbles Area -->
+<section class="flex-1 overflow-y-auto p-4 space-y-4 hide-scrollbar">
+<div class="flex flex-col items-center my-6">
+<span class="px-3 py-1 bg-white/5 rounded-full text-[10px] text-white/40 font-semibold">HOY</span>
+</div>
+<!-- Customer Text Message -->
+<div class="flex flex-col items-start max-w-[85%]">
+<div class="bg-neutral-dark border border-white/10 p-3 rounded-xl rounded-tl-none">
+<p class="text-sm">Hola, te paso la jugada para la nocturna:</p>
+<p class="text-lg font-bold text-primary mt-1">10 al 528 - $500</p>
+<p class="text-lg font-bold text-primary">05 al 812 - $300</p>
+<span class="text-[10px] text-white/30 block mt-2 text-right">10:42 AM</span>
+</div>
+</div>
+<!-- Customer Audio Message -->
+<div class="flex flex-col items-start max-w-[85%]">
+<div class="bg-neutral-dark border border-white/10 p-3 rounded-xl rounded-tl-none w-full">
+<div class="flex items-center gap-3">
+<button class="w-10 h-10 rounded-full bg-primary flex items-center justify-center">
+<span class="material-icons text-white">play_arrow</span>
+</button>
+<div class="flex-1 space-y-1">
+<div class="h-6 flex items-end gap-0.5">
+<div class="w-1 h-3 bg-primary/40 rounded-full"></div>
+<div class="w-1 h-5 bg-primary rounded-full"></div>
+<div class="w-1 h-2 bg-primary/40 rounded-full"></div>
+<div class="w-1 h-4 bg-primary rounded-full"></div>
+<div class="w-1 h-6 bg-primary rounded-full"></div>
+<div class="w-1 h-3 bg-primary/40 rounded-full"></div>
+<div class="w-1 h-5 bg-primary rounded-full"></div>
+<div class="w-1 h-2 bg-primary/40 rounded-full"></div>
+<div class="w-1 h-4 bg-primary rounded-full"></div>
+<div class="w-1 h-6 bg-primary rounded-full"></div>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-[10px] font-bold text-primary">0:12</span>
+<span class="text-[10px] text-white/30">10:43 AM</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Agency Response -->
+<div class="flex flex-col items-end max-w-[85%] ml-auto">
+<div class="bg-primary p-3 rounded-xl rounded-tr-none">
+<p class="text-sm text-white font-medium">Recibido Juan, ahí te la cargo.</p>
+<span class="text-[10px] text-white/60 block mt-1 text-right">10:45 AM ✓✓</span>
+</div>
+</div>
+</section>
+<!-- Action Panel: Fixed at Bottom -->
+<section class="p-4 bg-neutral-dark border-t border-primary/20 space-y-3">
+<!-- Quick Reply Row -->
+<div class="flex items-center gap-2">
+<div class="flex-1 bg-white/5 rounded-full px-4 py-2 flex items-center border border-white/10 focus-within:border-primary/50 transition-colors">
+<input class="bg-transparent border-none focus:ring-0 text-sm w-full p-0" placeholder="Escribe una respuesta..." type="text"/>
+<span class="material-icons text-white/40 text-lg">emoji_emotions</span>
+</div>
+<button class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center">
+<span class="material-icons text-white/60">mic</span>
+</button>
+</div>
+<!-- Primary Action Buttons -->
+<div class="grid grid-cols-2 gap-3">
+<button class="col-span-2 bg-primary hover:bg-primary/90 text-white font-extrabold py-4 rounded-xl flex items-center justify-center gap-2 shadow-lg shadow-primary/20 active:scale-[0.98] transition-all">
+<span class="material-icons">add_task</span>
+                        CARGAR JUGADA
+                    </button>
+<button class="bg-white/5 hover:bg-white/10 text-white/90 font-bold py-3 rounded-xl flex items-center justify-center gap-2 border border-white/10 active:scale-[0.98] transition-all">
+<span class="material-icons text-sm">reply</span>
+<span class="text-xs">RESPONDER</span>
+</button>
+<button class="bg-green-600/20 hover:bg-green-600/30 text-green-500 font-bold py-3 rounded-xl flex items-center justify-center gap-2 border border-green-600/30 active:scale-[0.98] transition-all">
+<span class="material-icons text-sm">check_circle</span>
+<span class="text-xs">PROCESADO</span>
+</button>
+</div>
+</section>
+<!-- Safe Area Bottom (iOS) -->
+<div class="h-8 bg-neutral-dark"></div>
+</main>
+</div>
+<!-- Background Pattern Decoration (Visual Only) -->
+<div class="fixed inset-0 pointer-events-none opacity-[0.03] z-[-1]" data-alt="Subtle orange dot pattern background" style="background-image: radial-gradient(circle at 2px 2px, #ff6600 1px, transparent 0); background-size: 24px 24px;">
+</div>
+</body></html>

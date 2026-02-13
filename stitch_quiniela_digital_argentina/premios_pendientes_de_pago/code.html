@@ -1,0 +1,240 @@
+<html><head><meta charset="utf-8"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        colors: {
+          "primary": "#ff6600",
+          "background-light": "#f8f7f5",
+          "background-dark": "#000000",
+          "card-dark": "#121212",
+          "neutral-dark": "#1c1c1c",
+        },
+        fontFamily: {
+          "display": ["Manrope", "sans-serif"]
+        },
+        borderRadius: {
+          "DEFAULT": "0.25rem",
+          "lg": "0.5rem",
+          "xl": "0.75rem",
+          "full": "9999px"
+        },
+      },
+    },
+  }
+</script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head><body class="bg-background-dark font-display text-white selection:bg-primary/30">
+<div class="max-w-md mx-auto min-h-screen flex flex-col relative overflow-hidden">
+<!-- Status Bar Spacer (iOS) -->
+<div class="h-12 w-full"></div>
+<!-- Header Section -->
+<header class="px-6 py-4 flex items-center justify-between">
+<button class="w-10 h-10 flex items-center justify-center rounded-full bg-neutral-dark">
+<span class="material-icons text-white">chevron_left</span>
+</button>
+<h1 class="text-lg font-bold">Premios por Pagar</h1>
+<button class="w-10 h-10 flex items-center justify-center rounded-full bg-neutral-dark">
+<span class="material-icons text-white">history</span>
+</button>
+</header>
+<!-- Main Dashboard Card -->
+<section class="px-6 pt-2 pb-6">
+<div class="relative group">
+<!-- Glow Effect -->
+<div class="absolute -inset-1 bg-primary/20 rounded-xl blur-xl group-hover:bg-primary/30 transition duration-1000"></div>
+<div class="relative bg-neutral-dark border border-primary/20 rounded-xl p-6 flex flex-col items-center justify-center overflow-hidden">
+<div class="absolute top-0 right-0 -mt-4 -mr-4 w-24 h-24 bg-primary/10 rounded-full blur-2xl"></div>
+<span class="text-xs uppercase tracking-widest text-primary/80 font-bold mb-1">Total Pendiente de Pago</span>
+<div class="flex items-baseline gap-1">
+<span class="text-2xl font-bold text-primary/90">$</span>
+<span class="text-5xl font-extrabold tracking-tight">150.230<span class="text-2xl font-semibold">,00</span></span>
+</div>
+<div class="mt-4 flex gap-2">
+<div class="flex items-center gap-1 bg-primary/10 px-3 py-1 rounded-full border border-primary/20">
+<span class="material-icons text-[16px] text-primary">analytics</span>
+<span class="text-[10px] font-bold uppercase">12 Premios Pendientes</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Filters -->
+<section class="px-6 mb-4 overflow-x-auto no-scrollbar">
+<div class="flex gap-3 whitespace-nowrap">
+<button class="flex items-center gap-2 bg-primary text-white px-4 py-2 rounded-lg text-sm font-semibold shadow-lg shadow-primary/20">
+<span class="material-icons text-sm">sort</span>
+          Mayor Monto
+        </button>
+<button class="flex items-center gap-2 bg-neutral-dark text-white/60 px-4 py-2 rounded-lg text-sm font-semibold border border-white/5">
+<span class="material-icons text-sm">schedule</span>
+          Más Reciente
+        </button>
+<button class="flex items-center gap-2 bg-neutral-dark text-white/60 px-4 py-2 rounded-lg text-sm font-semibold border border-white/5">
+<span class="material-icons text-sm">person_outline</span>
+          Por Cliente
+        </button>
+</div>
+</section>
+<!-- Winners List -->
+<main class="flex-1 px-6 pb-24 overflow-y-auto">
+<div class="space-y-4">
+<!-- Ticket Item 1 -->
+<div class="bg-neutral-dark border border-white/5 rounded-xl p-4 flex items-center justify-between group">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-gradient-to-br from-primary/20 to-neutral-dark border border-primary/30 flex items-center justify-center">
+<span class="text-primary font-bold">JP</span>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<h3 class="font-bold text-sm">Juan Pérez</h3>
+<span class="text-[10px] text-white/40 font-medium">#88219</span>
+</div>
+<p class="text-[11px] text-white/50 mb-1">Quiniela Matutina • 14 May</p>
+<div class="flex items-center gap-1">
+<span class="text-xs text-white/40">Ganador:</span>
+<span class="text-primary font-extrabold tracking-widest">345</span>
+</div>
+</div>
+</div>
+<div class="flex flex-col items-end gap-2">
+<span class="text-lg font-bold">$12.500</span>
+<button class="bg-primary hover:bg-primary/90 text-white px-4 py-1.5 rounded-lg text-xs font-bold transition-all active:scale-95">Pagar</button>
+</div>
+</div>
+<!-- Ticket Item 2 -->
+<div class="bg-neutral-dark border border-white/5 rounded-xl p-4 flex items-center justify-between group">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-gradient-to-br from-primary/20 to-neutral-dark border border-primary/30 flex items-center justify-center">
+<span class="text-primary font-bold">ML</span>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<h3 class="font-bold text-sm">María López</h3>
+<span class="text-[10px] text-white/40 font-medium">#88224</span>
+</div>
+<p class="text-[11px] text-white/50 mb-1">Quiniela Nocturna • 14 May</p>
+<div class="flex items-center gap-1">
+<span class="text-xs text-white/40">Ganador:</span>
+<span class="text-primary font-extrabold tracking-widest">092</span>
+</div>
+</div>
+</div>
+<div class="flex flex-col items-end gap-2">
+<span class="text-lg font-bold">$45.000</span>
+<button class="bg-primary hover:bg-primary/90 text-white px-4 py-1.5 rounded-lg text-xs font-bold transition-all active:scale-95">Pagar</button>
+</div>
+</div>
+<!-- Ticket Item 3 -->
+<div class="bg-neutral-dark border border-white/5 rounded-xl p-4 flex items-center justify-between group">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-gradient-to-br from-primary/20 to-neutral-dark border border-primary/30 flex items-center justify-center">
+<span class="text-primary font-bold">RC</span>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<h3 class="font-bold text-sm">Roberto Carlos</h3>
+<span class="text-[10px] text-white/40 font-medium">#88241</span>
+</div>
+<p class="text-[11px] text-white/50 mb-1">Quiniela Vespertina • 13 May</p>
+<div class="flex items-center gap-1">
+<span class="text-xs text-white/40">Ganador:</span>
+<span class="text-primary font-extrabold tracking-widest">771</span>
+</div>
+</div>
+</div>
+<div class="flex flex-col items-end gap-2">
+<span class="text-lg font-bold">$2.800</span>
+<button class="bg-primary hover:bg-primary/90 text-white px-4 py-1.5 rounded-lg text-xs font-bold transition-all active:scale-95">Pagar</button>
+</div>
+</div>
+<!-- Ticket Item 4 -->
+<div class="bg-neutral-dark border border-white/5 rounded-xl p-4 flex items-center justify-between group">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-gradient-to-br from-primary/20 to-neutral-dark border border-primary/30 flex items-center justify-center">
+<span class="text-primary font-bold">AG</span>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<h3 class="font-bold text-sm">Ana García</h3>
+<span class="text-[10px] text-white/40 font-medium">#88245</span>
+</div>
+<p class="text-[11px] text-white/50 mb-1">Quiniela Matutina • 13 May</p>
+<div class="flex items-center gap-1">
+<span class="text-xs text-white/40">Ganador:</span>
+<span class="text-primary font-extrabold tracking-widest">114</span>
+</div>
+</div>
+</div>
+<div class="flex flex-col items-end gap-2">
+<span class="text-lg font-bold">$90.000</span>
+<button class="bg-primary hover:bg-primary/90 text-white px-4 py-1.5 rounded-lg text-xs font-bold transition-all active:scale-95">Pagar</button>
+</div>
+</div>
+</div>
+</main>
+<!-- Confirmation Modal Overlay (Hidden Simulation for UI Showcase) -->
+<div class="absolute inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-end justify-center pointer-events-none opacity-0 invisible">
+<div class="w-full bg-neutral-dark border-t border-primary/30 rounded-t-3xl p-8 transform translate-y-full transition-transform duration-300">
+<div class="w-12 h-1.5 bg-white/10 rounded-full mx-auto mb-8"></div>
+<div class="flex flex-col items-center text-center">
+<div class="w-20 h-20 bg-primary/20 rounded-full flex items-center justify-center mb-4">
+<span class="material-icons text-primary text-5xl">check_circle</span>
+</div>
+<h2 class="text-2xl font-bold mb-2">¡Pago Realizado!</h2>
+<p class="text-white/60 mb-8 max-w-[250px]">El premio de <strong>$12.500</strong> ha sido marcado como pagado exitosamente.</p>
+<div class="w-full space-y-3">
+<button class="w-full bg-primary py-4 rounded-xl font-bold text-lg">Entendido</button>
+<button class="w-full bg-transparent border border-white/10 py-4 rounded-xl font-bold text-lg">Ver Comprobante</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Navigation Bar (iOS Style) -->
+<nav class="absolute bottom-0 left-0 right-0 bg-neutral-dark/80 backdrop-blur-xl border-t border-white/5 px-8 pt-4 pb-8 flex justify-between items-center z-40">
+<button class="flex flex-col items-center gap-1 text-white/40">
+<span class="material-icons">home</span>
+<span class="text-[10px] font-bold">Inicio</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-primary">
+<span class="material-icons">payments</span>
+<span class="text-[10px] font-bold">Premios</span>
+</button>
+<div class="relative -top-10">
+<button class="w-16 h-16 bg-primary rounded-full flex items-center justify-center shadow-xl shadow-primary/40 border-4 border-background-dark">
+<span class="material-icons text-3xl text-white">add</span>
+</button>
+</div>
+<button class="flex flex-col items-center gap-1 text-white/40">
+<span class="material-icons">list_alt</span>
+<span class="text-[10px] font-bold">Sorteos</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-white/40">
+<span class="material-icons">account_balance_wallet</span>
+<span class="text-[10px] font-bold">Caja</span>
+</button>
+</nav>
+<!-- Background Pattern -->
+<div class="absolute inset-0 z-[-1] opacity-20 pointer-events-none">
+<div class="absolute top-0 left-0 w-full h-full bg-[radial-gradient(#ff6600_1px,transparent_1px)] [background-size:24px_24px]"></div>
+</div>
+</div>
+<style>
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
+</body></html>

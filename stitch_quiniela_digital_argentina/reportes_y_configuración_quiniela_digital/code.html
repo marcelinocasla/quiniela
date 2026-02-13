@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Reportes y Configuración - Quiniela Digital</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#ff6600",
+                        "background-light": "#f8f7f5",
+                        "background-dark": "#000000",
+                        "surface-dark": "#121212",
+                        "border-dark": "#1f1f1f",
+                    },
+                    fontFamily: {
+                        "display": ["Manrope"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Manrope', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .ios-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .tab-active {
+            color: #ffffff;
+            background-color: #1f1f1f;
+        }
+        .chart-gradient {
+            background: linear-gradient(180deg, rgba(255, 102, 0, 0.1) 0%, rgba(255, 102, 0, 0) 100%);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-white font-display min-h-screen flex justify-center">
+<!-- Mobile Container (iPhone Pro Max Aspect) -->
+<div class="w-full max-w-[430px] h-screen bg-background-light dark:bg-background-dark flex flex-col relative overflow-hidden">
+<!-- Header -->
+<header class="px-6 pt-12 pb-4">
+<h1 class="text-2xl font-extrabold tracking-tight">Panel de Control</h1>
+<p class="text-sm text-slate-500 dark:text-slate-400">Agencia #1420 - El Trébol</p>
+</header>
+<!-- Segmented Control (Tabs) -->
+<div class="px-6 mb-6">
+<div class="bg-slate-100 dark:bg-surface-dark p-1 rounded-xl flex items-center">
+<button class="flex-1 py-2 text-sm font-semibold rounded-lg bg-white dark:bg-[#1f1f1f] shadow-sm transition-all duration-200">
+                    Reportes
+                </button>
+<button class="flex-1 py-2 text-sm font-semibold text-slate-500 dark:text-slate-400 hover:text-white transition-all duration-200">
+                    Configuración
+                </button>
+</div>
+</div>
+<!-- Scrollable Content Area -->
+<main class="flex-1 overflow-y-auto ios-scrollbar px-6 pb-24">
+<!-- Tab: Reportes (Active) -->
+<div class="space-y-6" id="tab-reportes">
+<!-- Net Balance Card -->
+<div class="bg-primary p-6 rounded-2xl shadow-lg shadow-primary/20">
+<div class="flex justify-between items-start mb-2">
+<span class="text-white/80 text-sm font-medium">Balance Neto (Mes)</span>
+<span class="material-icons-round text-white/50">account_balance_wallet</span>
+</div>
+<div class="flex items-baseline gap-1">
+<span class="text-white text-3xl font-extrabold">$</span>
+<span class="text-white text-4xl font-extrabold tracking-tighter">1.248.500</span>
+</div>
+<div class="mt-4 flex items-center gap-1.5 text-white/90 text-xs font-semibold bg-white/10 w-fit px-2 py-1 rounded-full">
+<span class="material-icons-round text-xs">trending_up</span>
+<span>+12.5% vs mes anterior</span>
+</div>
+</div>
+<!-- Sales vs Prizes Chart Section -->
+<div class="bg-surface-dark border border-border-dark p-5 rounded-2xl">
+<div class="flex justify-between items-center mb-6">
+<h3 class="text-sm font-bold uppercase tracking-wider text-slate-400">Rendimiento Semanal</h3>
+<div class="flex gap-4">
+<div class="flex items-center gap-1.5">
+<div class="w-2 h-2 rounded-full bg-primary"></div>
+<span class="text-[10px] text-slate-300">Ventas</span>
+</div>
+<div class="flex items-center gap-1.5">
+<div class="w-2 h-2 rounded-full bg-slate-300"></div>
+<span class="text-[10px] text-slate-300">Premios</span>
+</div>
+</div>
+</div>
+<!-- Placeholder for High-End Line Chart -->
+<div class="relative h-40 w-full flex items-end justify-between gap-1 mt-4">
+<!-- Sales Line Simulation -->
+<div class="absolute inset-0 flex items-end">
+<svg class="w-full h-full" preserveaspectratio="none" viewbox="0 0 100 100">
+<path d="M0,80 Q10,75 20,40 T40,50 T60,20 T80,30 T100,10" fill="none" stroke="#ff6600" stroke-linecap="round" stroke-width="3"></path>
+<path d="M0,80 Q10,75 20,40 T40,50 T60,20 T80,30 T100,10 L100,100 L0,100 Z" fill="url(#grad-orange)" opacity="0.1"></path>
+<defs>
+<lineargradient id="grad-orange" x1="0%" x2="0%" y1="0%" y2="100%">
+<stop offset="0%" style="stop-color:#ff6600;stop-opacity:1"></stop>
+<stop offset="100%" style="stop-color:#ff6600;stop-opacity:0"></stop>
+</lineargradient>
+</defs>
+</svg>
+</div>
+<!-- Prizes Line Simulation -->
+<div class="absolute inset-0 flex items-end opacity-50">
+<svg class="w-full h-full" preserveaspectratio="none" viewbox="0 0 100 100">
+<path d="M0,90 Q15,85 30,70 T50,85 T70,60 T90,75 T100,65" fill="none" stroke="#ffffff" stroke-dasharray="4 2" stroke-linecap="round" stroke-width="2"></path>
+</svg>
+</div>
+</div>
+<div class="flex justify-between mt-4 px-1">
+<span class="text-[10px] text-slate-500 font-bold">LUN</span>
+<span class="text-[10px] text-slate-500 font-bold">MAR</span>
+<span class="text-[10px] text-slate-500 font-bold">MIE</span>
+<span class="text-[10px] text-slate-500 font-bold">JUE</span>
+<span class="text-[10px] text-slate-500 font-bold">VIE</span>
+<span class="text-[10px] text-slate-500 font-bold">SAB</span>
+<span class="text-[10px] text-slate-500 font-bold">DOM</span>
+</div>
+</div>
+<!-- Ranking de Loterías -->
+<div class="space-y-4">
+<h3 class="text-sm font-bold uppercase tracking-wider text-slate-400 px-1">Ranking de Loterías</h3>
+<div class="bg-surface-dark border border-border-dark rounded-2xl overflow-hidden divide-y divide-border-dark">
+<!-- Loteria Item 1 -->
+<div class="p-4">
+<div class="flex justify-between items-center mb-2">
+<span class="text-sm font-bold">Nacional</span>
+<span class="text-xs text-primary font-bold">45%</span>
+</div>
+<div class="w-full h-2 bg-slate-800 rounded-full overflow-hidden">
+<div class="bg-primary h-full w-[45%] rounded-full"></div>
+</div>
+</div>
+<!-- Loteria Item 2 -->
+<div class="p-4">
+<div class="flex justify-between items-center mb-2">
+<span class="text-sm font-bold">Provincia</span>
+<span class="text-xs text-primary font-bold">32%</span>
+</div>
+<div class="w-full h-2 bg-slate-800 rounded-full overflow-hidden">
+<div class="bg-primary h-full w-[32%] rounded-full"></div>
+</div>
+</div>
+<!-- Loteria Item 3 -->
+<div class="p-4">
+<div class="flex justify-between items-center mb-2">
+<span class="text-sm font-bold">Santa Fe</span>
+<span class="text-xs text-primary font-bold">18%</span>
+</div>
+<div class="w-full h-2 bg-slate-800 rounded-full overflow-hidden">
+<div class="bg-primary h-full w-[18%] rounded-full"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Tab: Configuración (Hidden state logic simplified by stacking) -->
+<!-- In a real app, clicking the tab would swap this visibility -->
+<div class="hidden space-y-8 mt-4" id="tab-configuracion">
+<!-- Section: Agencia -->
+<section>
+<label class="text-xs font-bold text-slate-500 uppercase px-4 mb-2 block tracking-widest">Agencia</label>
+<div class="bg-surface-dark border border-border-dark rounded-2xl divide-y divide-border-dark">
+<div class="flex items-center justify-between p-4">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
+<span class="material-icons-round text-primary">storefront</span>
+</div>
+<div>
+<p class="text-sm font-bold">Datos de la Agencia</p>
+<p class="text-xs text-slate-500">ID, Nombre, Localización</p>
+</div>
+</div>
+<span class="material-icons-round text-slate-600">chevron_right</span>
+</div>
+<div class="flex items-center justify-between p-4">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-xl bg-green-500/10 flex items-center justify-center">
+<span class="material-icons-round text-green-500">whatsapp</span>
+</div>
+<div>
+<p class="text-sm font-bold">WhatsApp Conectado</p>
+<div class="flex items-center gap-1.5">
+<div class="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></div>
+<p class="text-xs text-green-500/80 font-medium">Estado: Operativo</p>
+</div>
+</div>
+</div>
+<span class="material-icons-round text-slate-600">chevron_right</span>
+</div>
+</div>
+</section>
+<!-- Section: Administración -->
+<section>
+<label class="text-xs font-bold text-slate-500 uppercase px-4 mb-2 block tracking-widest">Administración</label>
+<div class="bg-surface-dark border border-border-dark rounded-2xl divide-y divide-border-dark">
+<div class="flex items-center justify-between p-4">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
+<span class="material-icons-round text-primary">group</span>
+</div>
+<div>
+<p class="text-sm font-bold">Gestión de Usuarios</p>
+<p class="text-xs text-slate-500">4 empleados activos</p>
+</div>
+</div>
+<span class="material-icons-round text-slate-600">chevron_right</span>
+</div>
+<div class="flex items-center justify-between p-4">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
+<span class="material-icons-round text-primary">print</span>
+</div>
+<div>
+<p class="text-sm font-bold">Preferencias de Impresión</p>
+<p class="text-xs text-slate-500">Tickets, Recibos y Térmicos</p>
+</div>
+</div>
+<span class="material-icons-round text-slate-600">chevron_right</span>
+</div>
+<div class="flex items-center justify-between p-4">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
+<span class="material-icons-round text-primary">notifications_active</span>
+</div>
+<div>
+<p class="text-sm font-bold">Notificaciones Push</p>
+<p class="text-xs text-slate-500">Alertas de sorteo y cierres</p>
+</div>
+</div>
+<!-- iOS Style Toggle -->
+<div class="w-10 h-6 bg-primary rounded-full relative">
+<div class="absolute right-0.5 top-0.5 w-5 h-5 bg-white rounded-full shadow-sm"></div>
+</div>
+</div>
+</div>
+</section>
+<!-- Footer Config -->
+<div class="pt-4 pb-8 text-center">
+<button class="text-red-500 font-bold text-sm flex items-center gap-2 mx-auto">
+<span class="material-icons-round">logout</span>
+                        Cerrar Sesión
+                    </button>
+<p class="mt-4 text-[10px] text-slate-600 uppercase tracking-widest">Quiniela Digital v2.4.0</p>
+</div>
+</div>
+</main>
+<!-- Bottom Tab Bar Navigation -->
+<nav class="absolute bottom-0 left-0 right-0 bg-surface-dark/80 backdrop-blur-xl border-t border-border-dark px-8 py-4 flex justify-between items-center z-50">
+<button class="flex flex-col items-center gap-1 text-slate-500">
+<span class="material-icons-round">confirmation_number</span>
+<span class="text-[10px] font-bold">Jugadas</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-slate-500">
+<span class="material-icons-round">receipt_long</span>
+<span class="text-[10px] font-bold">Extractos</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-primary">
+<span class="material-icons-round">analytics</span>
+<span class="text-[10px] font-bold">Panel</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-slate-500">
+<span class="material-icons-round">account_circle</span>
+<span class="text-[10px] font-bold">Perfil</span>
+</button>
+</nav>
+<!-- Dynamic Visual Accent (Top blurred glow) -->
+<div class="absolute -top-24 -right-24 w-64 h-64 bg-primary/10 blur-[100px] pointer-events-none"></div>
+</div>
+</body></html>

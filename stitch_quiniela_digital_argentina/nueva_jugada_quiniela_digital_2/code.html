@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Nueva Jugada - Quiniela Digital</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              colors: {
+                "primary": "#ff6600",
+                "background-light": "#f8f7f5",
+                "background-dark": "#000000",
+              },
+              fontFamily: {
+                "display": ["Manrope", "sans-serif"]
+              },
+              borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+            },
+          },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Manrope', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .keypad-button:active {
+            background-color: rgba(255, 102, 0, 0.2);
+            transform: scale(0.95);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark text-white font-display min-h-screen flex flex-col">
+<!-- Status Bar / Header -->
+<header class="sticky top-0 z-50 bg-background-dark/80 backdrop-blur-md px-6 pt-12 pb-4">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<button class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+<span class="material-icons">arrow_back_ios_new</span>
+</button>
+<div>
+<h1 class="text-xl font-extrabold tracking-tight">Nueva Jugada</h1>
+<p class="text-xs text-primary/60 font-medium">Agencia: #4529 - Central</p>
+</div>
+</div>
+<div class="text-right">
+<span class="text-[10px] uppercase tracking-widest text-primary/40 block">Saldo Disp.</span>
+<span class="text-lg font-bold text-white">$145.820</span>
+</div>
+</div>
+</header>
+<main class="flex-1 px-4 pb-40 space-y-6">
+<!-- Lottery Selector -->
+<section class="mt-4">
+<h2 class="text-xs font-bold uppercase tracking-widest text-primary/50 mb-3 px-2">Seleccionar Lotería</h2>
+<div class="flex overflow-x-auto gap-3 hide-scrollbar pb-2">
+<button class="flex-none px-6 py-3 rounded-xl bg-primary text-black font-bold border-2 border-primary transition-all shadow-[0_0_15px_rgba(255,102,0,0.3)]">
+                    Nacional
+                </button>
+<button class="flex-none px-6 py-3 rounded-xl bg-white/5 text-white/60 font-bold border-2 border-white/10 hover:border-primary/50 transition-all">
+                    Provincia
+                </button>
+<button class="flex-none px-6 py-3 rounded-xl bg-white/5 text-white/60 font-bold border-2 border-white/10 hover:border-primary/50 transition-all">
+                    Santa Fe
+                </button>
+<button class="flex-none px-6 py-3 rounded-xl bg-white/5 text-white/60 font-bold border-2 border-white/10 hover:border-primary/50 transition-all">
+                    Córdoba
+                </button>
+</div>
+</section>
+<!-- Number Input Display -->
+<section class="flex flex-col items-center justify-center py-6">
+<span class="text-[10px] uppercase tracking-[0.3em] text-primary/60 mb-2">Número Jugado</span>
+<div class="text-7xl font-black tracking-tighter flex gap-2">
+<span class="text-white">1</span>
+<span class="text-white">2</span>
+<span class="text-white">4</span>
+<span class="text-primary animate-pulse">8</span>
+</div>
+<div class="mt-4 h-1 w-24 bg-primary/20 rounded-full overflow-hidden">
+<div class="h-full bg-primary w-3/4"></div>
+</div>
+</section>
+<!-- Custom Keypad -->
+<section class="grid grid-cols-3 gap-3">
+<button class="keypad-button h-16 rounded-xl bg-white/5 flex items-center justify-center text-2xl font-bold border border-white/5">1</button>
+<button class="keypad-button h-16 rounded-xl bg-white/5 flex items-center justify-center text-2xl font-bold border border-white/5">2</button>
+<button class="keypad-button h-16 rounded-xl bg-white/5 flex items-center justify-center text-2xl font-bold border border-white/5">3</button>
+<button class="keypad-button h-16 rounded-xl bg-white/5 flex items-center justify-center text-2xl font-bold border border-white/5">4</button>
+<button class="keypad-button h-16 rounded-xl bg-white/5 flex items-center justify-center text-2xl font-bold border border-white/5">5</button>
+<button class="keypad-button h-16 rounded-xl bg-white/5 flex items-center justify-center text-2xl font-bold border border-white/5">6</button>
+<button class="keypad-button h-16 rounded-xl bg-white/5 flex items-center justify-center text-2xl font-bold border border-white/5">7</button>
+<button class="keypad-button h-16 rounded-xl bg-white/5 flex items-center justify-center text-2xl font-bold border border-white/5">8</button>
+<button class="keypad-button h-16 rounded-xl bg-white/5 flex items-center justify-center text-2xl font-bold border border-white/5">9</button>
+<button class="keypad-button h-16 rounded-xl bg-white/5 flex items-center justify-center text-2xl font-bold border border-white/5 text-primary/40"><span class="material-icons">backspace</span></button>
+<button class="keypad-button h-16 rounded-xl bg-white/5 flex items-center justify-center text-2xl font-bold border border-white/5">0</button>
+<button class="keypad-button h-16 rounded-xl bg-primary/10 flex items-center justify-center text-2xl font-bold border border-primary/30 text-primary">OK</button>
+</section>
+<!-- Ubicación Selector -->
+<section>
+<h2 class="text-xs font-bold uppercase tracking-widest text-primary/50 mb-3 px-2">Ubicación</h2>
+<div class="grid grid-cols-2 gap-2">
+<button class="py-3 rounded-lg bg-primary/20 text-primary border border-primary/40 font-bold text-sm">A la Cabeza</button>
+<button class="py-3 rounded-lg bg-white/5 text-white/50 border border-white/10 font-bold text-sm">A los 5</button>
+<button class="py-3 rounded-lg bg-white/5 text-white/50 border border-white/10 font-bold text-sm">A los 10</button>
+<button class="py-3 rounded-lg bg-white/5 text-white/50 border border-white/10 font-bold text-sm">A los 20</button>
+</div>
+</section>
+<!-- Importe Input -->
+<section>
+<h2 class="text-xs font-bold uppercase tracking-widest text-primary/50 mb-3 px-2">Importe</h2>
+<div class="relative">
+<div class="absolute inset-y-0 left-4 flex items-center pointer-events-none">
+<span class="text-primary text-2xl font-bold">$</span>
+</div>
+<input class="w-full bg-white/5 border-2 border-white/10 rounded-2xl py-5 pl-12 pr-4 text-3xl font-black text-white focus:outline-none focus:border-primary transition-all placeholder:text-white/10" placeholder="0.00" type="number"/>
+</div>
+<div class="flex gap-2 mt-3 overflow-x-auto hide-scrollbar">
+<button class="px-4 py-2 rounded-full bg-white/5 border border-white/10 text-xs font-bold">+100</button>
+<button class="px-4 py-2 rounded-full bg-white/5 border border-white/10 text-xs font-bold">+500</button>
+<button class="px-4 py-2 rounded-full bg-white/5 border border-white/10 text-xs font-bold">+1000</button>
+<button class="px-4 py-2 rounded-full bg-white/5 border border-white/10 text-xs font-bold">+5000</button>
+</div>
+</section>
+</main>
+<!-- Bottom Action Bar -->
+<footer class="fixed bottom-0 left-0 right-0 bg-background-dark/90 backdrop-blur-xl border-t border-white/10 p-6 pb-10 space-y-4">
+<div class="flex items-center justify-between px-2">
+<div>
+<p class="text-[10px] uppercase font-bold text-white/40 tracking-wider">Premio Estimado</p>
+<p class="text-2xl font-black text-primary">$ 87.500,00</p>
+</div>
+<div class="text-right">
+<p class="text-[10px] uppercase font-bold text-white/40 tracking-wider">Multiplicador</p>
+<p class="text-lg font-bold text-white">70x</p>
+</div>
+</div>
+<button class="w-full bg-primary hover:bg-primary/90 text-black font-black py-4 rounded-2xl text-lg shadow-[0_8px_30px_rgba(255,102,0,0.4)] transition-all flex items-center justify-center gap-2">
+<span>CONFIRMAR JUGADA</span>
+<span class="material-icons">send</span>
+</button>
+</footer>
+<!-- Visual Decoration Elements (Glows) -->
+<div class="fixed -top-20 -right-20 w-64 h-64 bg-primary/10 rounded-full blur-[120px] pointer-events-none"></div>
+<div class="fixed top-1/2 -left-32 w-64 h-64 bg-primary/5 rounded-full blur-[100px] pointer-events-none"></div>
+</body></html>

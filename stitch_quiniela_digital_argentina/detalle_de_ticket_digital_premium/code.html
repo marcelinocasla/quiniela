@@ -1,0 +1,190 @@
+<html class="dark" lang="es"><head>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head><body class="bg-background-dark text-white min-h-screen flex flex-col font-display">```html
+
+
+
+
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              colors: {
+                "primary": "#ff6600",
+                "background-light": "#f8f7f5",
+                "background-dark": "#000000",
+              },
+              fontFamily: {
+                "display": ["Lexend"]
+              },
+              borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+            },
+          },
+        }
+      </script>
+<style>
+        body {
+            font-family: 'Lexend', sans-serif;
+            background-color: #000000;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .ticket-perforation {
+            background-image: radial-gradient(circle at 10px 10px, transparent 10px, rgba(255, 255, 255, 0.05) 10px);
+            background-size: 20px 20px;
+        }
+        .edge-cutout-left {
+            position: absolute;
+            left: -12px;
+            width: 24px;
+            height: 24px;
+            background-color: #000000;
+            border-radius: 50%;
+            z-index: 10;
+        }
+        .edge-cutout-right {
+            position: absolute;
+            right: -12px;
+            width: 24px;
+            height: 24px;
+            background-color: #000000;
+            border-radius: 50%;
+            z-index: 10;
+        }
+    </style>
+<!-- Top Navigation -->
+<header class="p-6 flex items-center justify-between">
+<button class="p-2 bg-white/5 rounded-full">
+<span class="material-icons text-white">chevron_left</span>
+</button>
+<h1 class="text-lg font-semibold tracking-tight">Detalle de Ticket</h1>
+<button class="p-2 bg-white/5 rounded-full">
+<span class="material-icons text-white text-xl">more_horiz</span>
+</button>
+</header>
+<main class="flex-1 px-6 pb-32">
+<!-- Floating Glassmorphic Ticket -->
+<div class="relative mt-4">
+<!-- Ticket Status Badge -->
+<div class="absolute -top-3 right-4 z-20">
+<span class="px-4 py-1.5 rounded-full text-[10px] font-bold tracking-widest bg-gradient-to-r from-green-500 to-emerald-600 text-white shadow-[0_0_15px_rgba(16,185,129,0.4)] uppercase">
+                    Ganador
+                </span>
+</div>
+<div class="glass-card rounded-2xl overflow-hidden relative">
+<!-- Ticket Header -->
+<div class="p-8 border-b border-white/10 relative">
+<div class="flex flex-col gap-1">
+<span class="text-white/40 text-[10px] uppercase tracking-[0.2em] font-medium">Comprobante Oficial</span>
+<h2 class="text-3xl font-bold text-white tracking-tight">#84920</h2>
+</div>
+<div class="mt-6 flex justify-between items-end">
+<div class="space-y-1">
+<p class="text-white/40 text-[10px] uppercase tracking-wider">Fecha y Hora</p>
+<p class="text-sm font-medium">22/10/2023 — 14:30</p>
+</div>
+<div class="text-right space-y-1">
+<p class="text-white/40 text-[10px] uppercase tracking-wider">Agencia</p>
+<p class="text-sm font-medium">Digital Premium #42</p>
+</div>
+</div>
+</div>
+<!-- Perforation Line Decoration -->
+<div class="relative h-6 flex items-center">
+<div class="edge-cutout-left top-1/2 -translate-y-1/2"></div>
+<div class="w-full border-t border-dashed border-white/20 mx-4"></div>
+<div class="edge-cutout-right top-1/2 -translate-y-1/2"></div>
+</div>
+<!-- Ticket Body: Bets List -->
+<div class="px-8 py-4 space-y-6">
+<div class="flex items-center justify-between">
+<div class="flex flex-col">
+<span class="text-primary text-4xl font-bold tracking-tighter">342</span>
+<span class="text-[10px] text-white/40 uppercase tracking-widest mt-1">Número Jugado</span>
+</div>
+<div class="text-right">
+<p class="text-sm font-medium text-white/80">A la Cabeza</p>
+<p class="text-lg font-bold text-white mt-1">$500</p>
+</div>
+</div>
+<div class="flex items-center justify-between opacity-80">
+<div class="flex flex-col">
+<span class="text-primary text-4xl font-bold tracking-tighter">189</span>
+<span class="text-[10px] text-white/40 uppercase tracking-widest mt-1">Número Jugado</span>
+</div>
+<div class="text-right">
+<p class="text-sm font-medium text-white/80">A los 10</p>
+<p class="text-lg font-bold text-white mt-1">$1.000</p>
+</div>
+</div>
+</div>
+<!-- Summary Section -->
+<div class="mt-4 mx-4 mb-4 p-6 bg-white/5 rounded-xl border border-white/10">
+<div class="space-y-3">
+<div class="flex justify-between items-center">
+<span class="text-white/50 text-xs">Total Apostado</span>
+<span class="text-sm font-medium">$1.500</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-white/50 text-xs">Comisión Agencia</span>
+<span class="text-sm font-medium">$150</span>
+</div>
+<div class="pt-3 border-t border-white/10 flex justify-between items-center">
+<span class="text-white/80 text-sm font-semibold">Premio Posible</span>
+<span class="text-primary text-xl font-bold">$25.000</span>
+</div>
+</div>
+</div>
+<!-- Perforation Bottom Decoration -->
+<div class="relative h-6 flex items-center">
+<div class="edge-cutout-left top-1/2 -translate-y-1/2"></div>
+<div class="w-full border-t border-dashed border-white/20 mx-4"></div>
+<div class="edge-cutout-right top-1/2 -translate-y-1/2"></div>
+</div>
+<!-- Ticket Footer QR -->
+<div class="p-8 flex flex-col items-center gap-4">
+<div class="w-24 h-24 bg-white p-2 rounded-lg">
+<img alt="QR Code" class="w-full h-full" data-alt="Black and white QR code for ticket verification" src="https://lh3.googleusercontent.com/aida-public/AB6AXuACUSo3S_iCXYGDAzFrLmZt6KWe-56tmVSLJfPT77mFHZKyYAmbuv-1g6pogKNpoDe6yHwPumep4O05SXWwWScYcAjw7PF1QpAyl33bpWjyjVJl2SM8tQfdecjChuyveIVcthUbcssW16aWFssI9QLBVv0kLRijmf-UlNu-N--jmuez5SdgzDnhqG7qkBv6GqUl5Xm1ceG_-bidI5HSinLyp-FeIKso-whDZMOLgHsVH_pQTpw5kODOJYM_zyU7gwENyxIhxQLYcJc"/>
+</div>
+<p class="text-[10px] text-white/30 uppercase tracking-[0.3em]">Escaneo de Seguridad</p>
+</div>
+</div>
+</div>
+</main>
+<!-- Sticky Bottom Actions (iOS Style) -->
+<div class="fixed bottom-0 left-0 right-0 p-6 pb-10 bg-gradient-to-t from-black via-black/90 to-transparent">
+<div class="flex flex-col gap-3 max-w-md mx-auto">
+<button class="w-full bg-primary hover:bg-primary/90 text-white font-bold py-4 rounded-xl flex items-center justify-center gap-3 transition-all active:scale-[0.98] shadow-lg shadow-primary/20">
+<span class="material-icons text-xl">share</span>
+                Compartir por WhatsApp
+            </button>
+<button class="w-full bg-transparent border border-white/20 hover:bg-white/5 text-white font-semibold py-4 rounded-xl flex items-center justify-center gap-3 transition-all active:scale-[0.98]">
+<span class="material-icons text-xl text-primary">replay</span>
+                Repetir Jugada
+            </button>
+</div>
+</div>
+
+
+```</body></html><!-- 
+Design Notes:
+- Background: Pure black #000000 for maximum depth.
+- Glassmorphism: Used for the main ticket card to create a premium "floating" effect.
+- Typography: Lexend throughout for a clean, geometric feel.
+- Perforations: Custom CSS for circle cut-outs on the sides of the ticket to mimic paper.
+- Accents: Vibrant orange (#ff6600) for primary actions and key data points.
+-->

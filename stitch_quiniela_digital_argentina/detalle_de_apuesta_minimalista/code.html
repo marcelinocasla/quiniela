@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Detalle de Apuesta Minimalista</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#f2690d",
+              "background-light": "#f8f7f5",
+              "background-dark": "#000000", /* Pure black as requested */
+            },
+            fontFamily: {
+              "display": ["Lexend"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+        .glass-badge {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        body {
+            -webkit-tap-highlight-color: transparent;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-white min-h-screen flex flex-col items-center">
+<!-- Header Navigation -->
+<header class="w-full max-w-md px-6 pt-12 pb-6 flex items-center justify-between sticky top-0 z-50 bg-background-dark/80 backdrop-blur-md">
+<button class="p-2 -ml-2 hover:bg-white/10 rounded-full transition-colors">
+<span class="material-icons-round text-white text-2xl">arrow_back_ios_new</span>
+</button>
+<h1 class="text-lg font-medium tracking-tight">Detalle de Apuesta</h1>
+<div class="w-10"></div> <!-- Spacer for centering -->
+</header>
+<!-- Main Content Area -->
+<main class="w-full max-w-md px-6 flex-grow flex flex-col items-center">
+<!-- Status Badge -->
+<div class="glass-badge px-6 py-2 rounded-full mb-8">
+<span class="text-xs font-semibold tracking-widest text-zinc-400 uppercase">Pendiente</span>
+</div>
+<!-- Central Ticket Card -->
+<div class="glass-card w-full rounded-xl p-6 relative overflow-hidden">
+<!-- Subtle glow effect top -->
+<div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary/40 to-transparent"></div>
+<!-- Ticket Info Header -->
+<div class="flex justify-between items-start mb-8">
+<div>
+<p class="text-[10px] uppercase tracking-wider text-zinc-500 mb-1">Agencia</p>
+<p class="text-sm font-medium">#0942 - El Trébol</p>
+</div>
+<div class="text-right">
+<p class="text-[10px] uppercase tracking-wider text-zinc-500 mb-1">Fecha &amp; Hora</p>
+<p class="text-sm font-medium">14 May, 11:30 AM</p>
+</div>
+</div>
+<div class="mb-8">
+<p class="text-[10px] uppercase tracking-wider text-zinc-500 mb-1">Sorteo</p>
+<p class="text-lg font-semibold text-primary">Quiniela Matutina</p>
+</div>
+<!-- Numbers List -->
+<div class="space-y-4 mb-10">
+<div class="flex items-center justify-between py-3 border-b border-white/5">
+<div class="flex flex-col">
+<span class="text-[10px] text-zinc-500 uppercase">Ubicación 1</span>
+<span class="text-2xl font-bold tracking-tighter text-primary">4823</span>
+</div>
+<div class="text-right">
+<span class="text-[10px] text-zinc-500 uppercase">Importe</span>
+<span class="block text-sm font-medium">$250.00</span>
+</div>
+</div>
+<div class="flex items-center justify-between py-3 border-b border-white/5">
+<div class="flex flex-col">
+<span class="text-[10px] text-zinc-500 uppercase">Ubicación 5</span>
+<span class="text-2xl font-bold tracking-tighter text-primary">0912</span>
+</div>
+<div class="text-right">
+<span class="text-[10px] text-zinc-500 uppercase">Importe</span>
+<span class="block text-sm font-medium">$150.00</span>
+</div>
+</div>
+<div class="flex items-center justify-between py-3">
+<div class="flex flex-col">
+<span class="text-[10px] text-zinc-500 uppercase">Ubicación 10</span>
+<span class="text-2xl font-bold tracking-tighter text-primary">3344</span>
+</div>
+<div class="text-right">
+<span class="text-[10px] text-zinc-500 uppercase">Importe</span>
+<span class="block text-sm font-medium">$100.00</span>
+</div>
+</div>
+</div>
+<!-- Economic Summary -->
+<div class="pt-6 border-t border-white/10 space-y-3">
+<div class="flex justify-between items-center">
+<span class="text-sm text-zinc-400">Subtotal</span>
+<span class="text-sm font-medium">$500.00</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-sm text-zinc-400">Bonificación</span>
+<span class="text-sm font-medium text-green-500">-$0.00</span>
+</div>
+<div class="flex justify-between items-center pt-3 mt-3 border-t border-white/5">
+<span class="text-md font-medium text-zinc-200 uppercase tracking-widest text-xs">Total Apuesta</span>
+<span class="text-2xl font-bold text-white tracking-tight">$500.00</span>
+</div>
+</div>
+</div>
+<!-- Ticket Footer Meta -->
+<div class="mt-8 text-center px-4">
+<p class="text-[10px] text-zinc-600 uppercase tracking-widest leading-relaxed">
+                ID de Transacción: AF78-2234-90LL<br/>
+                Comprobante Digital Válido para Cobro
+            </p>
+</div>
+</main>
+<!-- Bottom Action Dock -->
+<footer class="w-full max-w-md p-6 space-y-3 mt-auto pb-10">
+<button class="w-full bg-primary hover:bg-primary/90 text-white font-semibold py-4 rounded-xl shadow-lg shadow-primary/20 flex items-center justify-center gap-2 transition-all active:scale-[0.98]">
+<span class="material-icons-round text-xl">share</span>
+            Compartir Ticket
+        </button>
+<button class="w-full bg-transparent border border-primary/40 hover:border-primary text-primary font-semibold py-4 rounded-xl flex items-center justify-center gap-2 transition-all active:scale-[0.98]">
+<span class="material-icons-round text-xl">replay</span>
+            Repetir Jugada
+        </button>
+</footer>
+<!-- Decorative Elements -->
+<div class="fixed top-1/4 -right-20 w-64 h-64 bg-primary/10 blur-[120px] pointer-events-none"></div>
+<div class="fixed bottom-1/4 -left-20 w-64 h-64 bg-primary/5 blur-[120px] pointer-events-none"></div>
+</body></html>
