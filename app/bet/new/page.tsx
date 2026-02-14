@@ -4,84 +4,85 @@ import { useState, useEffect } from "react"
 import { useAuth } from "@/components/auth-provider"
 import { useRouter } from "next/navigation"
 import { supabase } from "@/lib/supabase"
-import BottomNav from "@/components/BottomNav"
-import { ChevronLeft, Trash2, Plus, Info, CheckCircle2 } from "lucide-react"
 import Link from "next/link"
+import { ChevronLeft, Trash2, CheckCircle2, Eraser, ArrowRight, Delete } from "lucide-react"
 
 export default function NewBetPage() {
     const { user, loading } = useAuth()
     const router = useRouter()
 
-    // State for form inputs
-    const [selectedLotteries, setSelectedLotteries] = useState<string[]>([])
+    // State
+    const [step, setStep] = useState(1) // 1: Turno, 2: Lotería, 3: Números
     const [selectedShift, setSelectedShift] = useState<string>("")
+    const [selectedLotteries, setSelectedLotteries] = useState<string[]>([])
+
+    // Input State
+    const [activeField, setActiveField] = useState<'number' | 'amount'>('number')
     const [number, setNumber] = useState("")
     const [amount, setAmount] = useState("")
-    const [position, setPosition] = useState("1") // Default to 'A la Cabeza'
+    const [position, setPosition] = useState("1")
 
-    // State for the ticket (list of bets)
     const [ticket, setTicket] = useState<any[]>([])
     const [isSubmitting, setIsSubmitting] = useState(false)
     const [showSuccess, setShowSuccess] = useState(false)
 
-    // Derived state
-    const totalAmount = ticket.reduce((sum, item) => sum + item.amount, 0)
-
-    // Configuration Options
-    const lotteries = [
-        { id: 'nacional', name: 'Nacional' },
-        { id: 'provincia', name: 'Provincia' },
-        { id: 'santafe', name: 'Santa Fe' },
-        { id: 'cordoba', name: 'Córdoba' },
-        { id: 'entrerios', name: 'Entre Ríos' },
+    // Configuration
+    const shifts = [
+        { id: 'previa', name: 'LA PREVIA', time: '10:15' },
+        { id: 'primera', name: 'LA PRIMERA', time: '12:00' },
+        { id: 'matutina', name: 'MATUTINA', time: '15:00' },
+        { id: 'vespertina', name: 'VESPERTINA', time: '18:00' },
+        { id: 'nocturna', name: 'NOCTURNA', time: '21:00' },
     ]
 
-    const shifts = [
-        { id: 'previa', name: 'La Previa', time: '10:15' },
-        { id: 'primera', name: 'La Primera', time: '12:00' },
-        { id: 'matutina', name: 'Matutina', time: '15:00' },
-        { id: 'vespertina', name: 'Vespertina', time: '18:00' },
-        { id: 'nocturna', name: 'Nocturna', time: '21:00' },
+    const lotteries = [
+        { id: 'nacional', name: 'NACIONAL' },
+        { id: 'provincia', name: 'PROVINCIA' },
+        { id: 'santafe', name: 'SANTA FE' },
+        { id: 'cordoba', name: 'CÓRDOBA' },
+        { id: 'entrerios', name: 'ENTRE RÍOS' },
     ]
 
     const positions = [
-        { id: '1', name: 'A la Cabeza (1)' },
-        { id: '5', name: 'A los 5' },
-        { id: '10', name: 'A los 10' },
-        { id: '20', name: 'A los 20' },
+        { id: '1', name: 'CABEZA' },
+        { id: '5', name: 'A LOS 5' },
+        { id: '10', name: 'A LOS 10' },
+        { id: '20', name: 'A LOS 20' },
     ]
 
     useEffect(() => {
-        if (!loading && !user) {
-            router.push("/login")
-        }
+        if (!loading && !user) router.push("/login")
     }, [user, loading, router])
 
-    const handleAddLine = () => {
-        if (!selectedShift) {
-            alert("Selecciona un turno")
-            return
+    // Keypad Logic
+    const handleKeypadPress = (val: string) => {
+        if (activeField === 'number') {
+            if (number.length >= 4) return
+            setNumber(prev => prev + val)
+        } else {
+            if (amount.length >= 6) return
+            setAmount(prev => prev + val)
         }
-        if (selectedLotteries.length === 0) {
-            alert("Selecciona al menos una lotería")
-            return
-        }
-        if (!number || number.length < 2 || number.length > 4) {
-            alert("El número debe tener entre 2 y 4 cifras")
-            return
-        }
-        if (!amount || Number(amount) < 1) {
-            alert("Ingresa un monto válido")
-            return
-        }
+    }
 
-        // Add a line for each selected lottery
+    const handleBackspace = () => {
+        if (activeField === 'number') setNumber(prev => prev.slice(0, -1))
+        else setAmount(prev => prev.slice(0, -1))
+    }
+
+    const handleAddLine = () => {
+        if (!selectedShift) return alert("Falta el Turno")
+        if (selectedLotteries.length === 0) return alert("Falta Lotería")
+        if (number.length < 2) return alert("Número mínimo 2 cifras")
+        if (!amount || Number(amount) < 1) return alert("Monto inválido")
+
         const newLines = selectedLotteries.map(lotteryId => {
-            const lotteryName = lotteries.find(l => l.id === lotteryId)?.name || lotteryId
+            const lotteryName = lotteries.find(l => l.id === lotteryId)?.name
+            const shiftName = shifts.find(s => s.id === selectedShift)?.name
             return {
-                id: Date.now() + Math.random(), // Temp unique ID
+                id: Date.now() + Math.random(),
                 lottery: lotteryName,
-                shift: shifts.find(s => s.id === selectedShift)?.name,
+                shift: shiftName,
                 number,
                 position: Number(position),
                 amount: Number(amount)
@@ -89,15 +90,10 @@ export default function NewBetPage() {
         })
 
         setTicket([...ticket, ...newLines])
-
-        // Reset inputs mostly, keep shift/lottery for convenience? 
-        // Let's reset number and amount for rapid entry
         setNumber("")
         setAmount("")
-    }
-
-    const removeLine = (id: number) => {
-        setTicket(ticket.filter(item => item.id !== id))
+        setActiveField('number') // Reset focus
+        // Optional: Scroll to receipt?
     }
 
     const handlePlaceBet = async () => {
@@ -105,233 +101,221 @@ export default function NewBetPage() {
         setIsSubmitting(true)
 
         try {
-            // Prepare data for Supabase
             const betsToInsert = ticket.map(item => ({
-                user_id: user?.uid, // Using Firebase UID stored in profile
-                lottery: item.lottery, // Schema expects 'lottery' text
+                user_id: user?.uid,
+                lottery: `${item.lottery} - ${item.shift}`,
                 number: item.number,
                 position: item.position,
                 amount: item.amount,
                 status: 'pending',
                 possible_prize: calculatePrize(item.number, item.amount, item.position)
             }))
-            // Note: 'shift'/draw_time column might be missing in schema based on previous view? 
-            // Let's check schema later. For now assuming 'lottery' might handle it or we need a column.
-            // Actually, looking at dashboard mocks, we might need to store shift.
-            // But schema.sql viewed earlier had: lottery, number, position, amount, status, possible_prize. 
-            // Ideally we should concatenate lottery + shift or just store into 'lottery' column like "Nacional - Matutina".
 
-            const finalBets = betsToInsert.map(b => ({
-                ...b,
-                lottery: `${b.lottery} - ${ticket.find(t => t.number === b.number && t.amount === b.amount)?.shift}`
-            }))
-
-            const { error } = await supabase
-                .from('bets')
-                .insert(finalBets)
-
+            const { error } = await supabase.from('bets').insert(betsToInsert)
             if (error) throw error
 
             setShowSuccess(true)
-            setTimeout(() => {
-                router.push('/dashboard')
-            }, 3000)
-
+            setTimeout(() => router.push('/dashboard'), 3000)
         } catch (error: any) {
-            console.error("Error placing bet:", error)
-            alert("Error al realizar la jugada: " + error.message)
+            alert("Error: " + error.message)
         } finally {
             setIsSubmitting(false)
         }
     }
 
     const calculatePrize = (number: string, amount: number, pos: number) => {
-        // Standard multipliers (approx)
         let multiplier = 0
-        const digits = number.length
-
-        if (digits === 2) multiplier = 70
-        if (digits === 3) multiplier = 600
-        if (digits === 4) multiplier = 3500
-
-        // Divide by position (if betting to 10, prize is 1/10th)
+        if (number.length === 2) multiplier = 70
+        if (number.length === 3) multiplier = 600
+        if (number.length === 4) multiplier = 3500
         return (amount * multiplier) / pos
     }
 
     const toggleLottery = (id: string) => {
-        if (selectedLotteries.includes(id)) {
-            setSelectedLotteries(selectedLotteries.filter(l => l !== id))
-        } else {
-            setSelectedLotteries([...selectedLotteries, id])
-        }
-    }
-
-    if (loading) return null
-
-    if (showSuccess) {
-        return (
-            <div className="min-h-screen flex items-center justify-center bg-background text-white p-6">
-                <div className="glass-card p-10 rounded-3xl text-center space-y-6 max-w-sm w-full border border-primary/20 relative overflow-hidden">
-                    <div className="absolute inset-0 bg-primary/10 blur-xl"></div>
-                    <div className="w-20 h-20 bg-primary/20 rounded-full flex items-center justify-center mx-auto relative z-10">
-                        <CheckCircle2 className="w-10 h-10 text-primary" />
-                    </div>
-                    <div className="relative z-10">
-                        <h2 className="text-2xl font-bold text-white mb-2">¡Jugada Realizada!</h2>
-                        <p className="text-white/60">Tu ticket ha sido generado con éxito. ¡Mucha suerte!</p>
-                    </div>
-                </div>
-            </div>
+        setSelectedLotteries(prev =>
+            prev.includes(id) ? prev.filter(l => l !== id) : [...prev, id]
         )
     }
 
+    if (loading) return null
+    if (showSuccess) return (
+        <div className="min-h-screen bg-[#020617] flex items-center justify-center p-6 text-white text-center">
+            <div className="space-y-6">
+                <CheckCircle2 className="w-24 h-24 text-[#CCFF00] mx-auto animate-bounce" />
+                <h1 className="text-4xl font-black text-[#CCFF00]">¡JUGADA EXITOSA!</h1>
+                <p className="text-xl">Mucha suerte 🍀</p>
+            </div>
+        </div>
+    )
+
     return (
-        <div className="min-h-screen bg-background text-white font-sans selection:bg-primary/30 pb-32 antialiased">
-            {/* Navbar */}
-            <header className="sticky top-0 z-40 bg-background/80 backdrop-blur-xl border-b border-white/5 px-4 py-4 flex items-center gap-4">
-                <Link href="/dashboard" className="p-2 rounded-xl hover:bg-white/5 transition-colors">
-                    <ChevronLeft className="w-6 h-6 text-white" />
+        <div className="min-h-screen bg-[#020617] text-white font-sans selection:bg-[#CCFF00]/30 pb-32">
+
+            {/* High Contrast Header */}
+            <header className="bg-[#0f172a] border-b border-white/10 px-4 py-4 flex items-center justify-between sticky top-0 z-50 shadow-lg">
+                <Link href="/dashboard" className="p-2 bg-white/10 rounded-lg">
+                    <ChevronLeft className="w-8 h-8 text-white" />
                 </Link>
-                <h1 className="text-lg font-bold">Nueva Jugada</h1>
+                <h1 className="text-2xl font-black tracking-wider text-white">NUEVA JUGADA</h1>
+                <div className="w-12" /> {/* Spacer */}
             </header>
 
-            <main className="px-4 py-6 space-y-8 max-w-xl mx-auto">
+            <main className="px-4 py-6 space-y-8 max-w-lg mx-auto">
 
-                {/* 1. Select Shift */}
+                {/* STEP 1: TURNO */}
                 <section>
-                    <label className="text-[10px] uppercase tracking-widest text-primary/80 font-bold mb-3 block">1. Elige el Turno</label>
-                    <div className="flex gap-2 overflow-x-auto hide-scrollbar pb-2">
+                    <h2 className="text-[#CCFF00] text-lg font-black uppercase tracking-widest mb-3 border-b border-[#CCFF00]/20 pb-1">1. ¿Qué Turno?</h2>
+                    <div className="grid grid-cols-1 gap-3">
                         {shifts.map(shift => (
                             <button
                                 key={shift.id}
                                 onClick={() => setSelectedShift(shift.id)}
-                                className={`flex-shrink-0 px-4 py-3 rounded-xl border transition-all ${selectedShift === shift.id ? 'bg-primary text-primary-foreground border-primary shadow-[0_0_15px_rgba(57,255,20,0.3)]' : 'bg-white/5 border-white/5 text-white/60 hover:bg-white/10'}`}
+                                className={`w-full py-4 px-6 rounded-xl border-2 flex items-center justify-between transition-all active:scale-[0.98] ${selectedShift === shift.id
+                                        ? 'bg-[#CCFF00] border-[#CCFF00] text-black shadow-[0_0_20px_rgba(204,255,0,0.4)]'
+                                        : 'bg-[#1e293b] border-white/10 text-white hover:bg-[#334155]'
+                                    }`}
                             >
-                                <span className="block text-sm font-bold">{shift.name}</span>
-                                <span className={`text-[10px] font-medium opacity-80 block mt-0.5`}>{shift.time}</span>
+                                <span className="text-xl font-bold">{shift.name}</span>
+                                <span className={`text-sm font-bold ${selectedShift === shift.id ? 'text-black/80' : 'text-white/50'}`}>{shift.time}</span>
                             </button>
                         ))}
                     </div>
                 </section>
 
-                {/* 2. Select Lotteries */}
+                {/* STEP 2: LOTERIA */}
                 <section>
-                    <label className="text-[10px] uppercase tracking-widest text-primary/80 font-bold mb-3 block">2. Selecciona Loterías</label>
-                    <div className="grid grid-cols-2 gap-3">
+                    <h2 className="text-[#CCFF00] text-lg font-black uppercase tracking-widest mb-3 border-b border-[#CCFF00]/20 pb-1">2. ¿Qué Lotería?</h2>
+                    <div className="grid grid-cols-1 gap-3">
                         {lotteries.map(lottery => (
                             <button
                                 key={lottery.id}
                                 onClick={() => toggleLottery(lottery.id)}
-                                className={`flex items-center gap-3 px-4 py-3 rounded-xl border transition-all relative overflow-hidden group ${selectedLotteries.includes(lottery.id) ? 'bg-white/10 border-primary/50 text-white' : 'bg-white/5 border-white/5 text-white/40 hover:bg-white/10'}`}
+                                className={`w-full py-4 px-6 rounded-xl border-2 flex items-center gap-4 transition-all active:scale-[0.98] ${selectedLotteries.includes(lottery.id)
+                                        ? 'bg-blue-600 border-blue-600 text-white shadow-lg'
+                                        : 'bg-[#1e293b] border-white/10 text-white hover:bg-[#334155]'
+                                    }`}
                             >
-                                <div className={`w-4 h-4 rounded-full border flex items-center justify-center transition-colors ${selectedLotteries.includes(lottery.id) ? 'border-primary bg-primary' : 'border-white/30'}`}>
-                                    {selectedLotteries.includes(lottery.id) && <span className="text-[8px] text-black font-bold">✓</span>}
+                                <div className={`w-8 h-8 rounded-full border-2 flex items-center justify-center ${selectedLotteries.includes(lottery.id) ? 'bg-white border-white text-blue-600' : 'border-white/30'
+                                    }`}>
+                                    {selectedLotteries.includes(lottery.id) && <span className="font-black">✓</span>}
                                 </div>
-                                <span className="text-sm font-bold">{lottery.name}</span>
+                                <span className="text-xl font-bold">{lottery.name}</span>
                             </button>
                         ))}
                     </div>
                 </section>
 
-                {/* 3. Input Numbers */}
-                <section className="glass-card p-5 rounded-3xl border border-white/10">
-                    <label className="text-[10px] uppercase tracking-widest text-white/40 font-bold mb-4 block">3. Detalle de Apuesta</label>
+                {/* STEP 3: NUMEROS (Keypad) */}
+                <section className="bg-[#1e293b] p-4 rounded-3xl border border-white/10 shadow-2xl">
+                    <h2 className="text-[#CCFF00] text-lg font-black uppercase tracking-widest mb-4 border-b border-[#CCFF00]/20 pb-1">3. Tu Apuesta</h2>
 
-                    <div className="space-y-4">
-                        <div className="grid grid-cols-2 gap-4">
-                            <div>
-                                <label className="text-xs text-white/60 mb-1.5 block ml-1">Número</label>
-                                <input
-                                    type="tel"
-                                    maxLength={4}
-                                    value={number}
-                                    onChange={(e) => setNumber(e.target.value.replace(/\D/g, ''))}
-                                    placeholder="1234"
-                                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-xl font-black text-center text-white placeholder:text-white/10 focus:border-primary/50 focus:ring-4 focus:ring-primary/10 outline-none transition-all"
-                                />
-                            </div>
-                            <div>
-                                <label className="text-xs text-white/60 mb-1.5 block ml-1">Monto ($)</label>
-                                <input
-                                    type="number"
-                                    value={amount}
-                                    onChange={(e) => setAmount(e.target.value)}
-                                    placeholder="100"
-                                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-xl font-black text-center text-primary placeholder:text-white/10 focus:border-primary/50 focus:ring-4 focus:ring-primary/10 outline-none transition-all"
-                                />
-                            </div>
-                        </div>
-
-                        <div>
-                            <label className="text-xs text-white/60 mb-1.5 block ml-1">Ubicación</label>
-                            <div className="flex bg-white/5 p-1 rounded-xl">
-                                {positions.map(pos => (
-                                    <button
-                                        key={pos.id}
-                                        onClick={() => setPosition(pos.id)}
-                                        className={`flex-1 py-2 rounded-lg text-xs font-bold transition-all ${position === pos.id ? 'bg-white/10 text-white shadow-sm' : 'text-white/40 hover:text-white/60'}`}
-                                    >
-                                        {pos.name.replace('A la ', '').replace('A los ', '')}
-                                    </button>
-                                ))}
-                            </div>
-                        </div>
-
-                        <button
-                            onClick={handleAddLine}
-                            className="w-full py-4 bg-white/5 hover:bg-white/10 border border-white/10 rounded-2xl flex items-center justify-center gap-2 text-white font-bold uppercase text-xs tracking-widest transition-all active:scale-[0.98]"
+                    {/* Display Inputs */}
+                    <div className="grid grid-cols-2 gap-4 mb-6">
+                        <div
+                            onClick={() => setActiveField('number')}
+                            className={`p-4 rounded-2xl border-2 cursor-pointer transition-all text-center ${activeField === 'number' ? 'border-[#CCFF00] bg-white/5 shadow-inner' : 'border-white/10 bg-black/20'
+                                }`}
                         >
-                            <Plus className="w-4 h-4" />
-                            Agregar al Ticket
+                            <label className="text-xs text-white/50 font-bold uppercase block mb-1">NÚMERO</label>
+                            <div className={`text-4xl font-black tracking-widest h-12 flex items-center justify-center ${!number ? 'text-white/20' : 'text-white'}`}>
+                                {number || "----"}
+                            </div>
+                        </div>
+                        <div
+                            onClick={() => setActiveField('amount')}
+                            className={`p-4 rounded-2xl border-2 cursor-pointer transition-all text-center ${activeField === 'amount' ? 'border-[#CCFF00] bg-white/5 shadow-inner' : 'border-white/10 bg-black/20'
+                                }`}
+                        >
+                            <label className="text-xs text-white/50 font-bold uppercase block mb-1">MONTO</label>
+                            <div className={`text-4xl font-black tracking-widest h-12 flex items-center justify-center ${!amount ? 'text-white/20' : 'text-[#CCFF00]'}`}>
+                                {amount ? `$${amount}` : "$0"}
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Positions */}
+                    <div className="grid grid-cols-4 gap-2 mb-6">
+                        {positions.map(pos => (
+                            <button
+                                key={pos.id}
+                                onClick={() => setPosition(pos.id)}
+                                className={`py-2 rounded-lg text-[10px] font-bold uppercase border active:scale-95 transition-all ${position === pos.id ? 'bg-white text-black border-white' : 'bg-transparent text-white/50 border-white/20'
+                                    }`}
+                            >
+                                {pos.name}
+                            </button>
+                        ))}
+                    </div>
+
+                    {/* Keypad */}
+                    <div className="grid grid-cols-3 gap-3 mb-6">
+                        {[1, 2, 3, 4, 5, 6, 7, 8, 9].map(num => (
+                            <button
+                                key={num}
+                                onClick={() => handleKeypadPress(num.toString())}
+                                className="h-16 rounded-xl bg-[#334155] hover:bg-[#475569] text-white text-3xl font-bold shadow-lg active:translate-y-1 transition-all"
+                            >
+                                {num}
+                            </button>
+                        ))}
+                        <button
+                            onClick={() => setNumber("")} // Clear field? Or just backspace logic
+                            className="h-16 rounded-xl bg-red-900/40 hover:bg-red-900/60 text-red-500 font-bold flex items-center justify-center active:translate-y-1 transition-all"
+                        >
+                            <Trash2 />
+                        </button>
+                        <button
+                            onClick={() => handleKeypadPress("0")}
+                            className="h-16 rounded-xl bg-[#334155] hover:bg-[#475569] text-white text-3xl font-bold shadow-lg active:translate-y-1 transition-all"
+                        >
+                            0
+                        </button>
+                        <button
+                            onClick={handleBackspace}
+                            className="h-16 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold flex items-center justify-center active:translate-y-1 transition-all"
+                        >
+                            <Delete />
                         </button>
                     </div>
+
+                    <button
+                        onClick={handleAddLine}
+                        className="w-full py-5 rounded-2xl bg-blue-600 hover:bg-blue-500 text-white font-black text-xl uppercase tracking-widest shadow-lg active:scale-[0.98] transition-all flex items-center justify-center gap-3"
+                    >
+                        <ArrowRight className="w-6 h-6" /> AGREGAR
+                    </button>
                 </section>
 
-                {/* 4. Ticket Summary */}
+                {/* Ticket Summary */}
                 {ticket.length > 0 && (
-                    <section className="space-y-4 animate-in slide-in-from-bottom-4 duration-500">
-                        <div className="flex items-center justify-between px-1">
-                            <h3 className="text-lg font-bold">Tu Ticket</h3>
-                            <button onClick={() => setTicket([])} className="text-xs text-red-400 hover:text-red-300 flex items-center gap-1">
-                                <Trash2 className="w-3 h-3" /> Limpiar
-                            </button>
+                    <section className="bg-[#1e293b] p-4 rounded-3xl border border-white/10">
+                        <div className="flex items-center justify-between mb-4">
+                            <h3 className="font-bold text-white text-lg">TU TICKET ({ticket.length})</h3>
+                            <span className="text-2xl font-black text-[#CCFF00]">${ticket.reduce((a, b) => a + b.amount, 0)}</span>
                         </div>
-
-                        <div className="space-y-2">
-                            {ticket.map((item, idx) => (
-                                <div key={item.id} className="bg-white/5 border border-white/5 rounded-2xl p-4 flex items-center justify-between">
-                                    <div className="flex items-center gap-4">
-                                        <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary font-black text-lg">
-                                            {item.number}
-                                        </div>
-                                        <div>
-                                            <p className="text-xs text-white font-bold">{item.lottery} • {item.shift}</p>
-                                            <p className="text-[10px] text-white/40 uppercase font-bold mt-0.5">A los {item.position}</p>
-                                        </div>
+                        <div className="space-y-3 max-h-60 overflow-y-auto mb-4">
+                            {ticket.map((item) => (
+                                <div key={item.id} className="bg-black/40 p-3 rounded-xl flex justify-between items-center border border-white/5">
+                                    <div className="leading-tight">
+                                        <div className="font-black text-white text-xl">{item.number}</div>
+                                        <div className="text-[10px] text-white/50 uppercase">{item.lottery} • {item.shift}</div>
                                     </div>
-                                    <div className="flex items-center gap-4">
-                                        <span className="font-bold text-primary">${item.amount}</span>
-                                        <button onClick={() => removeLine(item.id)} className="text-white/20 hover:text-red-400">
-                                            <Trash2 className="w-4 h-4" />
+                                    <div className="flex items-center gap-3">
+                                        <span className="font-bold text-[#CCFF00] text-lg">${item.amount}</span>
+                                        <button onClick={() => setTicket(ticket.filter(t => t.id !== item.id))} className="text-red-500">
+                                            <Trash2 className="w-5 h-5" />
                                         </button>
                                     </div>
                                 </div>
                             ))}
                         </div>
-
-                        <div className="glass-card p-6 rounded-3xl border border-primary/20 bg-gradient-to-br from-primary/10 to-transparent">
-                            <div className="flex justify-between items-end mb-4">
-                                <span className="text-sm font-bold text-white/60 uppercase tracking-widest">Total a Pagar</span>
-                                <span className="text-4xl font-black text-white tracking-tighter">${totalAmount.toLocaleString('es-AR')}</span>
-                            </div>
-                            <button
-                                onClick={handlePlaceBet}
-                                disabled={isSubmitting}
-                                className="w-full bg-primary hover:bg-primary/90 text-primary-foreground py-4 rounded-2xl font-black text-lg uppercase tracking-widest shadow-[0_0_20px_rgba(57,255,20,0.3)] hover:shadow-[0_0_30px_rgba(57,255,20,0.5)] transition-all active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed"
-                            >
-                                {isSubmitting ? 'Procesando...' : 'Confirmar Jugada'}
-                            </button>
-                        </div>
+                        <button
+                            onClick={handlePlaceBet}
+                            disabled={isSubmitting}
+                            className="w-full py-6 rounded-2xl bg-[#CCFF00] hover:bg-[#b2df00] text-black font-black text-2xl uppercase tracking-widest shadow-[0_0_30px_rgba(204,255,0,0.3)] active:scale-[0.95] transition-all disabled:opacity-50"
+                        >
+                            {isSubmitting ? 'ENVIANDO...' : 'CONFIRMAR TODO'}
+                        </button>
                     </section>
                 )}
 

@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 import BottomNav from "@/components/BottomNav"
 import { supabase } from "@/lib/supabase"
 import Link from "next/link"
-import { Loader2, TrendingUp, Users, DollarSign, Trophy, Settings, Plus, ArrowUpRight, ArrowDownRight, Dices, Settings2, ChevronRight } from "lucide-react"
+import { Loader2, TrendingUp, Users, DollarSign, Trophy, Settings, Plus, ArrowUpRight, ArrowDownRight, Dices, Settings2, ChevronRight, Ticket } from "lucide-react"
 import { cn } from "@/lib/utils"
 import {
     Chart as ChartJS,
@@ -228,7 +228,7 @@ export default function AdminDashboard() {
                             </div>
 
                             {/* Navigation Actions */}
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                                 <Link href="/admin/results" className="glass-card p-6 rounded-3xl border border-white/5 hover:bg-white/5 transition-all group relative overflow-hidden flex items-center justify-between">
                                     <div className="absolute top-0 right-0 w-32 h-32 bg-primary/10 rounded-full blur-[40px] group-hover:bg-primary/20 transition-all"></div>
                                     <div className="relative z-10 flex items-center gap-4">
@@ -241,6 +241,20 @@ export default function AdminDashboard() {
                                         </div>
                                     </div>
                                     <ChevronRight className="h-5 w-5 text-white/20 group-hover:text-primary transition-colors relative z-10" />
+                                </Link>
+
+                                <Link href="/admin/tickets" className="glass-card p-6 rounded-3xl border border-white/5 hover:bg-white/5 transition-all group relative overflow-hidden flex items-center justify-between">
+                                    <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/10 rounded-full blur-[40px] group-hover:bg-blue-500/20 transition-all"></div>
+                                    <div className="relative z-10 flex items-center gap-4">
+                                        <div className="w-12 h-12 rounded-2xl bg-blue-500/20 flex items-center justify-center text-blue-400 group-hover:scale-110 transition-transform">
+                                            <Ticket className="h-6 w-6" />
+                                        </div>
+                                        <div>
+                                            <h3 className="text-lg font-bold text-white group-hover:text-blue-400 transition-colors">Gestionar Tickets</h3>
+                                            <p className="text-[10px] text-white/40 font-bold uppercase tracking-wider">Control y Anulación</p>
+                                        </div>
+                                    </div>
+                                    <ChevronRight className="h-5 w-5 text-white/20 group-hover:text-blue-400 transition-colors relative z-10" />
                                 </Link>
 
                                 <Link href="/admin/config" className="glass-card p-6 rounded-3xl border border-white/5 hover:bg-white/5 transition-all group relative overflow-hidden flex items-center justify-between">
