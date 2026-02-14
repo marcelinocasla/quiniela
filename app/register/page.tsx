@@ -10,7 +10,7 @@ export default function RegisterPage() {
     const [password, setPassword] = useState("")
     const [name, setName] = useState("")
     const [error, setError] = useState("")
-    const { signUpWithEmail, signInWithGoogle } = useAuth()
+    const { signUpWithEmail, signInWithGoogle, signInWithFacebook } = useAuth()
     const router = useRouter()
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -33,19 +33,34 @@ export default function RegisterPage() {
             } else if (err.code === 'auth/popup-closed-by-user') {
                 setError("Se cerró la ventana de registro.")
             } else {
-                setError("Error al registrarse. Intente nuevamente.")
+                setError("Error al registrarse con Google. Intente nuevamente.")
+            }
+        }
+    }
+
+    const handleFacebookLogin = async () => {
+        try {
+            await signInWithFacebook()
+            router.push("/dashboard")
+        } catch (err: any) {
+            if (err.code === 'auth/unauthorized-domain' || err.message.includes('unauthorized-domain')) {
+                setError("El dominio actual no está autorizado en Firebase. Contacte al administrador.")
+            } else if (err.code === 'auth/popup-closed-by-user') {
+                setError("Se cerró la ventana de registro.")
+            } else {
+                console.error(err)
+                setError("Error al registrarse con Facebook. Intente nuevamente.")
             }
         }
     }
 
     return (
-        <div className="min-h-screen flex flex-col max-w-md mx-auto relative overflow-hidden bg-background font-sans text-white selection:bg-primary/30 transition-colors">
+        <div className="min-h-screen w-full flex items-center justify-center relative overflow-hidden bg-background font-sans text-white selection:bg-primary/30 transition-colors">
             {/* Background Accent Glows - Fluor Yellow & Cyan */}
-            <div className="absolute -top-40 -left-40 w-96 h-96 bg-primary/20 rounded-full blur-[150px] animate-pulse"></div>
-            <div className="absolute top-1/2 -right-40 w-80 h-80 bg-blue-600/10 rounded-full blur-[120px]"></div>
-            <div className="absolute -bottom-40 left-10 w-80 h-80 bg-primary/10 rounded-full blur-[120px]"></div>
+            <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-primary/20 rounded-full blur-[150px] animate-pulse"></div>
+            <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-blue-600/20 rounded-full blur-[150px]"></div>
 
-            <div className="flex-1 flex flex-col px-8 pt-12 pb-8 z-10 justify-center">
+            <div className="w-full max-w-md flex flex-col px-8 z-10 justify-center">
                 {/* Logo Section */}
                 <div className="flex flex-col items-center mb-10">
                     <div className="w-24 h-24 bg-gradient-to-br from-primary/20 to-primary/5 rounded-3xl flex items-center justify-center mb-6 shadow-[0_0_50px_rgba(204,255,0,0.2)] border border-primary/30 backdrop-blur-xl relative group">
@@ -133,7 +148,7 @@ export default function RegisterPage() {
                             <img src="https://www.google.com/favicon.ico" alt="Google" className="w-5 h-5 opacity-70 group-hover:opacity-100 transition-opacity grayscale group-hover:grayscale-0" />
                             <span className="text-xs font-bold text-white/60 group-hover:text-white transition-colors">Google</span>
                         </button>
-                        <button type="button" className="flex items-center justify-center gap-3 py-4 border border-white/5 bg-white/[0.02] rounded-2xl hover:bg-white/5 transition-all active:scale-95 group">
+                        <button onClick={handleFacebookLogin} type="button" className="flex items-center justify-center gap-3 py-4 border border-white/5 bg-white/[0.02] rounded-2xl hover:bg-white/5 transition-all active:scale-95 group">
                             <span className="material-icons-round text-white/60 group-hover:text-[#1877F2] transition-colors text-lg">facebook</span>
                             <span className="text-xs font-bold text-white/60 group-hover:text-white transition-colors">Facebook</span>
                         </button>

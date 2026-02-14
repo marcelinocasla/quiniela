@@ -6,6 +6,7 @@ import {
     onAuthStateChanged,
     signInWithPopup,
     GoogleAuthProvider,
+    FacebookAuthProvider,
     signInWithEmailAndPassword,
     createUserWithEmailAndPassword,
     signOut as firebaseSignOut
@@ -18,6 +19,7 @@ interface AuthContextType {
     profile: any | null;
     loading: boolean;
     signInWithGoogle: () => Promise<void>;
+    signInWithFacebook: () => Promise<void>;
     signInWithEmail: (email: string, password: string) => Promise<void>;
     signUpWithEmail: (email: string, password: string) => Promise<void>;
     signOut: () => Promise<void>;
@@ -28,6 +30,7 @@ const AuthContext = createContext<AuthContextType>({
     profile: null,
     loading: true,
     signInWithGoogle: async () => { },
+    signInWithFacebook: async () => { },
     signInWithEmail: async () => { },
     signUpWithEmail: async () => { },
     signOut: async () => { },
@@ -44,6 +47,16 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
             await signInWithPopup(auth, provider);
         } catch (error) {
             console.error("Error signing in with Google", error);
+            throw error;
+        }
+    };
+
+    const signInWithFacebook = async () => {
+        const provider = new FacebookAuthProvider();
+        try {
+            await signInWithPopup(auth, provider);
+        } catch (error) {
+            console.error("Error signing in with Facebook", error);
             throw error;
         }
     };
@@ -132,6 +145,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
             profile,
             loading,
             signInWithGoogle,
+            signInWithFacebook,
             signInWithEmail,
             signUpWithEmail,
             signOut
