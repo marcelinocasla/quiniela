@@ -32,69 +32,63 @@ export default function LoginPage() {
     }
 
     return (
-        <div className="min-h-screen flex flex-col max-w-md mx-auto relative overflow-hidden bg-black font-sans text-white selection:bg-[#ff6600]/30 transition-colors">
+        <div className="min-h-screen flex flex-col max-w-md mx-auto relative overflow-hidden bg-background font-sans text-white selection:bg-primary/30 transition-colors">
             {/* Background Accent Glows */}
-            <div className="absolute -top-24 -right-24 w-64 h-64 bg-[#ff6600]/10 rounded-full blur-[100px]"></div>
-            <div className="absolute top-1/2 -left-32 w-64 h-64 bg-[#ff6600]/5 rounded-full blur-[80px]"></div>
+            <div className="absolute -top-32 -right-32 w-80 h-80 bg-primary/20 rounded-full blur-[120px] animate-pulse"></div>
+            <div className="absolute top-2/3 -left-32 w-80 h-80 bg-accent/10 rounded-full blur-[100px]"></div>
 
-            {/* iOS Status Bar Placeholder (Visual only) */}
-            <div className="w-full flex justify-between items-end px-8 pb-2 pt-4 opacity-50">
-                <span className="text-xs font-semibold">9:41</span>
-                <div className="flex gap-1.5 items-center">
-                    <span className="material-icons text-[14px]">signal_cellular_alt</span>
-                    <span className="material-icons text-[14px]">wifi</span>
-                    <span className="material-icons text-[18px]">battery_full</span>
-                </div>
-            </div>
-
-            <div className="flex-1 flex flex-col px-8 pt-12 pb-8">
+            <div className="flex-1 flex flex-col px-8 pt-12 pb-8 z-10">
                 {/* Logo Section */}
                 <div className="flex flex-col items-center mb-16">
-                    <div className="w-16 h-16 bg-[#ff6600] rounded-xl flex items-center justify-center mb-4 shadow-lg shadow-orange-500/20">
-                        <span className="material-icons-round text-white text-4xl">casino</span>
+                    <div className="w-20 h-20 bg-gradient-to-br from-primary/20 to-primary/5 rounded-2xl flex items-center justify-center mb-6 shadow-[0_0_30px_rgba(57,255,20,0.15)] border border-primary/20 backdrop-blur-md">
+                        <span className="material-icons-round text-primary text-5xl drop-shadow-[0_0_10px_rgba(57,255,20,0.5)]">casino</span>
                     </div>
-                    <h1 className="text-3xl font-bold tracking-tight text-white uppercase">
-                        Quiniela<span className="text-[#ff6600] font-light">Digital</span>
+                    <h1 className="text-4xl font-bold tracking-tighter text-white uppercase">
+                        Quiniela<span className="text-primary font-light">Digital</span>
                     </h1>
-                    <p className="text-[#ff6600]/60 text-xs tracking-[0.2em] mt-1 font-medium">PREMIUM EXPERIENCE</p>
+                    <p className="text-primary/80 text-[10px] tracking-[0.3em] mt-2 font-bold uppercase">Experience the Future</p>
                 </div>
 
                 {/* Login Form */}
-                <form onSubmit={handleSubmit} className="space-y-5">
-                    {error && <p className="text-red-500 text-sm text-center">{error}</p>}
-                    <div>
-                        <label className="block text-[10px] uppercase tracking-widest text-[#ff6600] font-semibold mb-2 ml-1">Correo Electrónico</label>
-                        <div className="relative group focus-within:ring-1 ring-[#ff6600] rounded-xl border border-[#333333] bg-[#1a1a1a]/50 transition-all duration-300">
-                            <span className="material-icons absolute left-4 top-1/2 -translate-y-1/2 text-[#333333] group-focus-within:text-[#ff6600] text-xl">alternate_email</span>
+                <form onSubmit={handleSubmit} className="space-y-6">
+                    {error && (
+                        <div className="bg-destructive/10 border border-destructive/20 text-destructive text-sm px-4 py-3 rounded-xl text-center font-medium backdrop-blur-md">
+                            {error}
+                        </div>
+                    )}
+                    <div className="space-y-2">
+                        <label className="block text-[10px] uppercase tracking-widest text-primary/80 font-bold ml-1">Correo Electrónico</label>
+                        <div className="relative group focus-within:ring-2 ring-primary/50 rounded-2xl border border-white/10 bg-white/5 transition-all duration-300">
+                            <span className="material-icons absolute left-4 top-1/2 -translate-y-1/2 text-white/30 group-focus-within:text-primary text-xl transition-colors">alternate_email</span>
                             <input
                                 type="email"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
-                                className="w-full bg-transparent border-none py-4 pl-12 pr-4 text-white placeholder:text-[#333333] focus:ring-0 rounded-xl outline-none"
+                                className="w-full bg-transparent border-none py-4 pl-12 pr-4 text-white placeholder:text-white/20 focus:ring-0 rounded-2xl outline-none font-medium"
                                 placeholder="ejemplo@correo.com"
                                 required
                             />
                         </div>
                     </div>
-                    <div>
-                        <label className="block text-[10px] uppercase tracking-widest text-[#ff6600] font-semibold mb-2 ml-1">Contraseña</label>
-                        <div className="relative group focus-within:ring-1 ring-[#ff6600] rounded-xl border border-[#333333] bg-[#1a1a1a]/50 transition-all duration-300">
-                            <span className="material-icons absolute left-4 top-1/2 -translate-y-1/2 text-[#333333] group-focus-within:text-[#ff6600] text-xl">lock_outline</span>
+                    <div className="space-y-2">
+                        <label className="block text-[10px] uppercase tracking-widest text-primary/80 font-bold ml-1">Contraseña</label>
+                        <div className="relative group focus-within:ring-2 ring-primary/50 rounded-2xl border border-white/10 bg-white/5 transition-all duration-300">
+                            <span className="material-icons absolute left-4 top-1/2 -translate-y-1/2 text-white/30 group-focus-within:text-primary text-xl transition-colors">lock_outline</span>
                             <input
                                 type="password"
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
-                                className="w-full bg-transparent border-none py-4 pl-12 pr-12 text-white placeholder:text-[#333333] focus:ring-0 rounded-xl outline-none"
+                                className="w-full bg-transparent border-none py-4 pl-12 pr-12 text-white placeholder:text-white/20 focus:ring-0 rounded-2xl outline-none font-medium"
                                 placeholder="••••••••"
                                 required
                             />
-                            <button type="button" className="material-icons absolute right-4 top-1/2 -translate-y-1/2 text-[#333333] hover:text-white transition-colors text-xl">visibility_off</button>
+                            <button type="button" className="material-icons absolute right-4 top-1/2 -translate-y-1/2 text-white/30 hover:text-white transition-colors text-xl">visibility_off</button>
                         </div>
                     </div>
                     <div className="flex justify-end">
-                        <a href="#" className="text-xs text-[#ff6600]/80 hover:text-[#ff6600] transition-colors font-medium">¿Olvidaste tu contraseña?</a>
+                        <a href="#" className="text-xs text-primary/70 hover:text-primary transition-colors font-medium hover:underline decoration-primary/30 underline-offset-4">¿Olvidaste tu contraseña?</a>
                     </div>
-                    <button type="submit" className="w-full bg-[#ff6600] py-4 rounded-xl font-bold text-lg text-white shadow-xl shadow-orange-500/20 hover:shadow-orange-500/40 active:scale-[0.98] transition-all mt-4">
+                    <button type="submit" className="w-full bg-primary hover:bg-primary/90 py-4 rounded-2xl font-bold text-lg text-primary-foreground shadow-[0_0_20px_rgba(57,255,20,0.2)] hover:shadow-[0_0_30px_rgba(57,255,20,0.4)] active:scale-[0.98] transition-all duration-300 uppercase tracking-wide">
                         Iniciar Sesión
                     </button>
                 </form>
@@ -102,25 +96,26 @@ export default function LoginPage() {
                 {/* Social Login */}
                 <div className="mt-12">
                     <div className="relative flex items-center mb-8">
-                        <div className="flex-grow border-t border-[#333333]/30"></div>
-                        <span className="px-4 text-[10px] uppercase tracking-widest text-[#333333] font-bold">O continúa con</span>
-                        <div className="flex-grow border-t border-[#333333]/30"></div>
+                        <div className="flex-grow border-t border-white/10"></div>
+                        <span className="px-4 text-[10px] uppercase tracking-widest text-white/30 font-bold">O continúa con</span>
+                        <div className="flex-grow border-t border-white/10"></div>
                     </div>
                     <div className="grid grid-cols-2 gap-4">
-                        <button onClick={handleGoogleLogin} type="button" className="flex items-center justify-center gap-2 py-3.5 border border-[#333333] rounded-xl hover:bg-[#1a1a1a] transition-colors">
-                            <span className="text-sm font-medium">Google</span>
+                        <button onClick={handleGoogleLogin} type="button" className="flex items-center justify-center gap-3 py-3.5 border border-white/10 bg-white/5 rounded-xl hover:bg-white/10 transition-all active:scale-95">
+                            <img src="https://www.google.com/favicon.ico" alt="Google" className="w-4 h-4 opacity-80" />
+                            <span className="text-sm font-semibold text-white/80">Google</span>
                         </button>
-                        <button type="button" className="flex items-center justify-center gap-2 py-3.5 border border-[#333333] rounded-xl hover:bg-[#1a1a1a] transition-colors">
-                            <span className="text-sm font-medium text-white">Facebook</span>
+                        <button type="button" className="flex items-center justify-center gap-3 py-3.5 border border-white/10 bg-white/5 rounded-xl hover:bg-white/10 transition-all active:scale-95">
+                            <span className="text-sm font-semibold text-white/80">Facebook</span>
                         </button>
                     </div>
                 </div>
 
                 {/* Register Link */}
                 <div className="mt-auto pt-10 text-center">
-                    <p className="text-sm text-[#333333]">
+                    <p className="text-sm text-white/40 font-medium">
                         ¿No tienes una cuenta?
-                        <Link href="/register" className="text-[#ff6600] font-bold hover:underline decoration-[#ff6600]/30 underline-offset-4 ml-1">Regístrate</Link>
+                        <Link href="/register" className="text-primary font-bold hover:underline decoration-primary/50 underline-offset-4 ml-2 hover:text-primary/80 transition-colors">Regístrate</Link>
                     </p>
                 </div>
             </div>

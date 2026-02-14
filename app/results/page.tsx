@@ -1,165 +1,185 @@
 "use client"
-
 import { useAuth } from "@/components/auth-provider"
 import { ChevronDown, Calendar, Bell } from "lucide-react"
+import { useEffect, useState } from "react"
+import { supabase } from "@/lib/supabase"
+import BottomNav from "@/components/BottomNav"
 
 export default function Results() {
     const { user } = useAuth()
+    const [results, setResults] = useState<any[]>([])
+    const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0])
+    const [loading, setLoading] = useState(true)
+
+    // Helper to format date display
+    const getDaysArray = () => {
+        const days = [];
+        for (let i = 0; i < 5; i++) {
+            const d = new Date();
+            d.setDate(d.getDate() - i);
+            days.push({
+                date: d.toISOString().split('T')[0],
+                dayNum: d.getDate(),
+                dayName: d.toLocaleDateString('es-ES', { weekday: 'short' }).toUpperCase().replace('.', '')
+            });
+        }
+        return days.reverse();
+    };
+    const days = getDaysArray();
+
+    useEffect(() => {
+        const fetchResults = async () => {
+            setLoading(true)
+            const { data } = await supabase
+                .from('lottery_results')
+                .select('*')
+                .eq('draw_date', selectedDate)
+
+            if (data) {
+                // Group by lottery_name
+                const grouped: any = {};
+                data.forEach(item => {
+                    if (!grouped[item.lottery_name]) {
+                        grouped[item.lottery_name] = [];
+                    }
+                    grouped[item.lottery_name].push(item);
+                });
+                // Sort types within groups
+                const order = ['Previa', 'Primera', 'Matutina', 'Vespertina', 'Nocturna'];
+                for (const key in grouped) {
+                    grouped[key].sort((a: any, b: any) => order.indexOf(a.lottery_type) - order.indexOf(b.lottery_type));
+                }
+                setResults(Object.entries(grouped));
+            } else {
+                setResults([])
+            }
+            setLoading(false)
+        }
+        fetchResults()
+    }, [selectedDate])
 
     return (
-        <div className="min-h-screen bg-black text-white font-sans selection:bg-[#ff6600]/30 pb-24">
-            {/* Status Bar Spacer (iOS Style) */}
-            <div className="h-12 w-full"></div>
+        <div className="min-h-screen bg-background text-white font-sans selection:bg-primary/30 pb-24 antialiased overflow-x-hidden">
+            {/* Background Gradients */}
+            <div className="fixed top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none">
+                <div className="absolute top-[10%] left-[-10%] w-[400px] h-[400px] bg-primary/5 rounded-full blur-[100px]" />
+                <div className="absolute bottom-[20%] right-[-10%] w-[500px] h-[500px] bg-blue-600/5 rounded-full blur-[120px]" />
+            </div>
 
             {/* Header Section */}
-            <header className="sticky top-0 z-50 px-6 py-4 bg-black/80 backdrop-blur-md border-b border-white/5">
+            <header className="sticky top-0 z-40 px-6 py-4 bg-background/80 backdrop-blur-xl border-b border-white/5">
                 <div className="flex items-center justify-between">
-                    <h1 className="text-2xl font-bold tracking-tight">Resultados del Día</h1>
-                    <button className="w-10 h-10 rounded-full flex items-center justify-center bg-white/5 hover:bg-white/10 transition-colors">
-                        <Bell className="text-white/70 h-5 w-5" />
-                    </button>
+                    <div>
+                        <h1 className="text-xl font-bold tracking-tight text-white">Resultados</h1>
+                        <p className="text-[10px] text-primary font-bold uppercase tracking-widest">Quiniela Oficial</p>
+                    </div>
                 </div>
             </header>
 
-            <main className="px-4 space-y-6">
-                {/* Date Selector (Horizontal Scroll) */}
-                <section className="mt-4 overflow-x-auto hide-scrollbar flex space-x-3 py-2">
-                    <div className="flex-shrink-0 w-16 h-20 rounded-xl bg-white/5 border border-white/5 flex flex-col items-center justify-center">
-                        <span className="text-xs text-white/50 font-medium">LUN</span>
-                        <span className="text-lg font-bold">12</span>
-                    </div>
-                    <div className="flex-shrink-0 w-16 h-20 rounded-xl bg-white/5 border border-white/5 flex flex-col items-center justify-center">
-                        <span className="text-xs text-white/50 font-medium">MAR</span>
-                        <span className="text-lg font-bold">13</span>
-                    </div>
-                    <div className="flex-shrink-0 w-16 h-20 rounded-xl bg-[#ff6600] flex flex-col items-center justify-center shadow-lg shadow-orange-500/20">
-                        <span className="text-xs text-white/80 font-medium">HOY</span>
-                        <span className="text-lg font-bold">14</span>
-                    </div>
-                    <div className="flex-shrink-0 w-16 h-20 rounded-xl bg-white/5 border border-white/5 flex flex-col items-center justify-center opacity-50">
-                        <span className="text-xs text-white/50 font-medium">JUE</span>
-                        <span className="text-lg font-bold">15</span>
-                    </div>
-                    <div className="flex-shrink-0 w-16 h-20 rounded-xl bg-white/5 border border-white/5 flex flex-col items-center justify-center opacity-50">
-                        <span className="text-xs text-white/50 font-medium">VIE</span>
-                        <span className="text-lg font-bold">16</span>
-                    </div>
+            <main className="px-4 space-y-6 pt-4">
+                {/* Date Selector */}
+                <section className="overflow-x-auto hide-scrollbar flex space-x-3 py-2 -mx-4 px-4">
+                    {days.map((d) => (
+                        <button
+                            key={d.date}
+                            onClick={() => setSelectedDate(d.date)}
+                            className={`flex-shrink-0 w-14 h-16 rounded-2xl flex flex-col items-center justify-center transition-all duration-300 border ${selectedDate === d.date ? 'bg-primary text-primary-foreground border-primary shadow-[0_0_15px_rgba(57,255,20,0.4)] scale-105' : 'bg-white/5 border-white/5 text-white/40 hover:bg-white/10'}`}
+                        >
+                            <span className="text-[10px] font-bold opacity-80">{d.dayName}</span>
+                            <span className="text-xl font-black">{d.dayNum}</span>
+                        </button>
+                    ))}
                     <div className="flex-shrink-0 w-10 flex items-center justify-center">
-                        <Calendar className="text-white/30 h-6 w-6" />
+                        <Calendar className="text-primary/40 w-6 h-6" />
                     </div>
                 </section>
 
-                {/* Lottery Card: NACIONAL */}
-                <section className="glass-card rounded-2xl p-5 relative overflow-hidden">
-                    <div className="absolute -top-10 -right-10 w-32 h-32 bg-[#ff6600]/10 blur-[60px] rounded-full"></div>
-                    <div className="flex justify-between items-center mb-6">
-                        <div>
-                            <h2 className="text-xl font-bold">Nacional</h2>
-                            <p className="text-xs text-white/40 uppercase tracking-widest mt-1">Lotería de la Ciudad</p>
-                        </div>
-                        <div className="text-right">
-                            <span className="text-[10px] bg-[#ff6600]/20 text-[#ff6600] px-2 py-1 rounded-full font-semibold">EN VIVO</span>
-                        </div>
+                {loading ? (
+                    <div className="text-center py-20">
+                        <div className="animate-spin w-10 h-10 border-4 border-primary border-t-transparent rounded-full mx-auto mb-4"></div>
+                        <p className="text-white/40 text-sm animate-pulse">Cargando resultados...</p>
                     </div>
-
-                    {/* Segmented Control */}
-                    <div className="flex bg-white/5 p-1 rounded-lg mb-8 overflow-x-auto hide-scrollbar">
-                        <button className="flex-1 py-1.5 px-3 rounded-md text-[11px] font-medium transition-all text-white/50">Previa</button>
-                        <button className="flex-1 py-1.5 px-3 rounded-md text-[11px] font-medium transition-all text-white/50">Primera</button>
-                        <button className="flex-1 py-1.5 px-3 rounded-md text-[11px] font-medium transition-all text-white/50">Matut.</button>
-                        <button className="flex-1 py-1.5 px-3 rounded-md text-[11px] font-medium transition-all bg-white/10 text-white shadow-sm">Vesp.</button>
-                        <button className="flex-1 py-1.5 px-3 rounded-md text-[11px] font-medium transition-all text-white/50">Noct.</button>
+                ) : results.length === 0 ? (
+                    <div className="text-center py-20 space-y-4">
+                        <div className="w-20 h-20 bg-white/5 rounded-full flex items-center justify-center mx-auto mb-4 border border-white/5">
+                            <span className="material-icons-round text-4xl text-white/20">search_off</span>
+                        </div>
+                        <p className="text-white/40 text-sm">No hay resultados disponibles para esta fecha.</p>
                     </div>
+                ) : (
+                    results.map(([lotteryName, lotteryDraws]: [string, any[]]) => (
+                        <LotteryCard key={lotteryName} name={lotteryName} draws={lotteryDraws} />
+                    ))
+                )}
+            </main>
+            <BottomNav />
+        </div>
+    )
+}
 
+function LotteryCard({ name, draws }: { name: string, draws: any[] }) {
+    const [selectedDrawIndex, setSelectedDrawIndex] = useState(draws.length - 1); // Default to latest (usually last in sort if pushed chronologically, but sort logic puts Nocturna last)
+    const currentDraw = draws[selectedDrawIndex];
+
+    return (
+        <section className="glass-card rounded-3xl p-6 relative overflow-hidden transition-all duration-500 hover:shadow-[0_0_30px_rgba(0,0,0,0.5)] border border-white/5">
+            <div className="absolute -top-20 -right-20 w-48 h-48 bg-primary/5 rounded-full blur-[80px]"></div>
+
+            <div className="flex justify-between items-center mb-6 relative z-10">
+                <div>
+                    <h2 className="text-xl font-bold text-white tracking-tight">{name}</h2>
+                    <p className="text-[10px] text-primary/80 uppercase tracking-widest font-bold mt-1">Argentina</p>
+                </div>
+                {/* <div className="text-right">
+                     <span className="text-[9px] bg-primary/10 text-primary px-2 py-1 rounded-lg font-bold border border-primary/20">FINALIZADO</span>
+                </div> */}
+            </div>
+
+            {/* Segmented Control */}
+            <div className="flex bg-black/20 p-1 rounded-xl mb-6 overflow-x-auto hide-scrollbar border border-white/5 relative z-10">
+                {draws.map((draw, idx) => (
+                    <button
+                        key={draw.id}
+                        onClick={() => setSelectedDrawIndex(idx)}
+                        className={`flex-1 py-2 px-3 rounded-lg text-[10px] font-bold transition-all whitespace-nowrap ${idx === selectedDrawIndex ? 'bg-primary text-primary-foreground shadow-lg' : 'text-white/40 hover:text-white/70'}`}
+                    >
+                        {draw.lottery_type}
+                    </button>
+                ))}
+            </div>
+
+            {currentDraw && (
+                <>
                     {/* "La Cabeza" Display */}
-                    <div className="flex flex-col items-center justify-center mb-10">
-                        <span className="text-xs font-bold text-[#ff6600] tracking-widest uppercase mb-4">A la Cabeza</span>
-                        <div className="relative">
-                            <div className="absolute inset-0 bg-[#ff6600] blur-2xl opacity-20 animate-pulse"></div>
-                            <div className="w-32 h-32 rounded-full border-2 border-[#ff6600]/50 flex items-center justify-center bg-gradient-to-br from-[#ff6600] via-[#ff6600] to-[#ff8c42] primary-glow relative z-10">
-                                <span className="text-5xl font-bold text-white tracking-tighter">7248</span>
+                    <div className="flex flex-col items-center justify-center mb-8 relative z-10">
+                        <span className="text-[10px] font-bold text-primary tracking-[0.2em] uppercase mb-4">A la Cabeza</span>
+                        <div className="relative group cursor-default">
+                            <div className="absolute inset-0 bg-primary/20 blur-xl rounded-full opacity-50 group-hover:opacity-80 transition-opacity duration-500"></div>
+                            <div className="w-32 h-32 rounded-full border border-primary/30 flex items-center justify-center bg-background/50 backdrop-blur-sm relative z-10 shadow-[0_0_20px_rgba(57,255,20,0.1)] group-hover:scale-105 transition-transform duration-500">
+                                <span className="text-5xl font-black text-white tracking-tighter drop-shadow-[0_0_10px_rgba(255,255,255,0.5)]">
+                                    {String(currentDraw.numbers[0]).padStart(4, '0')}
+                                </span>
                             </div>
                         </div>
                     </div>
 
-                    {/* 2-Column Prize List */}
-                    <div className="grid grid-cols-2 gap-x-8 gap-y-3">
-                        {[
-                            { pos: 2, num: 4510 },
-                            { pos: 3, num: 8923 },
-                            { pos: 4, num: 12 },
-                            { pos: 5, num: 6754 },
-                            { pos: 6, num: 3391 },
-                            { pos: 7, num: 1288 },
-                        ].map((item) => (
-                            <div key={item.pos} className="flex justify-between items-center border-b border-white/5 pb-1">
-                                <span className="text-xs text-white/40 font-medium">{item.pos}.</span>
-                                <span className="text-sm font-semibold tracking-wide">{item.num.toString().padStart(4, '0')}</span>
+                    {/* Preview List (Showing first 5 for preview) */}
+                    <div className="grid grid-cols-2 gap-x-4 gap-y-2 relative z-10">
+                        {currentDraw.numbers.slice(1, 11).map((num: number, idx: number) => (
+                            <div key={idx} className="flex justify-between items-center bg-white/[0.02] px-3 py-2 rounded-lg border border-white/[0.02]">
+                                <span className="text-[10px] text-white/30 font-bold">{idx + 2}.</span>
+                                <span className="text-sm font-bold text-white/90 tracking-wider">{String(num).padStart(4, '0')}</span>
                             </div>
                         ))}
-
-                        <div className="col-span-2 py-2 flex justify-center">
-                            <button className="text-xs text-[#ff6600] font-medium flex items-center gap-1">
-                                Ver extracto completo <ChevronDown className="h-4 w-4" />
-                            </button>
-                        </div>
-                    </div>
-                </section>
-
-                {/* Lottery Card: PROVINCIA */}
-                <section className="glass-card rounded-2xl p-5 relative overflow-hidden">
-                    <div className="flex justify-between items-center mb-6">
-                        <div>
-                            <h2 className="text-xl font-bold">Provincia</h2>
-                            <p className="text-xs text-white/40 uppercase tracking-widest mt-1">Buenos Aires</p>
-                        </div>
-                        <div className="text-right">
-                            <span className="text-[10px] bg-white/10 text-white/70 px-2 py-1 rounded-full font-semibold">FINALIZADO</span>
-                        </div>
                     </div>
 
-                    {/* Segmented Control */}
-                    <div className="flex bg-white/5 p-1 rounded-lg mb-8 overflow-x-auto hide-scrollbar">
-                        <button className="flex-1 py-1.5 px-3 rounded-md text-[11px] font-medium transition-all text-white/50">Previa</button>
-                        <button className="flex-1 py-1.5 px-3 rounded-md text-[11px] font-medium transition-all text-white/50">Primera</button>
-                        <button className="flex-1 py-1.5 px-3 rounded-md text-[11px] font-medium transition-all text-white/50">Matut.</button>
-                        <button className="flex-1 py-1.5 px-3 rounded-md text-[11px] font-medium transition-all bg-white/10 text-white shadow-sm">Vesp.</button>
-                        <button className="flex-1 py-1.5 px-3 rounded-md text-[11px] font-medium transition-all text-white/50">Noct.</button>
-                    </div>
-
-                    {/* "La Cabeza" Display */}
-                    <div className="flex flex-col items-center justify-center mb-10">
-                        <span className="text-xs font-bold text-[#ff6600] tracking-widest uppercase mb-4">A la Cabeza</span>
-                        <div className="w-32 h-32 rounded-full border border-white/10 flex items-center justify-center bg-white/5 relative z-10">
-                            <span className="text-5xl font-bold text-white tracking-tighter opacity-50">9022</span>
-                        </div>
-                    </div>
-
-                    <div className="col-span-2 py-2 flex justify-center">
-                        <button className="text-xs text-white/40 font-medium flex items-center gap-1">
-                            Ver extracto completo <ChevronDown className="h-4 w-4" />
+                    <div className="mt-4 pt-4 border-t border-white/5 text-center relative z-10">
+                        <button className="text-[10px] uppercase font-bold text-white/40 hover:text-primary transition-colors flex items-center justify-center gap-1 mx-auto">
+                            Ver extracto completo <ChevronDown className="w-3 h-3" />
                         </button>
                     </div>
-                </section>
-
-                {/* Other Lotteries Selection */}
-                <section className="grid grid-cols-2 gap-4">
-                    <div className="glass-card p-4 rounded-xl flex flex-col items-center text-center">
-                        <span className="text-xs text-white/40 font-bold uppercase mb-2">Santa Fe</span>
-                        <div className="w-12 h-12 rounded-full border border-[#ff6600]/30 flex items-center justify-center mb-2">
-                            <span className="text-lg font-bold text-[#ff6600]">08</span>
-                        </div>
-                        <span className="text-[10px] text-white/30">MATUTINA</span>
-                    </div>
-                    <div className="glass-card p-4 rounded-xl flex flex-col items-center text-center">
-                        <span className="text-xs text-white/40 font-bold uppercase mb-2">Córdoba</span>
-                        <div className="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center mb-2">
-                            <span className="text-lg font-bold text-white/70">55</span>
-                        </div>
-                        <span className="text-[10px] text-white/30">VESPERTINA</span>
-                    </div>
-                </section>
-            </main>
-        </div>
+                </>
+            )}
+        </section>
     )
 }

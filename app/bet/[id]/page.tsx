@@ -2,12 +2,9 @@
 
 import { useState, useEffect } from "react"
 import { useParams, useRouter } from "next/navigation"
-import DashboardLayout from "@/components/layout/DashboardLayout"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
 import { supabase } from "@/lib/supabase"
-import { Loader2, Share2, Copy, CheckCircle, XCircle, Clock, ArrowLeft } from "lucide-react"
-import { cn } from "@/lib/utils"
+import { Loader2, ChevronLeft, MoreHorizontal, Share, RotateCw, CheckCircle2, Clock, XCircle } from "lucide-react"
 
 interface Bet {
     id: string
@@ -41,6 +38,21 @@ export default function BetDetailsPage() {
                 .single()
 
             if (data) setBet(data as Bet)
+            // Mock data for design verification if not found, REMOVE IN PROD
+            else if (!data && params.id === '1') {
+                setBet({
+                    id: '84920391',
+                    created_at: new Date().toISOString(),
+                    lottery: 'Nacional',
+                    number: 342,
+                    amount: 500,
+                    location: 'cabeza',
+                    shift: 'Matutina',
+                    status: 'won',
+                    possible_prize: 25000,
+                    customer: { name: 'Cliente Ejemplo' }
+                })
+            }
             setLoading(false)
         }
         fetchBet()
@@ -68,22 +80,18 @@ export default function BetDetailsPage() {
 
     if (loading) {
         return (
-            <DashboardLayout>
-                <div className="flex justify-center items-center h-[80vh]">
-                    <Loader2 className="h-8 w-8 animate-spin text-orange-500" />
-                </div>
-            </DashboardLayout>
+            <div className="min-h-screen flex justify-center items-center bg-black">
+                <Loader2 className="h-8 w-8 animate-spin text-primary" />
+            </div>
         )
     }
 
     if (!bet) {
         return (
-            <DashboardLayout>
-                <div className="flex flex-col items-center justify-center h-[80vh] text-center">
-                    <p className="text-neutral-500 mb-4">No se encontró la jugada.</p>
-                    <Button variant="outline" onClick={() => router.back()}>Volver</Button>
-                </div>
-            </DashboardLayout>
+            <div className="min-h-screen flex flex-col items-center justify-center bg-black text-white p-6 text-center">
+                <p className="text-white/50 mb-4">No se encontró la jugada.</p>
+                <Button variant="outline" onClick={() => router.back()} className="border-white/20 text-white">Volver</Button>
+            </div>
         )
     }
 
@@ -98,91 +106,138 @@ export default function BetDetailsPage() {
     }
 
     return (
-        <DashboardLayout>
-            <div className="max-w-md mx-auto py-8">
-                <Button variant="ghost" className="mb-6 text-neutral-400 hover:text-white pl-0" onClick={() => router.back()}>
-                    <ArrowLeft className="mr-2 h-4 w-4" /> Volver
-                </Button>
+        <div className="min-h-screen bg-background text-white font-sans flex flex-col selection:bg-primary/30 antialiased overflow-x-hidden">
+            {/* Background Gradients */}
+            <div className="fixed top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none">
+                <div className="absolute top-[10%] right-[-10%] w-[300px] h-[300px] bg-primary/5 rounded-full blur-[100px]" />
+                <div className="absolute bottom-[20%] left-[-10%] w-[250px] h-[250px] bg-blue-600/5 rounded-full blur-[80px]" />
+            </div>
 
-                <div className="relative">
-                    {/* Ticket Card */}
-                    <Card className="bg-neutral-900 border-none overflow-hidden relative shadow-2xl shadow-black/50">
-                        {/* Top Decoration */}
-                        <div className="h-2 w-full bg-gradient-to-r from-orange-600 to-red-600" />
+            {/* Top Navigation */}
+            <header className="p-6 flex items-center justify-between sticky top-0 z-40 bg-background/50 backdrop-blur-md">
+                <button className="p-2 bg-white/5 hover:bg-white/10 rounded-full transition-colors border border-white/5" onClick={() => router.back()}>
+                    <ChevronLeft className="text-white h-5 w-5" />
+                </button>
+                <h1 className="text-lg font-bold tracking-tight">Detalle de Ticket</h1>
+                <button className="p-2 bg-white/5 hover:bg-white/10 rounded-full transition-colors border border-white/5">
+                    <MoreHorizontal className="text-white h-5 w-5" />
+                </button>
+            </header>
 
-                        {/* Status Badge */}
-                        <div className="absolute top-6 right-6">
-                            {bet.status === 'pending' && <span className="bg-neutral-800 text-neutral-300 px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1 border border-white/10"><Clock className="h-3 w-3" /> PENDIENTE</span>}
-                            {bet.status === 'won' && <span className="bg-green-500/20 text-green-400 px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1 border border-green-500/30"><CheckCircle className="h-3 w-3" /> GANADOR</span>}
-                            {bet.status === 'lost' && <span className="bg-red-500/20 text-red-400 px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1 border border-red-500/30"><XCircle className="h-3 w-3" /> NO GANADOR</span>}
+            <main className="flex-1 px-6 pb-40">
+                {/* Floating Glassmorphic Ticket */}
+                <div className="relative mt-4">
+                    {/* Ticket Status Badge */}
+                    <div className="absolute -top-3 right-4 z-20">
+                        {bet.status === 'won' && (
+                            <span className="px-4 py-1.5 rounded-full text-[10px] font-bold tracking-widest bg-gradient-to-r from-green-500 to-emerald-600 text-white shadow-[0_0_15px_rgba(16,185,129,0.4)] uppercase flex items-center gap-1.5">
+                                <CheckCircle2 className="h-3 w-3" /> Ganador
+                            </span>
+                        )}
+                        {bet.status === 'pending' && (
+                            <span className="px-4 py-1.5 rounded-full text-[10px] font-bold tracking-widest bg-white/10 text-white/80 border border-white/10 uppercase flex items-center gap-1.5 backdrop-blur-md">
+                                <Clock className="h-3 w-3" /> Pendiente
+                            </span>
+                        )}
+                        {bet.status === 'lost' && (
+                            <span className="px-4 py-1.5 rounded-full text-[10px] font-bold tracking-widest bg-red-500/10 text-red-500 border border-red-500/20 uppercase flex items-center gap-1.5 backdrop-blur-md">
+                                <XCircle className="h-3 w-3" /> No Ganador
+                            </span>
+                        )}
+                    </div>
+
+                    <div className="glass-card rounded-3xl overflow-hidden relative border border-white/10 shadow-2xl shadow-black/50">
+                        {/* Ticket Header */}
+                        <div className="p-8 border-b border-white/5 relative bg-white/5">
+                            <div className="flex flex-col gap-1">
+                                <span className="text-primary text-[10px] uppercase tracking-[0.2em] font-bold">Comprobante Digital</span>
+                                <h2 className="text-3xl font-black text-white tracking-tight">#{bet.id.slice(0, 5)}</h2>
+                            </div>
+                            <div className="mt-6 flex justify-between items-end">
+                                <div className="space-y-1">
+                                    <p className="text-white/40 text-[10px] uppercase tracking-wider font-bold">Fecha</p>
+                                    <p className="text-sm font-medium text-white/90">{new Date(bet.created_at).toLocaleDateString()}</p>
+                                </div>
+                                <div className="text-right space-y-1">
+                                    <p className="text-white/40 text-[10px] uppercase tracking-wider font-bold">Hora</p>
+                                    <p className="text-sm font-medium text-white/90">{new Date(bet.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</p>
+                                </div>
+                            </div>
                         </div>
 
-                        <CardContent className="p-8 flex flex-col items-center text-center relative z-10">
-                            {/* Watermark */}
-                            <div className="absolute inset-0 flex items-center justify-center opacity-[0.03] pointer-events-none">
-                                <span className="text-9xl font-black rotate-[-30deg]">QUINIELA</span>
-                            </div>
+                        {/* Perforation Line Decoration */}
+                        <div className="relative h-6 flex items-center bg-transparent">
+                            <div className="absolute left-[-12px] top-1/2 -translate-y-1/2 w-6 h-6 bg-background rounded-full"></div>
+                            <div className="w-full border-t-2 border-dashed border-white/10 mx-2"></div>
+                            <div className="absolute right-[-12px] top-1/2 -translate-y-1/2 w-6 h-6 bg-background rounded-full"></div>
+                        </div>
 
-                            <p className="text-xs text-neutral-500 uppercase tracking-[0.2em] mb-1">Ticket Digital</p>
-                            <h2 className="text-2xl font-bold text-white mb-8 font-mono">#{bet.id.slice(0, 8)}</h2>
-
-                            {/* Main Number */}
-                            <div className="mb-8 relative">
-                                <div className="text-6xl font-black text-white tracking-widest relative z-10 px-6 py-2">
-                                    {bet.number.toString().padStart(4, '0')}
-                                </div>
-                                {/* Glow behind number */}
-                                <div className="absolute inset-0 bg-orange-500/20 blur-2xl rounded-full" />
-                            </div>
-
-                            {/* Details Grid */}
-                            <div className="w-full grid grid-cols-2 gap-y-6 gap-x-4 mb-8 text-left bg-white/5 p-4 rounded-xl border border-white/5">
+                        {/* Ticket Body: Bets List */}
+                        <div className="px-8 py-4 space-y-8">
+                            <div className="flex items-center justify-between">
                                 <div className="flex flex-col">
-                                    <span className="text-[10px] text-neutral-500 uppercase font-bold">Lotería</span>
-                                    <span className="text-sm text-white font-medium">{bet.lottery}</span>
+                                    <span className="text-primary text-5xl font-black tracking-tighter drop-shadow-[0_0_10px_rgba(57,255,20,0.3)]">{bet.number}</span>
+                                    <span className="text-[10px] text-white/40 uppercase tracking-widest mt-1 font-bold">Número Jugado</span>
                                 </div>
-                                <div className="flex flex-col">
-                                    <span className="text-[10px] text-neutral-500 uppercase font-bold">Turno</span>
-                                    <span className="text-sm text-orange-400 font-medium">{bet.shift}</span>
-                                </div>
-                                <div className="flex flex-col">
-                                    <span className="text-[10px] text-neutral-500 uppercase font-bold">Ubicación</span>
-                                    <span className="text-sm text-white font-medium">{getLocationLabel(bet.location)}</span>
-                                </div>
-                                <div className="flex flex-col">
-                                    <span className="text-[10px] text-neutral-500 uppercase font-bold">Fecha</span>
-                                    <span className="text-sm text-white font-medium">{new Date(bet.created_at).toLocaleDateString()}</span>
-                                </div>
-                                <div className="flex flex-col border-t border-white/10 pt-2 col-span-2 flex-row justify-between items-center">
-                                    <span className="text-xs text-neutral-400">Monto Apostado</span>
-                                    <span className="text-lg text-white font-bold">${bet.amount}</span>
-                                </div>
-                                <div className="flex flex-col border-t border-white/10 pt-2 col-span-2 flex-row justify-between items-center bg-orange-500/10 -mx-4 px-4 py-2 -mb-2 rounded-b-lg">
-                                    <span className="text-xs text-orange-400 font-bold uppercase">Premio Estimado</span>
-                                    <span className="text-xl text-orange-500 font-black">${bet.possible_prize}</span>
+                                <div className="text-right">
+                                    <p className="text-sm font-bold text-white/80 bg-white/5 px-3 py-1 rounded-lg border border-white/5">{getLocationLabel(bet.location)}</p>
+                                    <div className="mt-2 text-right">
+                                        <p className="text-[10px] text-white/40 uppercase tracking-widest font-bold">Apuesta</p>
+                                        <p className="text-xl font-bold text-white">${bet.amount}</p>
+                                    </div>
                                 </div>
                             </div>
 
-                            {/* Client Name */}
-                            {bet.customer?.name && (
-                                <p className="text-xs text-neutral-600 mb-6">Jugado por: {bet.customer.name}</p>
-                            )}
-
-                            <div className="w-full flex flex-col gap-3">
-                                <Button className="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-6 rounded-xl shadow-lg shadow-green-900/20 transition-all active:scale-[0.98]" onClick={handleShare}>
-                                    <Share2 className="mr-2 h-5 w-5" /> Compartir Ticket
-                                </Button>
-                                <Button variant="outline" className="w-full border-neutral-800 text-neutral-300 hover:bg-white/5 hover:text-white py-6 rounded-xl" onClick={() => router.push(`/whatsapp?repeat=${bet.id}`)}>
-                                    <Copy className="mr-2 h-4 w-4" /> Repetir Jugada
-                                </Button>
+                            {/* Summary Detail Box */}
+                            <div className="p-5 bg-white/5 rounded-2xl border border-white/5 space-y-3">
+                                <div className="flex justify-between items-center">
+                                    <span className="text-white/40 text-xs font-medium">Lotería</span>
+                                    <span className="text-sm font-bold text-white">{bet.lottery}</span>
+                                </div>
+                                <div className="flex justify-between items-center">
+                                    <span className="text-white/40 text-xs font-medium">Turno</span>
+                                    <span className="text-sm font-bold text-white">{bet.shift}</span>
+                                </div>
+                                <div className="h-px bg-white/5 my-2"></div>
+                                <div className="flex justify-between items-center">
+                                    <span className="text-white/60 text-sm font-semibold">Premio Estimado</span>
+                                    <span className="text-primary text-xl font-black tracking-tight drop-shadow-[0_0_8px_rgba(57,255,20,0.2)]">${bet.possible_prize}</span>
+                                </div>
                             </div>
-                        </CardContent>
+                        </div>
 
-                        {/* Serrated Edges Bottom */}
-                        <div className="absolute bottom-0 left-0 w-full h-4 bg-[#0a0a0a]" style={{ clipPath: 'polygon(0% 100%, 5% 0%, 10% 100%, 15% 0%, 20% 100%, 25% 0%, 30% 100%, 35% 0%, 40% 100%, 45% 0%, 50% 100%, 55% 0%, 60% 100%, 65% 0%, 70% 100%, 75% 0%, 80% 100%, 85% 0%, 90% 100%, 95% 0%, 100% 100%)' }}></div>
-                    </Card>
+                        {/* Perforation Bottom Decoration */}
+                        <div className="relative h-6 flex items-center bg-transparent">
+                            <div className="absolute left-[-12px] top-1/2 -translate-y-1/2 w-6 h-6 bg-background rounded-full"></div>
+                            <div className="w-full border-t-2 border-dashed border-white/10 mx-2"></div>
+                            <div className="absolute right-[-12px] top-1/2 -translate-y-1/2 w-6 h-6 bg-background rounded-full"></div>
+                        </div>
+
+                        {/* Ticket Footer QR */}
+                        <div className="p-8 flex flex-col items-center gap-4 bg-white/5">
+                            <div className="w-24 h-24 bg-white p-2 rounded-xl shadow-lg">
+                                {/* QR Placeholder */}
+                                <div className="w-full h-full bg-black pattern-grid opacity-90"></div>
+                            </div>
+                            <p className="text-[10px] text-white/30 uppercase tracking-[0.3em] font-bold">Validación Digital</p>
+                        </div>
+                    </div>
+                </div>
+            </main>
+
+            {/* Sticky Bottom Actions (iOS Style) */}
+            <div className="fixed bottom-0 left-0 right-0 p-6 pb-10 bg-gradient-to-t from-background via-background/95 to-transparent z-50">
+                <div className="flex flex-col gap-3 max-w-md mx-auto">
+                    <button onClick={handleShare} className="w-full bg-primary hover:bg-primary/90 text-black font-black py-4 rounded-2xl flex items-center justify-center gap-3 transition-all active:scale-[0.98] shadow-[0_0_20px_rgba(57,255,20,0.3)]">
+                        <Share className="h-5 w-5" />
+                        Compartir Comprobante
+                    </button>
+                    <button onClick={() => router.push(`/whatsapp?repeat=${bet?.id}`)} className="w-full bg-white/5 hover:bg-white/10 border border-white/10 text-white font-bold py-4 rounded-2xl flex items-center justify-center gap-3 transition-all active:scale-[0.98] backdrop-blur-md">
+                        <RotateCw className="h-5 w-5 text-primary" />
+                        Repetir Jugada
+                    </button>
                 </div>
             </div>
-        </DashboardLayout>
+        </div>
     )
 }

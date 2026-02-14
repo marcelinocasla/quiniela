@@ -4,39 +4,42 @@
 
 @layer base {
   :root {
-    --background: 0 0% 0%;
-    /* Pure Black #000000 */
+    --background: 220 60% 5%;
+    /* #050A14 - Deep Navy */
     --foreground: 0 0% 100%;
 
-    --card: 0 0% 7%;
-    /* Darker card #121212 */
+    --card: 220 50% 8%;
+    /* Slightly lighter navy for cards */
     --card-foreground: 0 0% 100%;
 
-    --popover: 0 0% 0%;
+    --popover: 220 60% 5%;
     --popover-foreground: 0 0% 100%;
 
-    --primary: 24 100% 50%;
-    /* #ff6600 */
-    --primary-foreground: 0 0% 100%;
+    --primary: 111 100% 54%;
+    /* #39FF14 - Neon Green */
+    --primary-foreground: 220 60% 5%;
+    /* Dark text on neon green */
 
-    --secondary: 0 0% 9%;
-    /* #171717 */
+    --secondary: 215 28% 17%;
     --secondary-foreground: 0 0% 100%;
 
-    --muted: 0 0% 9%;
-    --muted-foreground: 0 0% 63.9%;
+    --muted: 215 28% 17%;
+    --muted-foreground: 215 20% 65%;
 
-    --accent: 24 100% 50%;
-    --accent-foreground: 0 0% 100%;
+    --accent: 180 100% 50%;
+    /* #00FFFF - Cyan */
+    --accent-foreground: 220 60% 5%;
 
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
+    --destructive: 0 100% 50%;
+    /* Pure Red for errors */
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 0 0% 14.9%;
-    --input: 0 0% 14.9%;
-    --ring: 24 100% 50%;
+    --border: 215 28% 17%;
+    --input: 215 28% 17%;
+    --ring: 111 100% 54%;
 
-    --radius: 0.5rem;
+    --radius: 1rem;
+    /* More rounded iOS-like corners */
   }
 }
 
@@ -53,24 +56,46 @@
 }
 
 /* Glassmorphism Utilities */
+/* Glassmorphism Utilities */
 @layer utilities {
   .glass {
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    background-color: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background-color: rgba(5, 10, 20, 0.6);
+    /* Navy tint */
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
   }
 
   .glass-card {
-    backdrop-filter: blur(24px);
-    -webkit-backdrop-filter: blur(24px);
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 4px 24px -1px rgba(0, 0, 0, 0.2);
+  }
+
+  .glass-tab {
+    background: rgba(255, 255, 255, 0.03);
     border: 1px solid rgba(255, 255, 255, 0.05);
-    background-color: rgba(18, 18, 18, 0.8);
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    transition: all 0.3s ease;
+  }
+
+  .glass-tab-active {
+    background: rgba(57, 255, 20, 0.15);
+    /* Neon green tint */
+    border: 1px solid rgba(57, 255, 20, 0.3);
+    box-shadow: 0 0 15px rgba(57, 255, 20, 0.1);
+  }
+
+  .ios-blur {
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    background-color: rgba(5, 10, 20, 0.85);
   }
 
   .primary-glow {
-    box-shadow: 0 0 20px rgba(255, 102, 0, 0.4);
+    box-shadow: 0 0 30px rgba(57, 255, 20, 0.3);
   }
 
   .hide-scrollbar::-webkit-scrollbar {
@@ -80,5 +105,46 @@
   .hide-scrollbar {
     -ms-overflow-style: none;
     scrollbar-width: none;
+  }
+
+  .ticket-perforation {
+    background-image: radial-gradient(circle at 10px 10px, transparent 10px, rgba(255, 255, 255, 0.05) 10px);
+    background-size: 20px 20px;
+  }
+
+  .edge-cutout-left {
+    position: absolute;
+    left: -0.75rem;
+    width: 1.5rem;
+    height: 1.5rem;
+    background-color: black;
+    border-radius: 9999px;
+    z-index: 10;
+  }
+
+  .edge-cutout-right {
+    position: absolute;
+    right: -0.75rem;
+    width: 1.5rem;
+    height: 1.5rem;
+    background-color: black;
+    border-radius: 9999px;
+    z-index: 10;
+  }
+
+  .pulsate {
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  @keyframes pulse {
+
+    0%,
+    100% {
+      opacity: 1;
+    }
+
+    50% {
+      opacity: 0.4;
+    }
   }
 }

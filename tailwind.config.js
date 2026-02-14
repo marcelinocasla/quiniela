@@ -16,6 +16,11 @@ module.exports = {
             },
         },
         extend: {
+            fontFamily: {
+                sans: ["var(--font-public-sans)"],
+                display: ["var(--font-lexend)"],
+                manrope: ["var(--font-manrope)"],
+            },
             colors: {
                 border: "hsl(var(--border))",
                 input: "hsl(var(--input))",

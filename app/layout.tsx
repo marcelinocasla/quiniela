@@ -1,11 +1,31 @@
 import type { Metadata } from "next";
-import { Lexend } from "next/font/google";
+import { Geist, Geist_Mono, Manrope, Lexend, Public_Sans } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "@/components/auth-provider";
+
+const geistSans = Geist({
+  variable: "--font-geist-sans",
+  subsets: ["latin"],
+});
+
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
+  subsets: ["latin"],
+});
+
+const manrope = Manrope({
+  subsets: ["latin"],
+  variable: "--font-manrope",
+});
 
 const lexend = Lexend({
   subsets: ["latin"],
   variable: "--font-lexend",
+});
+
+const publicSans = Public_Sans({
+  subsets: ["latin"],
+  variable: "--font-public-sans",
 });
 
 export const metadata: Metadata = {
@@ -20,9 +40,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${lexend.variable} font-sans antialiased`}
-      >
+      <head>
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Round|Material+Symbols+Outlined" rel="stylesheet" />
+      </head>
+      <body className={`${geistSans.variable} ${geistMono.variable} ${manrope.variable} ${lexend.variable} ${publicSans.variable} antialiased bg-[#000000] text-white selection:bg-[#ff6600]/30`}>
         <AuthProvider>
           {children}
         </AuthProvider>

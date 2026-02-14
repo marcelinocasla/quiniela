@@ -1,13 +1,10 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import DashboardLayout from "@/components/layout/DashboardLayout"
-import { Card, CardContent, CardHeader } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Search, Plus, Edit, Trash2, X, Save, Phone } from "lucide-react"
+import { Search, Plus, Edit, Trash2, X, Save, Phone, User } from "lucide-react"
 import { supabase } from "@/lib/supabase"
 import { useAuth } from "@/components/auth-provider"
+import BottomNav from "@/components/BottomNav"
 
 // Types
 interface Customer {
@@ -147,135 +144,131 @@ export default function CustomersPage() {
     }
 
     return (
-        <DashboardLayout>
-            <div className="flex flex-col gap-6 selection:bg-[#ff6600]/30 min-h-screen">
-                <div className="flex items-center justify-between">
+        <div className="min-h-screen bg-background text-white font-sans selection:bg-primary/30 pb-24 antialiased overflow-x-hidden">
+            {/* Background Gradients */}
+            <div className="fixed top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none">
+                <div className="absolute top-[20%] right-[-20%] w-[600px] h-[600px] bg-primary/5 rounded-full blur-[120px]" />
+                <div className="absolute bottom-[10%] left-[-10%] w-[500px] h-[500px] bg-blue-600/5 rounded-full blur-[100px]" />
+            </div>
+
+            <div className="px-6 pt-8 pb-24 relative z-10">
+                <div className="flex items-center justify-between mb-8">
                     <div>
-                        <h1 className="text-3xl font-bold text-white tracking-tight">Clientes</h1>
-                        <p className="text-[#ff6600] text-sm font-medium tracking-widest uppercase mt-1">Gestiona tu cartera</p>
+                        <h1 className="text-3xl font-black text-white tracking-tighter uppercase mb-1">Clientes</h1>
+                        <p className="text-primary text-[10px] font-bold tracking-[0.2em] uppercase">Gestiona tu cartera</p>
                     </div>
-                    <Button onClick={() => handleOpenModal()} className="bg-[#ff6600] hover:bg-[#ff6600]/90 text-white shadow-lg shadow-orange-500/20 transition-all hover:scale-105 rounded-xl px-6">
-                        <Plus className="mr-2 h-4 w-4" />
-                        Nuevo Cliente
-                    </Button>
+                    <button
+                        onClick={() => handleOpenModal()}
+                        className="bg-primary hover:bg-primary/90 text-primary-foreground shadow-[0_0_20px_rgba(57,255,20,0.3)] hover:shadow-[0_0_30px_rgba(57,255,20,0.5)] transition-all hover:scale-105 rounded-2xl w-12 h-12 flex items-center justify-center active:scale-95"
+                    >
+                        <Plus className="h-6 w-6" />
+                    </button>
                 </div>
 
-                <Card className="bg-[#121212] border border-white/5 overflow-hidden shadow-2xl rounded-2xl relative">
-                    {/* Glow Effect */}
-                    <div className="absolute top-0 right-0 w-64 h-64 bg-[#ff6600]/5 rounded-full blur-[100px] pointer-events-none"></div>
-
-                    <CardHeader className="p-4 border-b border-white/5 bg-white/5 backdrop-blur-sm">
-                        <div className="relative max-w-sm">
-                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-white/40" />
-                            <Input
-                                placeholder="Buscar por nombre o teléfono..."
-                                className="pl-10 border-white/10 bg-black/40 text-white placeholder:text-white/30 focus-visible:ring-[#ff6600] focus-visible:border-[#ff6600] rounded-xl h-10"
+                <div className="glass-card border border-white/5 overflow-hidden shadow-2xl rounded-3xl relative min-h-[500px]">
+                    <div className="p-6 border-b border-white/5 bg-white/[0.02] backdrop-blur-sm sticky top-0 z-20">
+                        <div className="relative">
+                            <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-white/30" />
+                            <input
+                                type="text"
+                                placeholder="Buscar cliente..."
+                                className="w-full pl-12 pr-4 bg-black/20 border border-white/10 focus:border-primary/50 focus:ring-1 focus:ring-primary/50 text-white placeholder:text-white/20 rounded-xl h-12 outline-none transition-all font-medium text-sm"
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
                             />
                         </div>
-                    </CardHeader>
-                    <CardContent className="p-0">
+                    </div>
+
+                    <div className="p-0">
                         {loading ? (
                             <div className="p-20 text-center text-white/40 flex flex-col items-center">
-                                <div className="h-8 w-8 rounded-full border-2 border-[#ff6600] border-t-transparent animate-spin mb-4" />
-                                <p>Cargando clientes...</p>
+                                <div className="h-10 w-10 rounded-full border-4 border-primary border-t-transparent animate-spin mb-4 shadow-[0_0_15px_rgba(57,255,20,0.2)]" />
+                                <p className="text-xs font-bold uppercase tracking-widest animate-pulse">Cargando...</p>
                             </div>
                         ) : filteredCustomers.length === 0 ? (
-                            <div className="p-20 text-center text-white/40">
-                                <p>No se encontraron clientes.</p>
+                            <div className="p-20 text-center text-white/30 flex flex-col items-center">
+                                <User className="h-16 w-16 mb-4 opacity-20" />
+                                <p className="text-sm font-medium">No se encontraron clientes.</p>
                             </div>
                         ) : (
-                            <div className="overflow-x-auto">
-                                <table className="w-full text-left text-sm">
-                                    <thead className="bg-white/5 text-white/40 uppercase text-[10px] tracking-widest font-semibold">
-                                        <tr>
-                                            <th className="px-6 py-4">Nombre</th>
-                                            <th className="px-6 py-4">Teléfono</th>
-                                            <th className="px-6 py-4">Saldo</th>
-                                            <th className="px-6 py-4 text-right">Acciones</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody className="divide-y divide-white/5 text-white/80">
-                                        {filteredCustomers.map((customer) => (
-                                            <tr key={customer.id} className="hover:bg-white/5 transition-colors group">
-                                                <td className="px-6 py-4 font-medium text-white">
-                                                    <div className="flex items-center gap-3">
-                                                        <div className="h-10 w-10 rounded-full bg-[#ff6600]/10 flex items-center justify-center text-[#ff6600] border border-[#ff6600]/20 font-bold text-lg shadow-[0_0_10px_rgba(255,102,0,0.1)]">
-                                                            {customer.full_name.charAt(0).toUpperCase()}
-                                                        </div>
-                                                        <div>
-                                                            <p className="font-bold">{customer.full_name}</p>
-                                                            {customer.notes && <p className="text-[11px] text-white/40 max-w-[200px] truncate mt-0.5">{customer.notes}</p>}
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td className="px-6 py-4 font-mono text-white/60 text-xs tracking-wide">{customer.phone_number}</td>
-                                                <td className="px-6 py-4">
-                                                    <div className={`inline-flex items-center px-3 py-1 rounded-full text-[11px] font-bold border ${customer.balance < 0
-                                                        ? 'bg-red-500/10 text-red-500 border-red-500/20'
-                                                        : customer.balance > 0
-                                                            ? 'bg-green-500/10 text-green-500 border-green-500/20'
-                                                            : 'bg-white/5 text-white/40 border-white/10'
-                                                        }`}>
-                                                        ${customer.balance.toFixed(2)}
-                                                    </div>
-                                                </td>
-                                                <td className="px-6 py-4 text-right">
-                                                    <div className="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                                                        <Button size="icon" variant="ghost" className="h-8 w-8 hover:bg-[#ff6600]/10 hover:text-[#ff6600] rounded-lg transition-colors" onClick={() => handleOpenModal(customer)}>
-                                                            <Edit className="h-4 w-4" />
-                                                        </Button>
-                                                        <Button size="icon" variant="ghost" className="h-8 w-8 hover:bg-red-500/10 hover:text-red-500 rounded-lg transition-colors" onClick={() => handleDelete(customer.id)}>
-                                                            <Trash2 className="h-4 w-4" />
-                                                        </Button>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
+                            <div className="divide-y divide-white/5">
+                                {filteredCustomers.map((customer) => (
+                                    <div key={customer.id} className="p-5 hover:bg-white/5 transition-colors group flex items-center justify-between">
+                                        <div className="flex items-center gap-4">
+                                            <div className="h-12 w-12 rounded-2xl bg-gradient-to-br from-white/10 to-white/5 flex items-center justify-center text-primary border border-white/10 font-black text-lg shadow-inner group-hover:scale-105 transition-transform duration-300">
+                                                {customer.full_name.charAt(0).toUpperCase()}
+                                            </div>
+                                            <div>
+                                                <p className="font-bold text-white text-base leading-tight">{customer.full_name}</p>
+                                                <p className="text-xs text-white/40 font-mono mt-0.5 tracking-wide">{customer.phone_number}</p>
+                                                {customer.notes && <p className="text-[10px] text-white/30 mt-1 max-w-[150px] truncate">{customer.notes}</p>}
+                                            </div>
+                                        </div>
+
+                                        <div className="flex flex-col items-end gap-2">
+                                            <div className={`px-3 py-1 rounded-lg text-[10px] font-bold border ${customer.balance < 0
+                                                ? 'bg-red-500/10 text-red-500 border-red-500/20'
+                                                : customer.balance > 0
+                                                    ? 'bg-green-500/10 text-green-500 border-green-500/20'
+                                                    : 'bg-white/5 text-white/30 border-white/10'
+                                                }`}>
+                                                ${customer.balance.toFixed(2)}
+                                            </div>
+
+                                            <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity translate-x-4 group-hover:translate-x-0 duration-300">
+                                                <button onClick={() => handleOpenModal(customer)} className="p-2 hover:bg-white/10 text-white/50 hover:text-white rounded-lg transition-colors">
+                                                    <Edit className="h-4 w-4" />
+                                                </button>
+                                                <button onClick={() => handleDelete(customer.id)} className="p-2 hover:bg-red-500/10 text-white/50 hover:text-red-500 rounded-lg transition-colors">
+                                                    <Trash2 className="h-4 w-4" />
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))}
                             </div>
                         )}
-                    </CardContent>
-                </Card>
+                    </div>
+                </div>
             </div>
 
             {/* Modal Dialog */}
             {isModalOpen && (
-                <div className="fixed inset-0 bg-black/80 backdrop-blur-md flex items-center justify-center z-[100] p-4 animate-in fade-in duration-200">
-                    <div className="bg-[#121212] border border-white/10 rounded-2xl w-full max-w-md shadow-2xl animate-in zoom-in-95 duration-200 overflow-hidden relative">
-                        {/* Modal Glow */}
-                        <div className="absolute -top-32 -right-32 w-64 h-64 bg-[#ff6600]/10 rounded-full blur-[80px] pointer-events-none"></div>
+                <div className="fixed inset-0 bg-black/60 backdrop-blur-xl flex items-center justify-center z-[100] p-4 animate-in fade-in duration-300">
+                    <div className="glass-card border border-white/10 rounded-3xl w-full max-w-md shadow-2xl animate-in zoom-in-95 duration-300 overflow-hidden relative">
+                        <div className="absolute top-0 right-0 w-64 h-64 bg-primary/20 rounded-full blur-[80px] pointer-events-none"></div>
 
-                        <div className="flex justify-between items-center bg-white/5 border-b border-white/5 p-5 relative z-10">
+                        <div className="flex justify-between items-center bg-white/5 border-b border-white/5 p-6 relative z-10">
                             <div>
                                 <h3 className="text-xl font-bold text-white">
                                     {editingCustomer ? 'Editar Cliente' : 'Nuevo Cliente'}
                                 </h3>
-                                <p className="text-[10px] uppercase text-[#ff6600] tracking-widest font-semibold mt-0.5">Información Personal</p>
+                                <p className="text-[10px] uppercase text-primary tracking-widest font-bold mt-1">Información Personal</p>
                             </div>
-                            <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full hover:bg-white/10 text-white/60 hover:text-white transition-colors" onClick={() => setIsModalOpen(false)}>
+                            <button onClick={() => setIsModalOpen(false)} className="h-8 w-8 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center text-white/60 hover:text-white transition-colors">
                                 <X className="h-4 w-4" />
-                            </Button>
+                            </button>
                         </div>
 
-                        <div className="p-6 space-y-5 relative z-10">
+                        <div className="p-6 space-y-6 relative z-10">
                             <div className="space-y-2">
                                 <label className="text-[10px] uppercase tracking-widest font-bold text-white/60 ml-1">Nombre Completo</label>
-                                <Input
-                                    className="bg-black/50 border-white/10 focus-visible:ring-[#ff6600] focus-visible:border-[#ff6600] text-white rounded-xl py-6"
-                                    placeholder="Ej: Juan Perez"
-                                    value={formData.full_name}
-                                    onChange={(e) => setFormData({ ...formData, full_name: e.target.value })}
-                                />
+                                <div className="relative group">
+                                    <User className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-white/30 group-focus-within:text-primary transition-colors" />
+                                    <input
+                                        className="w-full pl-11 pr-4 bg-black/40 border border-white/10 focus:border-primary/50 focus:ring-1 focus:ring-primary/50 text-white rounded-xl py-4 outline-none transition-all"
+                                        placeholder="Ej: Juan Perez"
+                                        value={formData.full_name}
+                                        onChange={(e) => setFormData({ ...formData, full_name: e.target.value })}
+                                    />
+                                </div>
                             </div>
                             <div className="space-y-2">
                                 <label className="text-[10px] uppercase tracking-widest font-bold text-white/60 ml-1">Teléfono (WhatsApp)</label>
-                                <div className="relative">
-                                    <Phone className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-white/40" />
-                                    <Input
-                                        className="pl-11 bg-black/50 border-white/10 focus-visible:ring-[#ff6600] focus-visible:border-[#ff6600] text-white rounded-xl py-6"
+                                <div className="relative group">
+                                    <Phone className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-white/30 group-focus-within:text-primary transition-colors" />
+                                    <input
+                                        className="w-full pl-11 pr-4 bg-black/40 border border-white/10 focus:border-primary/50 focus:ring-1 focus:ring-primary/50 text-white rounded-xl py-4 outline-none transition-all"
                                         placeholder="Ej: +54 9 11 1234 5678"
                                         value={formData.phone_number}
                                         onChange={(e) => setFormData({ ...formData, phone_number: e.target.value })}
@@ -284,8 +277,8 @@ export default function CustomersPage() {
                             </div>
                             <div className="space-y-2">
                                 <label className="text-[10px] uppercase tracking-widest font-bold text-white/60 ml-1">Notas Adicionales</label>
-                                <Input
-                                    className="bg-black/50 border-white/10 focus-visible:ring-[#ff6600] focus-visible:border-[#ff6600] text-white rounded-xl py-6"
+                                <input
+                                    className="w-full px-4 bg-black/40 border border-white/10 focus:border-primary/50 focus:ring-1 focus:ring-primary/50 text-white rounded-xl py-4 outline-none transition-all"
                                     placeholder="Ej: Cliente preferencial"
                                     value={formData.notes}
                                     onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
@@ -293,21 +286,23 @@ export default function CustomersPage() {
                             </div>
                         </div>
 
-                        <div className="flex justify-end gap-3 p-5 border-t border-white/5 bg-white/5 relative z-10">
-                            <Button variant="outline" className="border-white/10 text-white/70 hover:bg-white/5 hover:text-white rounded-xl px-4" onClick={() => setIsModalOpen(false)}>
+                        <div className="flex justify-end gap-3 p-6 border-t border-white/5 bg-white/5 relative z-10">
+                            <button onClick={() => setIsModalOpen(false)} className="px-6 py-3 rounded-xl text-xs font-bold text-white/60 hover:text-white hover:bg-white/5 transition-colors border border-transparent hover:border-white/10">
                                 Cancelar
-                            </Button>
-                            <Button className="bg-[#ff6600] hover:bg-[#ff6600]/90 text-white shadow-lg shadow-orange-500/20 rounded-xl px-6" onClick={handleSave} disabled={saving}>
+                            </button>
+                            <button onClick={handleSave} disabled={saving} className="px-6 py-3 rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground font-bold text-xs uppercase tracking-wider shadow-[0_0_20px_rgba(57,255,20,0.2)] hover:shadow-[0_0_30px_rgba(57,255,20,0.4)] transition-all active:scale-95 flex items-center gap-2">
                                 {saving ? (
                                     <>Guardando...</>
                                 ) : (
-                                    <><Save className="mr-2 h-4 w-4" /> Guardar</>
+                                    <><Save className="h-4 w-4" /> Guardar</>
                                 )}
-                            </Button>
+                            </button>
                         </div>
                     </div>
                 </div>
             )}
-        </DashboardLayout>
+
+            <BottomNav />
+        </div>
     )
 }

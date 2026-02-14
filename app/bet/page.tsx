@@ -2,15 +2,13 @@
 
 import { useState } from "react"
 import { useRouter } from "next/navigation"
-import DashboardLayout from "@/components/layout/DashboardLayout"
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { ArrowRight, MessageSquare, Monitor, Search, Wallet, QrCode, Banknote, Loader2 } from "lucide-react"
+import BottomNav from "@/components/BottomNav"
+import { ArrowRight, MessageSquare, Monitor, Search, Wallet, QrCode, Banknote, Loader2, ChevronLeft } from "lucide-react"
 import { cn } from "@/lib/utils"
 // import { useAuth } from "@/components/auth-provider" // Assuming AuthProvider is ready
 import { Ticket } from "@/components/ticket"
 import { initMercadoPago, Wallet as MPWallet } from '@mercadopago/sdk-react'
+import Link from "next/link"
 
 // Initialize MP Frontend SDK
 initMercadoPago(process.env.NEXT_PUBLIC_MP_PUBLIC_KEY!);
@@ -124,67 +122,184 @@ export default function BetPage() {
 
     if (ticket) {
         return (
-            <DashboardLayout>
+            <div className="min-h-screen bg-background text-white font-sans flex flex-col items-center justify-center p-4">
                 <Ticket bet={ticket} onNewBet={handleNewBet} />
-            </DashboardLayout>
+                <BottomNav />
+            </div>
         )
     }
 
     return (
-        <DashboardLayout>
-            <div className="mx-auto max-w-2xl space-y-6">
-                <h1 className="text-2xl font-bold">Nueva Jugada</h1>
+        <div className="min-h-screen bg-background text-white font-sans selection:bg-primary/30 pb-24 antialiased overflow-x-hidden">
+            {/* Background Gradients */}
+            <div className="fixed top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none">
+                <div className="absolute top-[10%] left-[-10%] w-[400px] h-[400px] bg-primary/5 rounded-full blur-[100px]" />
+                <div className="absolute bottom-[20%] right-[-10%] w-[500px] h-[500px] bg-blue-600/5 rounded-full blur-[120px]" />
+            </div>
+
+            {/* Header */}
+            <header className="sticky top-0 z-40 bg-background/80 backdrop-blur-xl border-b border-white/5 px-6 py-4 flex items-center gap-4">
+                <Link href="/dashboard" className="p-2 -ml-2 rounded-full hover:bg-white/10 transition-colors">
+                    <ChevronLeft className="w-6 h-6 text-white" />
+                </Link>
+                <div>
+                    <h1 className="text-xl font-bold tracking-tight text-white">Nueva Jugada</h1>
+                    <p className="text-[10px] text-primary font-bold uppercase tracking-widest">Cargar Apuesta</p>
+                </div>
+            </header>
+
+            <div className="px-6 py-8 mx-auto max-w-2xl space-y-6">
 
                 {/* Origin Toggle */}
-                <div className="flex rounded-md bg-neutral-900 p-1 w-fit">
-                    <button onClick={() => setOrigin("counter")} className={cn("flex items-center gap-2 rounded px-3 py-1 text-sm font-medium transition-colors", origin === "counter" ? "bg-neutral-800 text-white shadow" : "text-neutral-500 hover:text-white")}><Monitor className="h-4 w-4" /> Mostrador</button>
-                    <button onClick={() => setOrigin("whatsapp")} className={cn("flex items-center gap-2 rounded px-3 py-1 text-sm font-medium transition-colors", origin === "whatsapp" ? "bg-green-600/20 text-green-500" : "text-neutral-500 hover:text-white")}><MessageSquare className="h-4 w-4" /> WhatsApp</button>
+                <div className="bg-black/40 backdrop-blur-md p-1 rounded-2xl flex w-fit border border-white/5">
+                    <button onClick={() => setOrigin("counter")} className={cn("flex items-center gap-2 rounded-xl px-4 py-2 text-xs font-bold transition-all", origin === "counter" ? "bg-white/10 text-white shadow-lg" : "text-white/40 hover:text-white")}>
+                        <Monitor className="h-4 w-4" /> Mostrador
+                    </button>
+                    <button onClick={() => setOrigin("whatsapp")} className={cn("flex items-center gap-2 rounded-xl px-4 py-2 text-xs font-bold transition-all", origin === "whatsapp" ? "bg-primary/20 text-primary shadow-[0_0_15px_rgba(57,255,20,0.3)]" : "text-white/40 hover:text-white")}>
+                        <MessageSquare className="h-4 w-4" /> WhatsApp
+                    </button>
                 </div>
 
                 {/* WhatsApp Customer Search */}
                 {origin === "whatsapp" && (
-                    <Card className="border-green-500/20 bg-green-500/5"><CardContent className="pt-6"><div className="flex items-end gap-2"><div className="flex-1 space-y-2"><label className="text-sm font-medium text-green-500">Buscar Cliente</label><div className="relative"><Search className="absolute left-2.5 top-2.5 h-4 w-4 text-green-500/50" /><Input placeholder="Celular o nombre..." className="border-green-500/20 bg-black pl-9 text-white focus-visible:ring-green-500" /></div></div><Button variant="outline" className="border-green-500/20 text-green-500 hover:bg-green-500/10">Vincular</Button></div></CardContent></Card>
+                    <div className="bg-primary/5 border border-primary/20 p-4 rounded-3xl animate-in fade-in slide-in-from-top-2">
+                        <div className="flex items-end gap-2">
+                            <div className="flex-1 space-y-2">
+                                <label className="text-xs font-bold text-primary uppercase tracking-wider">Buscar Cliente</label>
+                                <div className="relative group">
+                                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-primary/50 group-focus-within:text-primary transition-colors" />
+                                    <input
+                                        placeholder="Celular o nombre..."
+                                        className="w-full bg-black/40 border border-primary/20 rounded-xl py-2 pl-9 pr-4 text-sm text-white focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/50 placeholder:text-white/20 transition-all font-medium"
+                                    />
+                                </div>
+                            </div>
+                            <button className="bg-primary/20 hover:bg-primary/30 text-primary border border-primary/20 font-bold px-4 py-2 rounded-xl text-xs transition-colors h-[42px]">
+                                Vincular
+                            </button>
+                        </div>
+                    </div>
                 )}
 
-                <Card className="border-neutral-800 bg-neutral-900 text-white">
-                    <CardHeader><CardTitle className="text-lg">Detalles de Apuesta</CardTitle></CardHeader>
-                    <CardContent className="space-y-6">
-                        <div className="space-y-3">
-                            <label className="text-sm font-medium text-neutral-400">Lotería</label>
-                            <div className="flex flex-wrap gap-2">{lotteries.map((l) => (<button key={l.id} onClick={() => setLottery(l.id)} className={cn("rounded-full border px-4 py-2 text-sm font-medium transition-colors", lottery === l.id ? "border-orange-500 bg-orange-500 text-white" : "border-neutral-800 bg-neutral-950 text-neutral-400 hover:border-neutral-700 hover:text-white")}>{l.name}</button>))}</div>
-                        </div>
-                        <div className="grid gap-6 md:grid-cols-2">
-                            <div className="space-y-3"><label className="text-sm font-medium text-neutral-400">Número</label><Input type="number" placeholder="0000" className="h-14 text-2xl font-bold tracking-widest text-center border-neutral-800 bg-black focus-visible:ring-orange-500" value={number} onChange={(e) => setNumber(e.target.value.slice(0, 4))} /></div>
-                            <div className="space-y-3"><label className="text-sm font-medium text-neutral-400">Ubicación</label><div className="grid grid-cols-2 gap-2">{locations.map((loc) => (<button key={loc.id} onClick={() => setLocation(loc.id)} className={cn("flex items-center justify-center rounded-md border py-2 text-xs font-medium transition-all", location === loc.id ? "border-orange-500 bg-orange-500/10 text-orange-500" : "border-neutral-800 bg-neutral-950 text-neutral-400 hover:border-neutral-700")}>{loc.label}</button>))}</div></div>
-                        </div>
-                        <div className="space-y-3"><label className="text-sm font-medium text-neutral-400">Importe</label><div className="relative"><span className="absolute left-4 top-1/2 -translate-y-1/2 text-lg text-neutral-500">$</span><Input type="number" placeholder="0.00" className="pl-8 text-lg font-bold border-neutral-800 bg-black focus-visible:ring-orange-500" value={amount} onChange={(e) => setAmount(e.target.value)} /></div></div>
+                <div className="glass-card border border-white/5 rounded-3xl overflow-hidden relative">
+                    <div className="p-6 border-b border-white/5">
+                        <h2 className="text-lg font-bold text-white">Detalles de Apuesta</h2>
+                    </div>
 
-                        <div className="space-y-3 pt-4 border-t border-neutral-800">
-                            <label className="text-sm font-medium text-neutral-400">Pago</label>
-                            <div className="grid grid-cols-3 gap-3">
-                                <button onClick={() => setPaymentMethod("cash")} className={cn("flex flex-col items-center gap-2 rounded-lg border p-3 transition-colors", paymentMethod === "cash" ? "border-green-500 bg-green-500/10 text-green-500" : "border-neutral-800 bg-neutral-950 text-neutral-400 hover:bg-neutral-900")}><Banknote className="h-6 w-6" /><span className="text-xs font-medium">Efectivo</span></button>
-                                <button onClick={() => setPaymentMethod("mp")} className={cn("flex flex-col items-center gap-2 rounded-lg border p-3 transition-colors", paymentMethod === "mp" ? "border-blue-500 bg-blue-500/10 text-blue-500" : "border-neutral-800 bg-neutral-950 text-neutral-400 hover:bg-neutral-900")}><QrCode className="h-6 w-6" /><span className="text-xs font-medium">Mercado Pago</span></button>
-                                <button onClick={() => setPaymentMethod("balance")} className={cn("flex flex-col items-center gap-2 rounded-lg border p-3 transition-colors", paymentMethod === "balance" ? "border-orange-500 bg-orange-500/10 text-orange-500" : "border-neutral-800 bg-neutral-950 text-neutral-400 hover:bg-neutral-900")}><Wallet className="h-6 w-6" /><span className="text-xs font-medium">Saldo</span></button>
+                    <div className="p-6 space-y-6">
+                        <div className="space-y-3">
+                            <label className="text-xs font-bold text-white/40 uppercase tracking-widest">Lotería</label>
+                            <div className="flex flex-wrap gap-2">
+                                {lotteries.map((l) => (
+                                    <button
+                                        key={l.id}
+                                        onClick={() => setLottery(l.id)}
+                                        className={cn(
+                                            "rounded-xl border px-4 py-2 text-xs font-bold transition-all uppercase tracking-wide",
+                                            lottery === l.id
+                                                ? "border-primary bg-primary text-black shadow-[0_0_15px_rgba(57,255,20,0.5)] scale-105"
+                                                : "border-white/10 bg-white/5 text-white/40 hover:bg-white/10 hover:text-white hover:border-white/20"
+                                        )}
+                                    >
+                                        {l.name}
+                                    </button>
+                                ))}
                             </div>
                         </div>
-                    </CardContent>
-                    <CardFooter className="flex flex-col gap-4 border-t border-neutral-800 bg-neutral-950/50 p-6">
-                        <div className="flex w-full items-center justify-between text-sm"><span className="text-neutral-400">Total a Pagar</span><span className="text-xl font-bold text-white">${amount || "0"}</span></div>
-                        <div className="flex w-full items-center justify-between text-sm"><span className="text-neutral-400">Posible Premio</span><span className="text-lg font-bold text-orange-500">${possiblePrize.toLocaleString()}</span></div>
+
+                        <div className="grid gap-6 md:grid-cols-2">
+                            <div className="space-y-3">
+                                <label className="text-xs font-bold text-white/40 uppercase tracking-widest">Número</label>
+                                <input
+                                    type="number"
+                                    placeholder="0000"
+                                    className="w-full h-16 text-3xl font-black tracking-[0.2em] text-center bg-black/40 border border-white/10 rounded-2xl focus:border-primary focus:ring-1 focus:ring-primary/50 outline-none text-white placeholder:text-white/10 transition-all"
+                                    value={number}
+                                    onChange={(e) => setNumber(e.target.value.slice(0, 4))}
+                                />
+                            </div>
+                            <div className="space-y-3">
+                                <label className="text-xs font-bold text-white/40 uppercase tracking-widest">Ubicación</label>
+                                <div className="grid grid-cols-2 gap-2">
+                                    {locations.map((loc) => (
+                                        <button
+                                            key={loc.id}
+                                            onClick={() => setLocation(loc.id)}
+                                            className={cn(
+                                                "flex items-center justify-center rounded-xl border py-3 text-[10px] font-bold uppercase transition-all",
+                                                location === loc.id
+                                                    ? "border-primary/50 bg-primary/20 text-primary"
+                                                    : "border-white/10 bg-white/5 text-white/40 hover:bg-white/10 hover:text-white"
+                                            )}
+                                        >
+                                            {loc.label}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="space-y-3">
+                            <label className="text-xs font-bold text-white/40 uppercase tracking-widest">Importe</label>
+                            <div className="relative">
+                                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-xl text-white/50 font-bold">$</span>
+                                <input
+                                    type="number"
+                                    placeholder="0.00"
+                                    className="w-full h-14 pl-10 text-xl font-bold bg-black/40 border border-white/10 rounded-2xl focus:border-primary focus:ring-1 focus:ring-primary/50 outline-none text-white placeholder:text-white/10 transition-all"
+                                    value={amount}
+                                    onChange={(e) => setAmount(e.target.value)}
+                                />
+                            </div>
+                        </div>
+
+                        <div className="space-y-3 pt-6 border-t border-white/5">
+                            <label className="text-xs font-bold text-white/40 uppercase tracking-widest">Método de Pago</label>
+                            <div className="grid grid-cols-3 gap-3">
+                                <button onClick={() => setPaymentMethod("cash")} className={cn("flex flex-col items-center gap-2 rounded-2xl border p-3 transition-all", paymentMethod === "cash" ? "border-green-500 bg-green-500/20 text-green-500" : "border-white/10 bg-white/5 text-white/40 hover:bg-white/10 hover:text-white")}>
+                                    <Banknote className="h-6 w-6" />
+                                    <span className="text-[10px] font-bold uppercase">Efectivo</span>
+                                </button>
+                                <button onClick={() => setPaymentMethod("mp")} className={cn("flex flex-col items-center gap-2 rounded-2xl border p-3 transition-all", paymentMethod === "mp" ? "border-blue-500 bg-blue-500/20 text-blue-500" : "border-white/10 bg-white/5 text-white/40 hover:bg-white/10 hover:text-white")}>
+                                    <QrCode className="h-6 w-6" />
+                                    <span className="text-[10px] font-bold uppercase">Mercado Pago</span>
+                                </button>
+                                <button onClick={() => setPaymentMethod("balance")} className={cn("flex flex-col items-center gap-2 rounded-2xl border p-3 transition-all", paymentMethod === "balance" ? "border-primary bg-primary/20 text-primary" : "border-white/10 bg-white/5 text-white/40 hover:bg-white/10 hover:text-white")}>
+                                    <Wallet className="h-6 w-6" />
+                                    <span className="text-[10px] font-bold uppercase">Saldo</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="flex flex-col gap-4 border-t border-white/5 bg-black/20 p-6 backdrop-blur-sm">
+                        <div className="flex w-full items-center justify-between text-sm">
+                            <span className="text-white/60 font-medium">Total a Pagar</span>
+                            <span className="text-2xl font-black text-white px-2 decoration-primary underline decoration-2 underline-offset-4">${amount || "0"}</span>
+                        </div>
+                        <div className="flex w-full items-center justify-between text-sm">
+                            <span className="text-white/60 font-medium">Posible Premio</span>
+                            <span className="text-lg font-bold text-primary drop-shadow-[0_0_10px_rgba(57,255,20,0.8)]">${possiblePrize.toLocaleString()}</span>
+                        </div>
 
                         {preferenceId && paymentMethod === 'mp' ? (
-                            <div className="w-full">
+                            <div className="w-full animate-in fade-in zoom-in duration-300">
                                 <MPWallet initialization={{ preferenceId }} />
-                                <Button variant="ghost" onClick={() => setPreferenceId(null)} className="w-full mt-2 text-neutral-400">Cancelar Pago</Button>
+                                <button onClick={() => setPreferenceId(null)} className="w-full mt-2 text-sm text-white/40 hover:text-white transition-colors">Cancelar Pago</button>
                             </div>
                         ) : (
-                            <Button className="w-full bg-orange-600 hover:bg-orange-700 text-lg h-12 mt-2" onClick={handleConfirm} disabled={loading}>
-                                {loading ? <Loader2 className="animate-spin" /> : <>Confirmar Jugada <ArrowRight className="ml-2 h-5 w-5" /></>}
-                            </Button>
+                            <button
+                                className="w-full bg-primary hover:bg-primary/90 text-primary-foreground text-lg font-black h-14 rounded-2xl flex items-center justify-center gap-2 shadow-[0_0_25px_rgba(57,255,20,0.4)] hover:shadow-[0_0_35px_rgba(57,255,20,0.6)] active:scale-[0.98] transition-all uppercase tracking-widest mt-2 disabled:opacity-50 disabled:pointer-events-none"
+                                onClick={handleConfirm}
+                                disabled={loading}
+                            >
+                                {loading ? <Loader2 className="animate-spin" /> : <>Confirmar Jugada <ArrowRight className="ml-2 h-6 w-6" /></>}
+                            </button>
                         )}
-                    </CardFooter>
-                </Card>
+                    </div>
+                </div>
             </div>
-        </DashboardLayout>
+            <BottomNav />
+        </div>
     )
 }

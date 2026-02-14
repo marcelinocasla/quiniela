@@ -2,16 +2,49 @@
 
 import { useAuth } from "@/components/auth-provider"
 import { useRouter } from "next/navigation"
-import { useEffect } from "react"
-import { TrendingUp, Clock, ChevronRight, Trophy, XCircle } from "lucide-react"
+import { useEffect, useState } from "react"
+import { supabase } from "@/lib/supabase"
+import BottomNav from "@/components/BottomNav"
 
 export default function AgencyDashboard() {
     const { user, loading } = useAuth()
     const router = useRouter()
+    const [latestBets, setLatestBets] = useState<any[]>([])
+    const [stats, setStats] = useState({ totalJugado: 0, premiosAPagar: 0, gananciaNeta: 0 })
 
     useEffect(() => {
         if (!loading && !user) {
             router.push("/login")
+        } else if (user) {
+            const fetchData = async () => {
+                // Fetch bets for list
+                const { data: betsData } = await supabase
+                    .from('bets')
+                    .select('*')
+                    .order('created_at', { ascending: false })
+                    .limit(5)
+
+                if (betsData) setLatestBets(betsData)
+
+                // Fetch stats (aggregates)
+                const { data: allBets } = await supabase
+                    .from('bets')
+                    .select('amount, possible_prize, status')
+
+                if (allBets) {
+                    const totalJugado = allBets.reduce((sum, bet) => sum + Number(bet.amount), 0)
+                    const premiosAPagar = allBets
+                        .filter(bet => bet.status === 'won')
+                        .reduce((sum, bet) => sum + Number(bet.possible_prize), 0)
+
+                    setStats({
+                        totalJugado,
+                        premiosAPagar,
+                        gananciaNeta: totalJugado - premiosAPagar
+                    })
+                }
+            }
+            fetchData()
         }
     }, [user, loading, router])
 
@@ -22,172 +55,147 @@ export default function AgencyDashboard() {
     if (!user) return null
 
     return (
-        <div className="min-h-screen bg-black text-white pb-24 font-sans selection:bg-[#ff6600]/30">
-            {/* Top Navigation Bar (Mobile) */}
-            <nav className="sticky top-0 z-50 bg-black/80 backdrop-blur-md border-b border-white/5 px-6 py-4 flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-[#ff6600] flex items-center justify-center text-white shadow-lg shadow-orange-500/20">
+        <div className="min-h-screen bg-background text-white pb-32 font-sans selection:bg-primary/30 antialiased overflow-x-hidden">
+            {/* Background Gradients */}
+            <div className="fixed top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none">
+                <div className="absolute top-[-10%] right-[-5%] w-[500px] h-[500px] bg-primary/5 rounded-full blur-[120px]" />
+                <div className="absolute bottom-[-10%] left-[-20%] w-[600px] h-[600px] bg-blue-600/5 rounded-full blur-[150px]" />
+            </div>
+
+            {/* Web App Header */}
+            <header className="sticky top-0 z-40 bg-background/80 backdrop-blur-xl border-b border-white/5 px-6 py-4 flex items-center justify-between">
+                <div className="flex items-center gap-4">
+                    <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center text-primary shadow-[0_0_15px_rgba(57,255,20,0.15)] border border-primary/20">
                         <span className="material-icons-round text-xl">account_balance_wallet</span>
                     </div>
                     <div>
-                        <h1 className="text-sm font-medium text-white/60 leading-none">Agencia #4205</h1>
-                        <p className="text-lg font-bold text-white">Quiniela Digital</p>
+                        <h1 className="text-[10px] font-bold text-primary tracking-widest uppercase">Agencia Digital</h1>
+                        <p className="text-lg font-bold text-white tracking-tight">Quiniela Premium</p>
                     </div>
                 </div>
-                <button className="w-10 h-10 rounded-full bg-[#1c1c1e] flex items-center justify-center border border-white/10">
-                    <span className="material-icons-round text-white/80">notifications</span>
+                <button className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center border border-white/5 hover:bg-white/10 transition-all active:scale-95 relative group">
+                    <span className="material-icons-round text-white/60 group-hover:text-white transition-colors">notifications</span>
+                    <span className="absolute top-2 right-2.5 w-2 h-2 bg-red-500 rounded-full border border-[#050A14]"></span>
                 </button>
-            </nav>
+            </header>
 
-            <main className="px-5 pt-6 space-y-8">
+            <main className="px-5 pt-8 space-y-8">
                 {/* Summary Cards Horizontal Scroll */}
                 <section>
-                    <div className="flex overflow-x-auto gap-4 pb-4 hide-scrollbar">
+                    <div className="flex overflow-x-auto gap-4 pb-4 hide-scrollbar -mx-5 px-5 snap-x">
                         {/* Total Jugado */}
-                        <div className="flex-none w-64 p-5 rounded-xl bg-[#121212] border border-white/5 shadow-2xl">
-                            <div className="flex items-center gap-2 mb-3">
-                                <span className="material-icons-round text-[#ff6600] text-sm">payments</span>
-                                <span className="text-xs font-semibold text-white/40 uppercase tracking-wider">Total Jugado</span>
+                        <div className="flex-none w-72 p-6 rounded-3xl glass-card snap-center relative overflow-hidden group">
+                            <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full blur-3xl group-hover:bg-primary/10 transition-all duration-500"></div>
+
+                            <div className="flex items-center gap-3 mb-4 relative z-10">
+                                <div className="p-2 rounded-xl bg-primary/10">
+                                    <span className="material-icons-round text-primary text-xl">payments</span>
+                                </div>
+                                <span className="text-xs font-bold text-white/50 uppercase tracking-widest">Total Jugado</span>
                             </div>
-                            <div className="flex items-baseline gap-1">
-                                <span className="text-xs text-[#ff6600] font-bold">$</span>
-                                <span className="text-3xl font-extrabold tracking-tight">1.284.500</span>
+                            <div className="flex items-baseline gap-1 relative z-10">
+                                <span className="text-sm text-primary font-bold opacity-80">$</span>
+                                <span className="text-4xl font-black tracking-tighter text-white">{stats.totalJugado.toLocaleString('es-AR')}</span>
                             </div>
-                            <div className="mt-3 flex items-center gap-1 text-green-500 text-xs font-medium">
-                                <TrendingUp className="h-4 w-4" />
+                            <div className="mt-4 flex items-center gap-2 text-primary text-xs font-bold bg-primary/10 w-fit px-3 py-1.5 rounded-lg border border-primary/10">
+                                <span className="material-icons-round text-sm">trending_up</span>
                                 <span>+12.5% vs ayer</span>
                             </div>
                         </div>
 
                         {/* Premios a Pagar */}
-                        <div className="flex-none w-64 p-5 rounded-xl bg-[#121212] border border-white/5 shadow-2xl">
-                            <div className="flex items-center gap-2 mb-3">
-                                <span className="material-icons-round text-[#ff6600] text-sm">confirmation_number</span>
-                                <span className="text-xs font-semibold text-white/40 uppercase tracking-wider">Premios a Pagar</span>
+                        <div className="flex-none w-72 p-6 rounded-3xl glass-card snap-center relative overflow-hidden group">
+                            <div className="absolute top-0 right-0 w-32 h-32 bg-orange-500/5 rounded-full blur-3xl group-hover:bg-orange-500/10 transition-all duration-500"></div>
+
+                            <div className="flex items-center gap-3 mb-4 relative z-10">
+                                <div className="p-2 rounded-xl bg-orange-500/10">
+                                    <span className="material-icons-round text-orange-400 text-xl">confirmation_number</span>
+                                </div>
+                                <span className="text-xs font-bold text-white/50 uppercase tracking-widest">Premios a Pagar</span>
                             </div>
-                            <div className="flex items-baseline gap-1">
-                                <span className="text-xs text-[#ff6600] font-bold">$</span>
-                                <span className="text-3xl font-extrabold tracking-tight">452.120</span>
+                            <div className="flex items-baseline gap-1 relative z-10">
+                                <span className="text-sm text-orange-400 font-bold opacity-80">$</span>
+                                <span className="text-4xl font-black tracking-tighter text-white">{stats.premiosAPagar.toLocaleString('es-AR')}</span>
                             </div>
-                            <div className="mt-3 flex items-center gap-1 text-white/40 text-xs font-medium">
-                                <Clock className="h-4 w-4" />
-                                <span>8 boletas pendientes</span>
+                            <div className="mt-4 flex items-center gap-2 text-white/40 text-xs font-bold bg-white/5 w-fit px-3 py-1.5 rounded-lg border border-white/5">
+                                <span className="material-icons-round text-sm">schedule</span>
+                                <span>Pendientes de pago</span>
                             </div>
                         </div>
 
                         {/* Ganancia Neta */}
-                        <div className="flex-none w-64 p-5 rounded-xl bg-[#ff6600]/10 border border-[#ff6600]/30 shadow-2xl">
-                            <div className="flex items-center gap-2 mb-3">
-                                <span className="material-icons-round text-[#ff6600] text-sm">savings</span>
-                                <span className="text-xs font-semibold text-[#ff6600]/80 uppercase tracking-wider font-bold">Ganancia Neta</span>
+                        <div className="flex-none w-72 p-6 rounded-3xl bg-gradient-to-br from-primary/20 to-primary/5 border border-primary/20 shadow-[0_8px_32px_rgba(57,255,20,0.1)] snap-center relative overflow-hidden">
+                            <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-primary/20 rounded-full blur-3xl"></div>
+
+                            <div className="flex items-center gap-3 mb-4 relative z-10">
+                                <div className="p-2 rounded-xl bg-black/20 backdrop-blur-sm border border-white/10">
+                                    <span className="material-icons-round text-white text-xl">savings</span>
+                                </div>
+                                <span className="text-xs font-bold text-primary-foreground/70 uppercase tracking-widest">Ganancia Neta</span>
                             </div>
-                            <div className="flex items-baseline gap-1">
-                                <span className="text-xs text-[#ff6600] font-bold">$</span>
-                                <span className="text-3xl font-extrabold tracking-tight text-[#ff6600]">832.380</span>
+                            <div className="flex items-baseline gap-1 relative z-10">
+                                <span className="text-sm text-primary-foreground/70 font-bold">$</span>
+                                <span className="text-4xl font-black tracking-tighter text-white">{stats.gananciaNeta.toLocaleString('es-AR')}</span>
                             </div>
-                            <div className="mt-3 flex items-center gap-1 text-[#ff6600] text-xs font-bold">
-                                <Trophy className="h-4 w-4" />
-                                <span>Récord Semanal</span>
+                            <div className="mt-4 flex items-center gap-2 text-white text-xs font-bold bg-black/20 backdrop-blur-md w-fit px-3 py-1.5 rounded-lg border border-white/10">
+                                <span className="material-icons-round text-sm">workspace_premium</span>
+                                <span>Excelente</span>
                             </div>
                         </div>
-                    </div>
-                </section>
-
-                {/* Weekly Chart Section (Placeholder for now) */}
-                <section className="space-y-4">
-                    <div className="flex items-center justify-between">
-                        <h2 className="text-lg font-bold">Ventas Semanales</h2>
-                        <span className="text-xs font-medium text-white/40">Mar 12 - Mar 18</span>
-                    </div>
-                    <div className="bg-[#121212] p-6 rounded-xl border border-white/5 h-48 flex items-end justify-between gap-2">
-                        {/* Bars mimicking the design */}
-                        {[30, 50, 70, 100, 60, 40, 20].map((h, i) => (
-                            <div key={i} className="flex flex-col items-center gap-2 flex-1 h-full justify-end">
-                                <div className="w-full bg-white/5 rounded-full relative overflow-hidden h-full">
-                                    <div
-                                        className={`absolute bottom-0 w-full rounded-full ${h === 100 ? 'bg-[#ff6600] shadow-lg shadow-orange-500/20' : 'bg-[#ff6600]/20'}`}
-                                        style={{ height: `${h}%` }}
-                                    ></div>
-                                </div>
-                                <span className={`text-[10px] font-medium ${h === 100 ? 'text-[#ff6600] font-bold' : 'text-white/40'}`}>
-                                    {['L', 'M', 'M', 'J', 'V', 'S', 'D'][i]}
-                                </span>
-                            </div>
-                        ))}
                     </div>
                 </section>
 
                 {/* Latest Games Section */}
-                <section className="space-y-4">
-                    <div className="flex items-center justify-between">
-                        <h2 className="text-lg font-bold">Últimas Jugadas</h2>
-                        <button className="text-xs font-bold text-[#ff6600] flex items-center gap-1 uppercase tracking-widest">
-                            Ver Todo <ChevronRight className="h-3 w-3" />
+                <section className="space-y-5">
+                    <div className="flex items-center justify-between px-1">
+                        <h2 className="text-lg font-bold text-white tracking-tight flex items-center gap-2">
+                            <span className="w-1.5 h-1.5 rounded-full bg-primary shadow-[0_0_10px_rgba(57,255,20,0.8)]"></span>
+                            Últimas Jugadas
+                        </h2>
+                        <button className="text-[10px] font-bold text-primary/80 hover:text-primary transition-colors flex items-center gap-1 uppercase tracking-widest bg-primary/5 px-3 py-1.5 rounded-lg border border-primary/10 hover:bg-primary/10" onClick={() => router.push('/reportes')}>
+                            Ver Todo
                         </button>
                     </div>
                     <div className="space-y-3">
-                        {/* Winner Card */}
-                        <div className="bg-[#121212] p-4 rounded-xl border border-white/5 flex items-center justify-between">
-                            <div className="flex items-center gap-4">
-                                <div className="w-12 h-12 rounded-lg bg-green-500/10 flex items-center justify-center">
-                                    <Trophy className="text-green-500 h-6 w-6" />
-                                </div>
-                                <div>
-                                    <div className="flex items-center gap-2">
-                                        <h3 className="font-bold text-sm">Lotería Nacional</h3>
-                                        <span className="px-2 py-0.5 rounded-full bg-green-500 text-[10px] font-bold text-white uppercase tracking-tighter">Ganador</span>
+                        {latestBets.length === 0 ? (
+                            <div className="text-center py-12 text-white/30 border border-dashed border-white/10 rounded-3xl bg-white/[0.02]">
+                                <span className="material-icons-round text-4xl mb-2 opacity-50">receipt_long</span>
+                                <p className="text-sm font-medium">No hay jugadas recientes</p>
+                            </div>
+                        ) : (
+                            latestBets.map((bet: any) => (
+                                <div key={bet.id} className="glass-card p-4 rounded-2xl flex items-center justify-between group hover:bg-white/[0.03] transition-colors">
+                                    <div className="flex items-center gap-4">
+                                        <div className={`w-12 h-12 rounded-xl flex items-center justify-center shadow-lg ${bet.status === 'won' ? 'bg-gradient-to-br from-green-500/20 to-green-500/5 border border-green-500/20 text-green-500' : bet.status === 'lost' ? 'bg-red-500/10 border border-red-500/10 text-red-500/60' : 'bg-white/5 border border-white/5 text-white/40'}`}>
+                                            <span className="material-icons-round text-xl">
+                                                {bet.status === 'won' ? 'emoji_events' : bet.status === 'lost' ? 'close' : 'hourglass_empty'}
+                                            </span>
+                                        </div>
+                                        <div>
+                                            <div className="flex items-center gap-2 mb-0.5">
+                                                <h3 className="font-bold text-sm text-white capitalize tracking-tight">{bet.lottery}</h3>
+                                                <span className={`px-2 py-[2px] rounded-md text-[9px] font-bold uppercase tracking-wider border ${bet.status === 'won' ? 'bg-green-500/10 border-green-500/20 text-green-400' : bet.status === 'lost' ? 'bg-red-500/5 border-red-500/10 text-red-500/50' : 'bg-yellow-500/5 border-yellow-500/10 text-yellow-500/70'}`}>
+                                                    {bet.status === 'pending' ? 'Pendiente' : bet.status === 'won' ? 'Ganador' : bet.status === 'lost' ? 'No Ganó' : bet.status}
+                                                </span>
+                                            </div>
+                                            <p className="text-xs text-white/40 font-medium">
+                                                ID: <span className="font-mono text-white/30">#{bet.id.slice(0, 5)}</span> • Jugada: <span className="text-white"> {bet.number}</span>
+                                            </p>
+                                        </div>
                                     </div>
-                                    <p className="text-xs text-white/40 mt-1">ID: #83291 • <span className="text-white/60 font-medium">Jugada: 12 - 45 - 67</span></p>
-                                </div>
-                            </div>
-                            <div className="text-right">
-                                <p className="font-extrabold text-sm">$4.500</p>
-                                <p className="text-[10px] text-white/40 mt-1">10:42 AM</p>
-                            </div>
-                        </div>
-
-                        {/* Pending Card */}
-                        <div className="bg-[#121212] p-4 rounded-xl border border-white/5 flex items-center justify-between">
-                            <div className="flex items-center gap-4">
-                                <div className="w-12 h-12 rounded-lg bg-white/10 flex items-center justify-center">
-                                    <Clock className="text-white/40 h-6 w-6" />
-                                </div>
-                                <div>
-                                    <div className="flex items-center gap-2">
-                                        <h3 className="font-bold text-sm">Provincia</h3>
-                                        <span className="px-2 py-0.5 rounded-full bg-white/10 text-[10px] font-bold text-white/60 uppercase tracking-tighter">Pendiente</span>
+                                    <div className="text-right">
+                                        <div className="flex flex-col items-end">
+                                            <span className="text-[10px] font-bold text-primary/60 uppercase tracking-wider mb-0.5">Posible</span>
+                                            <p className="font-black text-lg text-white leading-none tracking-tight">${bet.possible_prize.toLocaleString('es-AR')}</p>
+                                        </div>
                                     </div>
-                                    <p className="text-xs text-white/40 mt-1">ID: #83292 • <span className="text-white/60 font-medium">Jugada: 05 - 19 - 88</span></p>
                                 </div>
-                            </div>
-                            <div className="text-right">
-                                <p className="font-extrabold text-sm">$1.200</p>
-                                <p className="text-[10px] text-white/40 mt-1">10:38 AM</p>
-                            </div>
-                        </div>
-
-                        {/* Lost Card */}
-                        <div className="bg-[#121212] p-4 rounded-xl border border-white/5 flex items-center justify-between opacity-60">
-                            <div className="flex items-center gap-4">
-                                <div className="w-12 h-12 rounded-lg bg-red-500/10 flex items-center justify-center">
-                                    <XCircle className="text-red-500/60 h-6 w-6" />
-                                </div>
-                                <div>
-                                    <div className="flex items-center gap-2">
-                                        <h3 className="font-bold text-sm">Montevideo</h3>
-                                        <span className="px-2 py-0.5 rounded-full bg-red-500/20 text-[10px] font-bold text-red-500 uppercase tracking-tighter">Sin Premio</span>
-                                    </div>
-                                    <p className="text-xs text-white/40 mt-1">ID: #83289 • <span className="text-white/60 font-medium">Jugada: 77 - 23 - 09</span></p>
-                                </div>
-                            </div>
-                            <div className="text-right">
-                                <p className="font-extrabold text-sm">$2.500</p>
-                                <p className="text-[10px] text-white/40 mt-1">09:55 AM</p>
-                            </div>
-                        </div>
+                            ))
+                        )}
                     </div>
                 </section>
             </main>
-        </div>
+            <BottomNav />
+        </div >
     )
 }
