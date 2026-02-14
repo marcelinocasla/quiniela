@@ -26,7 +26,7 @@ export default function BottomNav() {
             </Link>
 
             <div className="relative -top-6">
-                <Link href="/whatsapp">
+                <Link href="/bet/new">
                     <div className="w-14 h-14 bg-gradient-to-br from-primary to-green-400 rounded-full flex items-center justify-center shadow-[0_0_20px_rgba(57,255,20,0.4)] active:scale-95 transition-all active:shadow-[0_0_10px_rgba(57,255,20,0.2)]">
                         <span className="material-icons-round text-[#050A14] text-3xl font-bold">+</span>
                     </div>

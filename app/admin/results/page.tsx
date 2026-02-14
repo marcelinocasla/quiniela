@@ -98,54 +98,64 @@ export default function AdminResultsPage() {
 
     return (
         <div className="min-h-screen bg-background text-white font-sans selection:bg-primary/30 pb-24 antialiased overflow-x-hidden">
-            {/* Background Gradients */}
-            <div className="fixed top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none">
-                <div className="absolute top-[10%] left-[20%] w-[600px] h-[600px] bg-primary/5 rounded-full blur-[120px]" />
-                <div className="absolute bottom-[10%] right-[10%] w-[500px] h-[500px] bg-blue-600/5 rounded-full blur-[100px]" />
+            {/* Background Effects */}
+            <div className="fixed inset-0 -z-10 bg-[url('/grid.svg')] bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))] opacity-20"></div>
+            <div className="fixed top-0 left-0 w-full h-full overflow-hidden -z-20 pointer-events-none">
+                <div className="absolute top-[10%] left-[20%] w-[600px] h-[600px] bg-primary/10 rounded-full blur-[120px] animate-pulse" />
+                <div className="absolute bottom-[10%] right-[10%] w-[500px] h-[500px] bg-blue-600/10 rounded-full blur-[100px]" />
             </div>
 
             {/* Header */}
-            <header className="sticky top-0 z-40 bg-background/80 backdrop-blur-xl border-b border-white/5 px-6 py-4 flex items-center justify-between">
+            <header className="sticky top-0 z-40 bg-background/60 backdrop-blur-xl border-b border-white/5 px-6 py-4 flex items-center justify-between">
                 <div>
-                    <h1 className="text-xl font-black tracking-tight text-white uppercase flex items-center gap-2">
-                        <Dices className="h-6 w-6 text-primary" />
+                    <h1 className="text-xl font-black tracking-tight text-white uppercase flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-xl bg-primary/20 flex items-center justify-center border border-primary/30 shadow-[0_0_15px_rgba(204,255,0,0.15)]">
+                            <Dices className="h-5 w-5 text-primary" />
+                        </div>
                         Cargar Sorteo
                     </h1>
-                    <p className="text-[10px] text-primary font-bold uppercase tracking-widest pl-8">Panel de Administración</p>
+                    <p className="text-[10px] text-white/40 font-bold uppercase tracking-[0.2em] pl-[3.25rem]">Panel de Administración</p>
                 </div>
                 <div className="flex items-center gap-3">
-                    <input
-                        type="date"
-                        value={selectedDate}
-                        onChange={(e) => setSelectedDate(e.target.value)}
-                        className="bg-white/5 border border-white/10 rounded-xl px-3 py-2 text-xs font-bold uppercase text-white outline-none focus:border-primary/50 transition-all"
-                    />
+                    <div className="relative group">
+                        <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-primary pointer-events-none" />
+                        <input
+                            type="date"
+                            value={selectedDate}
+                            onChange={(e) => setSelectedDate(e.target.value)}
+                            className="bg-black/40 border border-white/10 rounded-xl pl-9 pr-3 py-2.5 text-xs font-bold uppercase text-white outline-none focus:border-primary/50 transition-all shadow-inner"
+                        />
+                    </div>
                 </div>
             </header>
 
-            <main className="px-4 pt-6 space-y-6 max-w-4xl mx-auto">
+            <main className="px-4 pt-8 space-y-8 max-w-4xl mx-auto relative z-10">
 
                 {/* Selectors Card */}
-                <div className="glass-card p-6 rounded-3xl border border-white/5 space-y-6">
+                <div className="glass-card p-8 rounded-[2.5rem] border border-white/10 space-y-8 relative overflow-hidden">
+                    <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary/50 to-transparent opacity-50"></div>
 
                     {/* Lottery Selector */}
-                    <div className="space-y-3">
-                        <label className="text-[10px] uppercase tracking-widest font-bold text-white/50 ml-1">Lotería</label>
-                        <div className="grid grid-cols-2 md:grid-cols-5 gap-2">
+                    <div className="space-y-4">
+                        <label className="text-[10px] uppercase tracking-[0.2em] font-bold text-white/40 ml-1 flex items-center gap-2">
+                            <span className="w-6 h-[1px] bg-white/20"></span> Lotería
+                        </label>
+                        <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
                             {LOTTERIES.map((lottery) => (
                                 <button
                                     key={lottery.id}
                                     onClick={() => setSelectedLottery(lottery)}
-                                    className={`relative p-3 rounded-xl border transition-all duration-300 flex flex-col items-center gap-2 group ${selectedLottery.id === lottery.id
-                                            ? `${lottery.bg} ${lottery.border} shadow-[0_0_15px_rgba(0,0,0,0.2)]`
-                                            : 'bg-black/20 border-white/5 hover:bg-white/5'
+                                    className={`relative p-4 rounded-2xl border transition-all duration-300 flex flex-col items-center gap-3 group overflow-hidden ${selectedLottery.id === lottery.id
+                                        ? `bg-white/[0.05] ${lottery.border.replace('/20', '/50')} shadow-[0_0_20px_rgba(0,0,0,0.3)] scale-105`
+                                        : 'bg-black/20 border-white/5 hover:bg-white/5'
                                         }`}
                                 >
-                                    <span className={`text-xs font-black uppercase tracking-wider ${selectedLottery.id === lottery.id ? 'text-white' : 'text-white/60'}`}>
+                                    {selectedLottery.id === lottery.id && <div className={`absolute inset-0 bg-gradient-to-b ${lottery.bg} opacity-20`}></div>}
+                                    <span className={`text-xs font-black uppercase tracking-wider relative z-10 ${selectedLottery.id === lottery.id ? 'text-white' : 'text-white/40'}`}>
                                         {lottery.name}
                                     </span>
                                     {selectedLottery.id === lottery.id && (
-                                        <div className={`absolute inset-0 rounded-xl border-2 ${lottery.border} opacity-50`} />
+                                        <div className="w-1.5 h-1.5 rounded-full bg-current animate-pulse relative z-10" />
                                     )}
                                 </button>
                             ))}
@@ -153,19 +163,22 @@ export default function AdminResultsPage() {
                     </div>
 
                     {/* Shift Selector */}
-                    <div className="space-y-3">
-                        <label className="text-[10px] uppercase tracking-widest font-bold text-white/50 ml-1">Turno</label>
-                        <div className="flex overflow-x-auto hide-scrollbar gap-2 pb-2">
+                    <div className="space-y-4">
+                        <label className="text-[10px] uppercase tracking-[0.2em] font-bold text-white/40 ml-1 flex items-center gap-2">
+                            <span className="w-6 h-[1px] bg-white/20"></span> Turno
+                        </label>
+                        <div className="flex overflow-x-auto hide-scrollbar gap-3 pb-2 snap-x">
                             {SHIFTS.map((shift) => (
                                 <button
                                     key={shift.id}
                                     onClick={() => setSelectedShift(shift)}
-                                    className={`flex-1 min-w-[100px] py-3 px-4 rounded-xl border transition-all text-xs font-bold uppercase tracking-wider whitespace-nowrap ${selectedShift.id === shift.id
-                                            ? 'bg-primary text-black border-primary shadow-[0_0_15px_rgba(57,255,20,0.4)]'
-                                            : 'bg-white/5 text-white/60 border-white/5 hover:bg-white/10'
+                                    className={`flex-1 min-w-[120px] py-4 px-5 rounded-2xl border transition-all text-[10px] font-black uppercase tracking-widest whitespace-nowrap snap-center relative overflow-hidden group ${selectedShift.id === shift.id
+                                        ? 'bg-primary text-black border-primary shadow-[0_0_20px_rgba(204,255,0,0.4)]'
+                                        : 'bg-white/5 text-white/40 border-white/5 hover:bg-white/10'
                                         }`}
                                 >
-                                    {shift.name}
+                                    <span className="relative z-10">{shift.name}</span>
+                                    {selectedShift.id === shift.id && <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>}
                                 </button>
                             ))}
                         </div>
@@ -173,29 +186,30 @@ export default function AdminResultsPage() {
                 </div>
 
                 {/* Numbers Grid */}
-                <div className="space-y-4">
+                <div className="space-y-6">
                     <div className="flex items-center justify-between px-2">
-                        <label className="text-[10px] uppercase tracking-widest font-bold text-white/50">Ingreso de Números</label>
-                        <button onClick={handleClear} className="text-[10px] font-bold text-red-400 hover:text-red-300 flex items-center gap-1 transition-colors">
+                        <label className="text-[10px] uppercase tracking-[0.2em] font-bold text-white/40">Ingreso de Números</label>
+                        <button onClick={handleClear} className="text-[10px] font-bold text-red-500/80 hover:text-red-400 flex items-center gap-2 transition-colors bg-red-500/10 px-3 py-1.5 rounded-lg border border-red-500/20">
                             <RotateCcw className="h-3 w-3" /> Limpiar
                         </button>
                     </div>
 
                     {/* HEAD (Cabeza) - Position 1 */}
-                    <div className="glass-card p-6 rounded-3xl border border-primary/20 bg-primary/5 relative overflow-hidden flex items-center justify-between gap-6">
-                        <div className="absolute top-0 right-0 w-32 h-32 bg-primary/20 rounded-full blur-[40px] pointer-events-none"></div>
+                    <div className="glass-card p-8 rounded-[2.5rem] border border-primary/30 bg-black/40 relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-8 group">
+                        <div className="absolute inset-0 bg-primary/5 group-hover:bg-primary/10 transition-colors duration-500"></div>
+                        <div className="absolute top-0 right-0 w-40 h-40 bg-primary/20 rounded-full blur-[60px] pointer-events-none animate-pulse"></div>
 
-                        <div className="flex items-center gap-4 relative z-10">
-                            <div className="w-12 h-12 rounded-full bg-primary flex items-center justify-center text-black shadow-[0_0_15px_rgba(57,255,20,0.5)]">
-                                <Trophy className="h-6 w-6" />
+                        <div className="flex items-center gap-6 relative z-10 w-full md:w-auto">
+                            <div className="w-16 h-16 rounded-2xl bg-primary flex items-center justify-center text-black shadow-[0_0_20px_rgba(204,255,0,0.4)]">
+                                <Trophy className="h-8 w-8" />
                             </div>
                             <div>
-                                <h3 className="text-lg font-black text-white uppercase tracking-tight">La Cabeza</h3>
-                                <p className="text-[10px] text-primary font-bold uppercase tracking-widest">Posición 1</p>
+                                <h3 className="text-2xl font-black text-white uppercase tracking-tight italic">La Cabeza</h3>
+                                <p className="text-[10px] text-primary font-black uppercase tracking-[0.3em] mt-1">Posición 1</p>
                             </div>
                         </div>
 
-                        <div className="relative z-10 w-32">
+                        <div className="relative z-10 w-full md:w-48 group-focus-within:scale-110 transition-transform duration-300">
                             <input
                                 id="num-0"
                                 type="text"
@@ -203,18 +217,19 @@ export default function AdminResultsPage() {
                                 value={numbers[0]}
                                 onChange={(e) => handleNumberChange(0, e.target.value)}
                                 placeholder="0000"
-                                className="w-full bg-black/50 border-2 border-primary/50 text-3xl font-black text-center text-white rounded-xl py-3 focus:border-primary focus:ring-4 focus:ring-primary/20 outline-none transition-all placeholder:text-white/10 tracking-widest shadow-inner"
+                                className="w-full bg-black/60 border-2 border-primary/50 text-5xl font-black text-center text-white rounded-2xl py-4 focus:border-primary focus:ring-[5px] focus:ring-primary/20 outline-none transition-all placeholder:text-white/5 tracking-widest shadow-[inset_0_2px_10px_rgba(0,0,0,0.5)]"
                             />
                         </div>
                     </div>
 
                     {/* Remaining Positions (2-20) */}
-                    <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-3">
+                    <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
                         {Array.from({ length: 19 }).map((_, i) => {
                             const posIndex = i + 1
                             return (
-                                <div key={posIndex} className="bg-white/5 border border-white/5 rounded-xl p-3 flex flex-col items-center gap-2 hover:bg-white/10 transition-colors focus-within:border-white/20 focus-within:bg-white/10">
-                                    <span className="text-[9px] font-bold text-white/30 uppercase tracking-wider">Pos {posIndex + 1}</span>
+                                <div key={posIndex} className="bg-white/[0.03] border border-white/5 rounded-2xl p-4 flex flex-col items-center gap-3 hover:bg-white/[0.08] transition-colors focus-within:border-primary/50 focus-within:bg-white/[0.08] group relative overflow-hidden">
+                                    <div className="absolute top-0 left-0 w-full h-1 bg-primary/0 group-focus-within:bg-primary/50 transition-colors"></div>
+                                    <span className="text-[9px] font-black text-white/20 uppercase tracking-widest group-focus-within:text-primary transition-colors">Pos {posIndex + 1}</span>
                                     <input
                                         id={`num-${posIndex}`}
                                         type="text"
@@ -223,7 +238,7 @@ export default function AdminResultsPage() {
                                         value={numbers[posIndex]}
                                         onChange={(e) => handleNumberChange(posIndex, e.target.value)}
                                         placeholder="----"
-                                        className="w-full bg-transparent border-none text-xl font-bold text-center text-white focus:ring-0 outline-none p-0 placeholder:text-white/10 tracking-widest"
+                                        className="w-full bg-transparent border-none text-2xl font-black text-center text-white/90 focus:text-white focus:ring-0 outline-none p-0 placeholder:text-white/5 tracking-widest transition-colors font-mono"
                                     />
                                 </div>
                             )
@@ -232,22 +247,22 @@ export default function AdminResultsPage() {
                 </div>
 
                 {/* Actions */}
-                <div className="pt-4 pb-12 sticky bottom-6 z-30">
+                <div className="pt-8 pb-12 sticky bottom-6 z-30">
                     <div className="glass-card p-2 rounded-2xl border border-white/10 shadow-2xl bg-black/80 backdrop-blur-xl">
                         <Button
                             onClick={handlePublish}
                             disabled={loading}
-                            className={`w-full h-14 rounded-xl text-sm font-black uppercase tracking-widest shadow-lg transition-all active:scale-[0.98] ${success
-                                    ? 'bg-green-500 hover:bg-green-600 text-white shadow-green-500/20'
-                                    : 'bg-primary hover:bg-primary/90 text-primary-foreground shadow-primary/20'
+                            className={`w-full h-14 rounded-xl text-lg font-black uppercase tracking-[0.2em] shadow-lg transition-all active:scale-[0.98] ${success
+                                ? 'bg-green-500 hover:bg-green-600 text-black shadow-green-500/20'
+                                : 'bg-primary hover:bg-[#d4ff00] text-black shadow-[0_0_20px_rgba(204,255,0,0.25)]'
                                 }`}
                         >
                             {loading ? (
-                                <><Loader2 className="h-5 w-5 animate-spin mr-2" /> Publicando...</>
+                                <><Loader2 className="h-6 w-6 animate-spin mr-3" /> Publicando...</>
                             ) : success ? (
-                                <><CheckCircle2 className="h-5 w-5 mr-2" /> ¡Resultados Publicados!</>
+                                <><CheckCircle2 className="h-6 w-6 mr-3" /> ¡Publicado!</>
                             ) : (
-                                <><Save className="h-5 w-5 mr-2" /> Publicar Resultados</>
+                                <><Save className="h-5 w-5 mr-3" /> Publicar Resultados</>
                             )}
                         </Button>
                     </div>

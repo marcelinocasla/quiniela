@@ -15,10 +15,10 @@
     --popover: 220 60% 5%;
     --popover-foreground: 0 0% 100%;
 
-    --primary: 111 100% 54%;
-    /* #39FF14 - Neon Green */
+    --primary: 65 100% 50%;
+    /* #CCFF00 - Fluor Yellow */
     --primary-foreground: 220 60% 5%;
-    /* Dark text on neon green */
+    /* Dark text on fluor yellow */
 
     --secondary: 215 28% 17%;
     --secondary-foreground: 0 0% 100%;
